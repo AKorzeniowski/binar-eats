@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
-    if @post.save
+    if @order.save
       redirect_to root, notice: 'Order was created'
     else
       render :new
