@@ -3,9 +3,9 @@ class CreateOrders < ActiveRecord::Migration[5.2]
     create_table :orders do |t|
       t.datetime :deadline
       t.decimal :delivery_cost
-      t.reference :creator
-      t.reference :orderer
-      t.reference :deliverer
+      t.references :creator
+      t.references :orderer
+      t.references :deliverer
 
       t.timestamps
     end
