@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'places/index'
   get 'orders/new'
   get 'orders/create'
   get 'orders/:id', to: 'suborders#new', as: 'order'
