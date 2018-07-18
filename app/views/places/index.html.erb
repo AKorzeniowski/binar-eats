@@ -1,7 +1,17 @@
-<h1>Places</h1>
-
-
+<h1>Wybór restauracji</h1>
 
 <% @places.each do |place| %>
     <%= link_to= '#{place.name}', places_index_path %>
 <% end %>
+
+<label for="place">Restauracje</label>
+<select id="place">
+  <option value="Pasta go">Pasta Go</option>
+  <option value="Zahir">Zahir</option>
+  <option value="Gastromachina">Gastromachina</option>
+  <option value="Da Grasso">Da Grasso</option>
+
+</select>
+
+<label><input type="checkbox"> Inny lokal</label>
+<input type="url" value="menu_url">
