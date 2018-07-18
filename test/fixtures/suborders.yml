@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  suborderer: one
+  order: one
+  food: MyText
+  cost: 9.99
+  has_paid: false
+
+two:
+  suborderer: two
+  order: two
+  food: MyText
+  cost: 9.99
+  has_paid: false
