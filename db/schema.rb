@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_18_110242) do
+ActiveRecord::Schema.define(version: 2018_07_18_233055) do
+
+  create_table "items", force: :cascade do |t|
+    t.integer "suborderer_id"
+    t.integer "order_id"
+    t.text "food"
+    t.decimal "cost"
+    t.boolean "has_paid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_items_on_order_id"
+    t.index ["suborderer_id"], name: "index_items_on_suborderer_id"
+  end
 
   create_table "orders", force: :cascade do |t|
     t.datetime "deadline"
@@ -26,25 +38,12 @@ ActiveRecord::Schema.define(version: 2018_07_18_110242) do
     t.index ["orderer_id"], name: "index_orders_on_orderer_id"
   end
 
-
   create_table "places", force: :cascade do |t|
     t.string "name"
     t.string "address"
     t.string "menu_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-end
-  create_table "suborders", force: :cascade do |t|
-    t.integer "suborderer_id"
-    t.integer "order_id"
-    t.text "food"
-    t.decimal "cost"
-    t.boolean "has_paid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_suborders_on_order_id"
-    t.index ["suborderer_id"], name: "index_suborders_on_suborderer_id"
-
   end
 
   create_table "users", force: :cascade do |t|
