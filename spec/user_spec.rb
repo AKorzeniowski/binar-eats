@@ -9,13 +9,15 @@ RSpec.describe User, type: :model do
   end
 
   describe 'validates' do
-    let(:valid_user) { User.new(nickname: 'validNickname', account_number: '16109010140000071219812874' ) } #valid account_number
-    let(:invalid_user) { User.new(nickname: 'invalid_nickname_2', account_number: '1234') } #invalid account_number
-    let(:empty_user) { User.new() } #empty User
+    let(:valid_user) { User.new(nickname: 'validNickname', account_number: 16109010140000071219812874 ) }
+    let(:invalid_user) { User.new(nickname: 'invalid_nickname_2', account_number: 'invalid_account_number_161') }
+    let(:empty_user) { User.new() } 
 
     it { should allow_value(nil).for(:account_number) }
     it { should validate_length_of(:account_number).is_equal_to(26) }
     it { should allow_value(nil).for(:nickname) }
+    it { should validate_numericality_of(:account_number).only_integer }
+
     it { should allow_value(valid_user.nickname).for(:nickname) }
     it { should_not allow_value(invalid_user.nickname).for(:nickname).with_message('must have only letters') }
     it { should allow_value(valid_user.account_number).for(:account_number) }
