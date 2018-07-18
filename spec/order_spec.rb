@@ -7,9 +7,14 @@ RSpec.describe Order, type: :model do
     end
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:creator) }
+    it { should validate_presence_of(:deadline) }
+  end
+
 
   describe 'relations' do
-    it { have_one(:suborderer) }
+    it { have_one(:creator) }
     it { have_one(:orderer) }
     it { have_one(:deliverer) }
   end
