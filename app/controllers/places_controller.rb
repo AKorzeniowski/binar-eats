@@ -3,5 +3,4 @@ class PlacesController < ApplicationController
     @places = Place.all
   end
 
-
 end
