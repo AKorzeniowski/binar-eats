@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_17_122422) do
+ActiveRecord::Schema.define(version: 2018_07_18_083346) do
 
   create_table "orders", force: :cascade do |t|
     t.datetime "deadline"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2018_07_17_122422) do
   end
 
   create_table "suborders", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "suborderer_id"
     t.integer "order_id"
     t.text "food"
     t.decimal "cost"
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 2018_07_17_122422) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_suborders_on_order_id"
-    t.index ["user_id"], name: "index_suborders_on_user_id"
+    t.index ["suborderer_id"], name: "index_suborders_on_suborderer_id"
   end
-  
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
