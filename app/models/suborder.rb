@@ -1,0 +1,2 @@
+class Suborder < ApplicationRecord
+end
