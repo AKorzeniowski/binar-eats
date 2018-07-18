@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_17_084947) do
+ActiveRecord::Schema.define(version: 2018_07_17_122422) do
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "deadline"
+    t.decimal "delivery_cost"
+    t.integer "creator_id"
+    t.integer "orderer_id"
+    t.integer "deliverer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_orders_on_creator_id"
+    t.index ["deliverer_id"], name: "index_orders_on_deliverer_id"
+    t.index ["orderer_id"], name: "index_orders_on_orderer_id"
+  end
 
   create_table "suborders", force: :cascade do |t|
     t.integer "user_id"
