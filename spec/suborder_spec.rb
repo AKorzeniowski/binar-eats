@@ -9,8 +9,8 @@ RSpec.describe Suborder, type: :model do
   end
 
   describe 'relations' do
-  it { have_one(:suborderer) }
-  it { have_one(:order) }
-end
+    it { have_one(:suborderer) }
+    it { have_one(:order) }
+  end
 
 end
