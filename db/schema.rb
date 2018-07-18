@@ -8,16 +8,9 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended that you check this file into your version control system
-ActiveRecord::Schema.define(version: 2018_07_17_122422) do
+# It's strongly recommended that you check this file into your version control system.
 
-  create_table "places", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.string "menu_url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2018_07_17_122422) do
 
   create_table "orders", force: :cascade do |t|
     t.datetime "deadline"
@@ -30,6 +23,14 @@ ActiveRecord::Schema.define(version: 2018_07_17_122422) do
     t.index ["creator_id"], name: "index_orders_on_creator_id"
     t.index ["deliverer_id"], name: "index_orders_on_deliverer_id"
     t.index ["orderer_id"], name: "index_orders_on_orderer_id"
+  end
+
+  create_table "places", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "menu_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
