@@ -3,7 +3,14 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
 
+
   def create
+    if params[:order][:orderer_id].to_i == -1
+      params[:order][:orderer_id] = nil
+    end
+    if params[:order][:deliverer_id].to_i == -1
+      params[:order][:deliverer_id] = nil
+    end
     @order = Order.new(order_params)
     if @order.save
       redirect_to root_path, notice: 'Order was created'
@@ -15,11 +22,6 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    # puts DateTime.new(params[:order]['deadline(1)'].to_i, params[:order]['deadline(2)'].to_i,
-    #              params[:order]['deadline(3)'].to_i, params[:order]['deadline(4)'].to_i,
-    #              params[:order]['deadline(5)'].to_i)
-    # puts DateTime.new(DateTime.now.year, DateTime.now.month, DateTime.now.day, params[:order]['deadline(4)'].to_i, params[:order]['deadline(5)'].to_i, 0)
-    params.require(:order).permit(:place_id, :orderer_id, :deliverer_id)
-    # puts 'coś tam' + params[:order][:deadline].to_s
+    params.require(:order).permit(:creator_id, :place_id, :orderer_id, :deliverer_id, :deadline)
   end
 end
