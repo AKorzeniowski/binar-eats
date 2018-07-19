@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+body {
+	font-family: 'Nunito', 'Helvetica', 'Arial', sans-serif;
+}
+
+.login-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	&__wrapper {
+		padding: 50px 20px;
+		background: #f7d794;
+	}
+}
+
