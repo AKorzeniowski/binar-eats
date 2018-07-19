@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
   describe 'validates' do
     let(:valid_user) { User.new(nickname: 'validNickname', account_number: 16109010140000071219812874 ) }
     let(:invalid_user) { User.new(nickname: 'invalid_nickname_2', account_number: 'invalid_account_number_161') }
-    let(:empty_user) { User.new() } 
+    let(:empty_user) { User.new() }
 
     it { should allow_value(nil).for(:account_number) }
     it { should validate_length_of(:account_number).is_equal_to(26) }
