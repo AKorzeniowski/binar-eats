@@ -2,9 +2,7 @@ class ItemsController < ApplicationController
   def new
     @item = Item.new
     @order = Order.find_by_id(params[:id])
-    if @order == nil
-      redirect_to root_path, alert: "Order with id #{params[:id]} don't exists!"
-    end
+      redirect_to root_path, alert: "Order with id #{params[:id]} doesn't exist!" unless @order
   end
 
   def create
