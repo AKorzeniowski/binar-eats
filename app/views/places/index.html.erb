@@ -1,7 +1,7 @@
 <h1>Wybór restauracji</h1>
 
 <% @places.each do |place| %>
-    <%= link_to= '#{place.name}', places_index_path %>
+    <%= link_to "#{place.name}", places_index_path %>
 <% end %>
 
 <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
