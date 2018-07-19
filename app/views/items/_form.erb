@@ -17,7 +17,7 @@
 
   <% if @order.orderer_id == nil %>
     <%= hidden_field_tag :orderer, '' %>
-    <%= check_box_tag :orderer, checked = false %> I want to be orderer.</br></br>
+    <%= check_box_tag :orderer, checked = true %> I want to be orderer.</br></br>
   <% end %>
 
   <div class="form-group">
