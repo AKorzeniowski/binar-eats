@@ -1,7 +1,8 @@
 class Order < ApplicationRecord
-  validates :creator, :deadline, presence: true
+  validates :creator, :deadline, :place, presence: true
 
-  has_one :creator, :class_name => "User"
-  has_one :orderer, :class_name => "User"
-  has_one :deliverer, :class_name => "User"
+  belongs_to :creator, :class_name => "User"
+  belongs_to :orderer, :class_name => "User", optional: true
+  belongs_to :deliverer, :class_name => "User", optional: true
+  belongs_to :place
 end
