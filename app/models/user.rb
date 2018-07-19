@@ -5,4 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   validates :account_number, length: { is: 26 }, allow_blank: true, numericality: { only_integer: true }
   validates :nickname, format: { with: /\A[a-zA-Z]+\z/, message: "must have only letters" }, allow_blank: true
+
+  has_many :created_orders, foreign_key: "creator_id", class_name: 'Order'
+  has_many :ordered_orders, foreign_key: "orderer_id", class_name: 'Order'
+  has_many :received_orders, foreign_key: "receiver_id", class_name: 'Order'
+
+  has_many :items
 end
