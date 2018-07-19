@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  validates :user, :order, presence: true
+  validates :user, :order, :food, :cost, presence: true
 
   belongs_to :user
   belongs_to :order
