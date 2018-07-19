@@ -6,6 +6,8 @@ class ItemsController < ApplicationController
   end
 
   def create
+    message = 'Item was created!'
+
     if params[:item][:cost] == ""
       params[:item][:cost] = 0
     end
@@ -13,12 +15,23 @@ class ItemsController < ApplicationController
     if params.has_key?(:orderer) && params[:orderer] == "true"
         ord = Order.find_by_id(params[:item][:order_id])
         ord.orderer_id = current_user.id
+        if ord.save
+          message += " Now you are orderer for order #{ord.id}!"
+        end
+    end
+
+    if params.has_key?(:deliverer) && params[:deliverer] == "true"
+        ord = Order.find_by_id(params[:item][:order_id])
+        ord.deliverer_id = current_user.id
         ord.save
+        if ord.save
+          message += " Now you are deliverer for order #{ord.id}!"
+        end
     end
 
     @item = Item.new(item_params.merge(user_id: current_user.id) )
     if @item.save
-      redirect_to root_path, notice: 'Item was created'
+      redirect_to root_path, notice: message
     else
       render :new
     end
