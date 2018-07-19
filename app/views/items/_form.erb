@@ -1,0 +1,16 @@
+<% if @item.errors.any? %>
+  <ul>
+    <% @item.errors.full_messages.each do |msg| %>
+      <li> <%= msg %> </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for @item do |f| %>
+  <div class="form-group">
+    <%= f.label "Full costs: "%>
+    <%= f.number_field :amount, value: :cost, step: 0.01, placeholder: "Enter full cost of your order..." %>
+  </div>
+  <hr />
+  <%= f.submit 'Save', role: 'button', class: 'btn btn-primary' %>
+<% end %>
