@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
     @item = Item.new
     @order = Order.find_by_id(params[:id])
     if @order == nil
-      redirect_to root_path, alert: "Nie istenieje zamówienie o id #{params[:id]}!"
+      redirect_to root_path, alert: "Order with id #{params[:id]} don't exists!"
     end
   end
 

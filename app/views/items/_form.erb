@@ -8,8 +8,8 @@
 
 <%= form_for @item do |f| %>
   <div class="form-group">
-    <%= f.label "Łączna kwota: "%>
-    <%= f.number_field :amount, value: :cost, step: 0.01, placeholder: "Podaj łączną kwotę zamówionego jedzenia..." %>
+    <%= f.label "Full costs: "%>
+    <%= f.number_field :amount, value: :cost, step: 0.01, placeholder: "Enter full cost of your order..." %>
 
   </div>
   <hr />
