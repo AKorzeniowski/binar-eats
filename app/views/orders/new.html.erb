@@ -18,8 +18,8 @@
     <td colspan="2">Select deliverer</td>
   </tr>
   <tr>
-    <td><%= f.radio_button :deliverer_id, current_user.id %><%= f.label :orderer_id, 'You' %></td>
-    <td><%= f.radio_button :deliverer_id, -1, :checked => true %><%= f.label :orderer_id, 'Last person' %></td>
+    <td><%= f.radio_button :deliverer_id, current_user.id %><%= f.label :deliverer_id, 'You' %></td>
+    <td><%= f.radio_button :deliverer_id, -1, :checked => true %><%= f.label :deliverer_id, 'Last person' %></td>
   </tr>
   <tr>
     <td>Deadline</td>
