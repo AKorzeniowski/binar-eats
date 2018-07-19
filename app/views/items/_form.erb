@@ -7,6 +7,11 @@
 <% end %>
 
 <%= form_for @item do |f| %>
+  <% if @order.orderer_id == nil %>
+    <%= hidden_field_tag :orderer, '' %>
+    <%= check_box_tag :orderer, checked = false %> I want to be orderer.</br></br>
+  <% end %>
+
   <div class="form-group">
     <%= f.label "Full costs: "%>
     <%= f.number_field :amount, value: :cost, step: 0.01, placeholder: "Enter full cost of your order..." %>
