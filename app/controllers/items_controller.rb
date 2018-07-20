@@ -40,6 +40,11 @@ class ItemsController < ApplicationController
   def show
     @item = Item.find(params[:id])
 
+
+    if current_user.id != @item.user_id
+      redirect_to root_path, alert: "It's not your item!"
+    end
+
     @orderer = @item.order.orderer.nickname
     if @orderer == nil
       @orderer = @item.order.orderer.email
