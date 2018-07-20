@@ -1,0 +1,14 @@
+<h1>Edit order</h1>
+
+<table>
+  <%= form_for @order do |f| %>
+  <tr>
+    <tr>
+      <td>Deadline</td>
+      <td><%= f.time_select :deadline, {minute_step: 1} %></td>
+    </tr>
+    <tr colspan="2">
+      <td><%= f.submit 'Save' %></td>
+    </tr>
+  <% end %>
+</table>
