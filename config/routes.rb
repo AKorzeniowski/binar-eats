@@ -4,9 +4,10 @@ Rails.application.routes.draw do
 
   authenticate :user do
     get 'places/index'
-    resources :items, only:[:new, :create]
+    resources :items, only:[:new, :create, :show, :update]
     resources :orders, only:[:new, :create, :index, :edit, :update]
     get 'orders/:id', to: 'items#new'
+    get 'order/:id/items', to: 'orders#items'
 
   end
 end

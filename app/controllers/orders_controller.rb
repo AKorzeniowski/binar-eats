@@ -37,6 +37,12 @@ class OrdersController < ApplicationController
     @other_orders = Order.where.not(creator_id: current_user.id)
   end
 
+  def items
+    @order_id = params[:id];
+    @items = Order.where(order_id: @order_id)
+  end
+
+
   private
 
   def order_params

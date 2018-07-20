@@ -37,6 +37,33 @@ class ItemsController < ApplicationController
     end
   end
 
+  def show
+    @item = Item.find(params[:id])
+
+
+    if current_user.id != @item.user_id
+      redirect_to root_path, alert: "It's not your item!"
+    end
+
+    @orderer = @item.order.orderer.nickname
+    if @orderer == nil
+      @orderer = @item.order.orderer.email
+    end
+    @deliverer = @item.order.deliverer.nickname
+    if @deliverer == nil
+      @deliverer = @item.order.deliverer.email
+    end
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      redirect_to root_path, notice: 'Item was updated!'
+    else
+      render :show
+    end
+  end
+
   private
   def item_params
     params.require(:item).permit(:food, :cost, :order_id)
