@@ -18,9 +18,12 @@ if Rails.env == "development"
   @user1 = User.create(email: "one@user.pl", password: "123456")
   @user2 = User.create(email: "two@two.pl", password: "123456")
   @user3 = User.create(email: "three@two.pl", password: "123456")
-  Order.create(creator_id: @user1.id, place_id: @place1.id, deadline: 2.hours.from_now)
-  Order.create(creator_id: @user2.id, place_id: @place2.id, deadline: 5.hours.from_now, orderer_id: @user2.id)
-  Order.create(creator_id: @user3.id, place_id: @place3.id, deadline: 3.hours.from_now, orderer_id: @user1.id, deliverer_id: @user2.id)
+  @order1 = Order.create(creator_id: @user1.id, place_id: @place1.id, deadline: 2.hours.from_now)
+  @order2 = Order.create(creator_id: @user2.id, place_id: @place2.id, deadline: 5.hours.from_now, orderer_id: @user2.id)
+  @order3 = Order.create(creator_id: @user3.id, place_id: @place3.id, deadline: 3.hours.from_now, orderer_id: @user1.id, deliverer_id: @user2.id)
+  Item.create(user_id: @user1.id, order_id: @order3.id, food: "Smaczne jedzonko.", cost: 12.50)
+  Item.create(user_id: @user2.id, order_id: @order1.id, food: "Słodko kwaśne jedzonko.", cost: 32.78)
+  Item.create(user_id: @user3.id, order_id: @order2.id, food: "Słone jedzonko.", cost: 50.00)
 else
   create_places
 end
