@@ -45,13 +45,19 @@ class ItemsController < ApplicationController
       redirect_to root_path, alert: "It's not your item!"
     end
 
-    @orderer = @item.order.orderer.nickname
-    if @orderer == nil
-      @orderer = @item.order.orderer.email
+    @orderer = ""
+    if @item.order.orderer_id != nil
+      @orderer = @item.order.orderer.nickname
+      if @orderer == nil
+        @orderer = @item.order.orderer.email
+      end
     end
-    @deliverer = @item.order.deliverer.nickname
-    if @deliverer == nil
-      @deliverer = @item.order.deliverer.email
+    @deliverer = ""
+    if @item.order.deliverer_id != nil
+      @deliverer = @item.order.deliverer.nickname
+      if @deliverer == nil
+        @deliverer = @item.order.deliverer.email
+      end
     end
   end
 
