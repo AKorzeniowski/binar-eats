@@ -7,27 +7,42 @@
 <% end %>
 
 <%= form_for @item do |f| %>
-  <%= f.hidden_field :order_id, :value => @order.id %>
 
   <div class="form-group">
     <%= f.label "Your order from ", align: :center%>
-    <%= link_to "menu ", "#{@order.place.menu_url}" %>
-    <%= f.text_area :food, cols: 50, rows: 5, :required => true, placeholder: "Enter all things you want to eat from #{@order.place.name} ..." %>
+    <%= link_to "menu ", "#{@item.order.place.menu_url}" %>
+    <%= f.text_area :food, cols: 50, rows: 5, :required => true, placeholder: "Enter all things you want to eat from #{@item.order.place.name} ..." %>
   </div>
+  <hr/>
 
-  <% if @order.orderer_id == nil %>
+  <% if @item.order.orderer_id == nil %>
+    <br/>
     <%= hidden_field_tag :orderer, '' %>
     <%= check_box_tag :orderer, checked = true %> I want to be orderer.</br></br>
+    <hr/>
+  <% else %>
+    <%= label_tag "Orderer: #{@orderer}"%>
+    <hr/>
   <% end %>
 
-  <% if @order.deliverer_id == nil %>
+  <% if @item.order.deliverer_id == nil %>
+    <br/>
     <%= hidden_field_tag :deliverer, '' %>
     <%= check_box_tag :deliverer, checked = true %> I want to be deliverer.</br></br>
+    <hr/>
+  <% else %>
+    <%= label_tag "Deliverer: #{@deliverer}"%>
+     <hr/>
   <% end %>
 
   <div class="form-group">
-    <%= f.label "Full costs: "%>
-    <%= f.number_field :cost, value: :cost, step: 0.01, placeholder: "Enter full cost of your order..." %>
+    <%= label_tag "Full costs: "%>
+    <%= f.number_field :cost, value: @item.cost, step: :any, placeholder: "Enter full cost of your order..." %>
+  </div>
+  <hr />
+
+  <div class="form-group">
+    <%= label_tag "Deadline: #{@item.order.deadline}"%>
   </div>
   <hr />
   <%= f.submit 'Save', role: 'button', class: 'btn btn-primary' %>
