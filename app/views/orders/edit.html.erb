@@ -7,6 +7,14 @@
       <td>Deadline</td>
       <td><%= f.time_select :deadline, {minute_step: 1} %></td>
     </tr>
+    <% if current_user.id == @order.orderer_id %>
+    <tr>
+      <div class="form-group">
+        <%= label_tag 'Costs of delivery: '%>
+        <%= f.number_field :delivery_cost, value: @order.delivery_cost, step: :any, placeholder: "Enter full cost of delivery..." %>
+      </div>
+    </tr>
+    <% end %>
     <tr colspan="2">
       <td><%= f.submit 'Save' %></td>
     </tr>
