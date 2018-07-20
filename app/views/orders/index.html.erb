@@ -1,0 +1,9 @@
+<h1>My orders</h1>
+
+<table>
+<%= @my_orders.each do |order| %>
+  <tr>
+    <td><%= order.place.name %></td><td><%= order.deadline %></td>
+  </tr>
+<% end %>
+</table>

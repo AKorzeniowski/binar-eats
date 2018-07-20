@@ -19,6 +19,11 @@ class OrdersController < ApplicationController
     end
   end
 
+  def index
+    @my_orders = Order.where(creator_id: current_user.id)
+    @other_orders = Order.where.not(creator_id: current_user.id)
+  end
+
   private
 
   def order_params
