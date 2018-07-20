@@ -56,11 +56,16 @@ class ItemsController < ApplicationController
   end
 
   def update
-    @item = Item.find(params[:id])
-    if @item.update(item_params)
-      redirect_to root_path, notice: 'Item was updated!'
-    else
-      render :show
+    if params[:commit] == "Save"
+      @item = Item.find(params[:id])
+      if @item.update(item_params)
+        redirect_to root_path, notice: 'Item was updated!'
+      else
+        render :show
+      end
+    elsif params[:commit] == "Delete"
+      Item.destroy(params[:id])
+      redirect_to root_path, notice: 'Item was deleted!'
     end
   end
 
