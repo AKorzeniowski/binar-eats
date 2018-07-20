@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
-  get 'places/index'
-  get 'orders/new'
-  get 'orders/create'
-  get 'orders/:id', to: 'items#new', as: 'order'
-  # resources :items
-  # get 'items/new'
-  # get 'items/create'
   root 'home#welcome'
   devise_for :users, controllers: { registrations: 'users/registrations'  }
+
+  authenticate :user do
+    get 'places/index'
+    resources :items, only:[:new, :create, :show, :update]
+    resources :orders, only:[:new, :create, :index, :edit, :update]
+    get 'orders/:id', to: 'items#new'
+    get 'order/:id/items', to: 'orders#items'
+
+  end
 end

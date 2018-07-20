@@ -1,0 +1,17 @@
+<h1>Your items in order</h1>
+<%= link_to 'New item', order_path %>
+<% if @items.size > 0 %>
+  <table>
+    <tr>
+      <th>Food name</th>
+      <th>Cost</th>
+    </tr>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.food %></td>
+        <td><%= item.cost %></td>
+        <td><%= link_to 'Edit', item_path %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

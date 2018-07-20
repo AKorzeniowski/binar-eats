@@ -1,0 +1,18 @@
+<table>
+  <tr>
+    <th>Place name</th>
+    <th>Order deadline</th>
+    <th>Action</th>
+  </tr>
+  <% collection.each do |order| %>
+    <tr>
+      <td><%= order.place.name %></td>
+      <td><%= order.deadline %></td>
+      <% if collection == @my_orders %>
+        <td><%= link_to 'Edit', edit_order_path(order.id) %></td>
+      <% else %>
+        <td><%= link_to 'Items', "order/#{order.id}/items" %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
