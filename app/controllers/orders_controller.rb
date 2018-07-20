@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
 
   def items
     @order_id = params[:id];
-    @items = Order.where(order_id: @order_id)
+    @items = Item.where(order_id: @order_id, user_id: current_user.id)
   end
 
 
