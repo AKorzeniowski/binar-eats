@@ -1,7 +1,7 @@
 <h1>Selection of restaurants</h1>
 
 <% @places.each do |place| %>
-    <%= link_to "#{place.name}", places_index_path %>
+    <%= link_to "#{place.name}", places_path %>
 <% end %>
 
 <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
@@ -9,8 +9,10 @@
 <hr />
 <h3>Extra place</h3>
 
-<%= form_tag do %>
-  <%= label_tag(:q, "Link to menu:") %>
-  <%= text_field_tag(:q) %>
-  <%= submit_tag("Submit") %>
+<%= form_for @place do |f| %>
+  <%= f.label  "Name of place:" %>
+  <%= f.text_field :name  %>
+  <%= f.label  "Link to menu:" %>
+  <%= f.text_field :menu_url  %>
+  <%= f.submit "Submit" %>
 <% end %>
