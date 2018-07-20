@@ -19,6 +19,30 @@ class OrdersController < ApplicationController
     end
   end
 
+  def edit
+    @order = Order.find(params[:id])
+  end
+
+  def update
+    @order = Order.find(params[:id])
+    if @order.update(order_params)
+      redirect_to orders_path, notice: 'Order was updated'
+    else
+      render :edit
+    end
+  end
+
+  def index
+    @my_orders = Order.where(creator_id: current_user.id)
+    @other_orders = Order.where.not(creator_id: current_user.id)
+  end
+
+  def items
+    @order_id = params[:id];
+    @items = Order.where(order_id: @order_id)
+  end
+
+
   private
 
   def order_params

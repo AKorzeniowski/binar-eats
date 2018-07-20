@@ -1,33 +1,3 @@
 <h1>New order</h1>
 
-<table>
-  <%= form_for @order do |f| %>
-  <%= f.hidden_field :creator_id, value:current_user.id %>
-  <tr>
-    <td>Select place</td>
-    <td><%= collection_select(:order, :place_id, Place.all, :id, :name) %></td>
-  </tr>
-  <tr>
-    <td colspan="2">Select orderer</td>
-  </tr>
-  <tr>
-    <td><%= f.radio_button :orderer_id, current_user.id %><%= f.label :orderer_id, 'You' %></td>
-    <td><%= f.radio_button :orderer_id, -1, :checked => true %><%= f.label :orderer_id, 'Last person' %></td>
-  </tr>
-  <tr>
-    <td colspan="2">Select deliverer</td>
-  </tr>
-  <tr>
-    <td><%= f.radio_button :deliverer_id, current_user.id %><%= f.label :deliverer_id, 'You' %></td>
-    <td><%= f.radio_button :deliverer_id, -1, :checked => true %><%= f.label :deliverer_id, 'Last person' %></td>
-  </tr>
-  <tr>
-    <td>Deadline</td>
-    <td><%= f.time_select :deadline, {minute_step: 1} %></td>
-  </tr>
-  <tr colspan="2">
-    <td><%= f.submit 'Save' %></td>
-  </tr>
-</table>
-
-<% end %>
+<%= render 'form' %>
