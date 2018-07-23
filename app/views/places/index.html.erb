@@ -1,7 +1,46 @@
-<h1>Wybór restauracji</h1>
+<h1>Add new restaurant</h1>
 
-<% @places.each do |place| %>
-    <%= link_to= '#{place.name}', places_index_path %>
+
+<div class="container">
+<% if @place.errors.any? %>
+  <ul>
+    <% @place.errors.full_messages.each do |msg|%>
+      <li><%= msg %></li>
+    <%end%>
+  </ul>
+<% end %>
+</div>
+
+<hr/>
+
+
+<%= form_for @place do |f| %>
+  <%= f.label  "Name of place:" %>
+  <%= f.text_field :name  %>
+  <%= f.label  "Link to menu:" %>
+  <%= f.text_field :menu_url  %>
+  <%= f.submit "Submit" %>
 <% end %>
 
-<%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>menu_url</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @places.each do |place| %>
+    <tr>
+      <td><%= place.id %></td>
+      <td><%= place.name %></td>
+      <td><%= place.menu_url%></td>
+      <td>
+      <%= link_to "Edit", edit_place_path(place), class: "btn btn-primary btn-sm" %>
+      <%= link_to "Delete", place_path(place), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure"} %>
+  </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
