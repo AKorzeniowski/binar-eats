@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :items, only:[:new, :create, :show, :update, :destroy]
     resources :orders, only:[:new, :create, :index, :edit, :update]
     get 'orders/:id', to: 'items#new'
-    get 'order/:id/items', to: 'orders#items'
+    get 'order/:id/items', to: 'orders#items', as: 'order_items'
 
   end
 end
