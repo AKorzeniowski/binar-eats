@@ -46,5 +46,5 @@
   </div>
   <hr />
   <%= f.submit 'Save', role: 'button', class: 'btn btn-primary' %>
-  <%= f.submit 'Delete', role: 'button', class: 'btn btn-primary' %>
+  <%= link_to 'Destroy', item_path(id: @item.id), method: :delete, data: { confirm: 'Are you sure?' }, role: 'button', class: 'btn btn-danger', remote: true  %>
 <% end %>

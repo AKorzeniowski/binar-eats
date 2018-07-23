@@ -11,4 +11,9 @@ class User < ApplicationRecord
   has_many :received_orders, foreign_key: "receiver_id", class_name: 'Order'
 
   has_many :items
+
+  def get_name
+      return nickname unless nickname.blank?
+      return email
+  end
 end
