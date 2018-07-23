@@ -33,8 +33,8 @@ class OrdersController < ApplicationController
   end
 
   def index
-    @my_orders = Order.where(creator_id: current_user.id)
-    @other_orders = Order.where.not(creator_id: current_user.id)
+    @my_orders = Order.where(creator_id: current_user.id, deadline: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
+    @other_orders = Order.where.not(creator_id: current_user.id).where(deadline: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
   end
 
   def items
