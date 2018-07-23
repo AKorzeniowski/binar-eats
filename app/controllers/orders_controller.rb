@@ -1,16 +1,10 @@
 class OrdersController < ApplicationController
+
   def new
     @order = Order.new
   end
 
-
   def create
-    if params[:order][:orderer_id].to_i == -1
-      params[:order][:orderer_id] = nil
-    end
-    if params[:order][:deliverer_id].to_i == -1
-      params[:order][:deliverer_id] = nil
-    end
     @order = Order.new(order_params)
     if @order.save
       redirect_to root_path, notice: 'Order was created'
@@ -33,13 +27,12 @@ class OrdersController < ApplicationController
   end
 
   def index
-    @my_orders = Order.where(creator_id: current_user.id)
-    @other_orders = Order.where.not(creator_id: current_user.id)
+    @my_orders = Order.where(creator_id: current_user.id, deadline: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
+    @other_orders = Order.where.not(creator_id: current_user.id).where(deadline: DateTime.now.beginning_of_day..DateTime.now.end_of_day)
   end
 
   def items
-    @order_id = params[:id];
-    @items = Item.where(order_id: @order_id, user_id: current_user.id)
+    @items = Item.where(order_id: params[:id] user_id: current_user.id)
   end
 
 
