@@ -11,11 +11,11 @@
       <% if collection == @my_orders %>
         <% if DateTime.now < order.deadline %>
           <td><%= link_to 'Edit', edit_order_path(order.id) %></td>
-          <td><%= link_to 'Items', "order/#{order.id}/items" %></td>
+          <td><%= link_to 'Items', order_items_url(order.id) %></td>
         <% end %>
       <% else %>
         <% if DateTime.now < order.deadline %>
-          <td><%= link_to 'Items', "order/#{order.id}/items" %></td>
+          <td><%= link_to 'Items', order_items_url(order.id) %></td>
         <% end %>
       <% end %>
     </tr>
