@@ -4,4 +4,37 @@
   </h1>
 </div>
 
-<%= render 'form' %>
+<% if @item.errors.any? %>
+  <ul>
+    <% @item.errors.full_messages.each do |msg| %>
+      <li> <%= msg %> </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for @item do |f| %>
+  <%= f.hidden_field :order_id, :value => @order.id %>
+
+  <div class="form-group">
+    <%= f.label "Your order from ", align: :center%>
+    <%= link_to "menu ", "#{@order.place.menu_url}" %>
+    <%= f.text_area :food, cols: 50, rows: 5, :required => true, placeholder: "Enter all things you want to eat from #{@order.place.name} ..." %>
+  </div>
+
+  <% if @order.orderer_id == nil %>
+    <%= hidden_field_tag :orderer, '' %>
+    <%= check_box_tag :orderer, checked = true %> I want to be orderer.</br></br>
+  <% end %>
+
+  <% if @order.deliverer_id == nil %>
+    <%= hidden_field_tag :deliverer, '' %>
+    <%= check_box_tag :deliverer, checked = true %> I want to be deliverer.</br></br>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label "Full costs: "%>
+    <%= f.number_field :cost, value: :cost, :required => true, step: 0.01, placeholder: "Enter full cost of your order..." %>
+  </div>
+  <hr />
+  <%= f.submit 'Save', role: 'button', class: 'btn btn-primary' %>
+<% end %>

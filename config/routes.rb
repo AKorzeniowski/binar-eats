@@ -3,10 +3,14 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations'  }
 
   authenticate :user do
-    resources :places#,only:[:index, :create, :edit, :update, :delete]
-    resources :items, only:[:new, :create]
-    resources :orders, only:[:new, :create]
-    get 'orders/:id', to: 'items#new', as: 'order'
+
+    get 'places/index'
+    resources :items, only:[:new, :create, :show, :update, :destroy]
+    resources :orders, only:[:new, :create, :index, :edit, :update]
+    get 'orders/:id', to: 'items#new'
+    get 'order/:id/items', to: 'orders#items'
+
+
   end
 
 end
