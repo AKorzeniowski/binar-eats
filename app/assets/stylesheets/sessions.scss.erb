@@ -1,0 +1,48 @@
+@import "include/colors";
+
+@mixin button {
+	width: 100%;
+    color: white;
+    background: $accent-color;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+
+    &:hover {
+    	text-decoration: none;
+		color: white;
+	}
+}
+
+.login-container {
+	align-items: center;
+	background: url("<%= asset_path 'login-bg.jpg' %>");
+	background-size: cover;
+	display: flex;
+	height: 100%;
+	justify-content: center;
+}
+
+.login-form {
+	color: white;
+	background: $primary-color;
+	border-radius: 15px;
+	padding: 50px 30px;
+
+	&__heading {
+      	display: block;
+    	text-align: center;
+	}
+
+	&__button {
+		@include button;
+		background: $light-accent-color;
+	}
+
+	&__login-button {
+		@include button;
+		font-weight: bold;
+	}
+}
+
