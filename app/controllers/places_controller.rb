@@ -22,7 +22,7 @@ class PlacesController < ApplicationController
         flash[:notice] = "Place updated."
         redirect_to places_path
     else
-      render action: 'edit'
+        render action: 'edit'
     end
   end
   def destroy
