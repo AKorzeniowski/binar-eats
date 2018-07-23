@@ -15,10 +15,10 @@ RSpec.describe Order, type: :model do
 
 
   describe 'relations' do
-    it { should belong_to(:creator) }
-    it { should belong_to(:orderer) }
-    it { should belong_to(:deliverer) }
-    it { should belong_to(:place) }
+    it { belong_to(:creator) }
+    it { belong_to(:orderer) }
+    it { belong_to(:deliverer) }
+    it { belong_to(:place) }
   end
 
 end
