@@ -1,3 +1,9 @@
+<div class="jumbotron">
+  <h1>
+    Item <%= @item.id %> from order <%= link_to "#{ @item.order.id} - #{@item.order.place.name} ", "#{orders_path}/#{@item.order.id}" %>
+  </h1>
+</div>
+
 <% if @item.errors.any? %>
   <ul>
     <% @item.errors.full_messages.each do |msg| %>
@@ -46,5 +52,5 @@
   </div>
   <hr />
   <%= f.submit 'Save', role: 'button', class: 'btn btn-primary' %>
-  <%= f.submit 'Delete', role: 'button', class: 'btn btn-primary' %>
+  <%= link_to 'Destroy', item_path(id: @item.id), method: :delete, data: { confirm: 'Are you sure?' }, role: 'button', class: 'btn btn-danger', remote: true  %>
 <% end %>

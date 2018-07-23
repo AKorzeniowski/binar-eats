@@ -1,5 +1,13 @@
-<h1>My orders</h1>
-<%= render 'index', :collection => @my_orders %>
+<div class="jumbotron">
+  <h1>My orders</h1>
+</div class="jumbotron">
+<% if @my_orders.size > 0 %>
+  <%= render 'index', :collection => @my_orders %>
+<% end %>
 
-<h1>Other orders</h1>
-<%= render 'index', :collection => @other_orders %>
+<div class="jumbotron">
+  <h1>Other orders</h1>
+</div class="jumbotron">
+<% if @other_orders.size > 0 %>
+  <%= render 'index', :collection => @other_orders %>
+<% end %>

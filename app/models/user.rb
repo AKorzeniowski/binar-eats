@@ -8,7 +8,12 @@ class User < ApplicationRecord
 
   has_many :created_orders, foreign_key: "creator_id", class_name: 'Order'
   has_many :ordered_orders, foreign_key: "orderer_id", class_name: 'Order'
-  has_many :received_orders, foreign_key: "receiver_id", class_name: 'Order'
+  has_many :received_orders, foreign_key: "deliverer_id", class_name: 'Order'
 
   has_many :items
+
+  def get_name
+      return nickname unless nickname.blank?
+      return email
+  end
 end

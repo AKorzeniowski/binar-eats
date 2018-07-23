@@ -10,7 +10,7 @@
       <tr>
         <td><%= item.food %></td>
         <td><%= item.cost %></td>
-        <td><%= link_to 'Edit', item_path %></td>
+        <td><%= link_to 'Edit', "#{items_path}/#{item.id}" %></td>
       </tr>
     <% end %>
   </table>
