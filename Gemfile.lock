@@ -110,6 +110,8 @@ GEM
     factory_bot_rails (4.10.0)
       factory_bot (~> 4.10.0)
       railties (>= 3.0.0)
+    faker (1.9.1)
+      i18n (>= 0.7)
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -169,6 +171,10 @@ GEM
       bundler (>= 1.3.0)
       railties (= 5.2.0)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.2)
+      actionpack (~> 5.x, >= 5.0.1)
+      actionview (~> 5.x, >= 5.0.1)
+      activesupport (~> 5.x)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -282,6 +288,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   factory_bot_rails
+  faker
   haml
   hirb
   jbuilder (~> 2.5)
@@ -289,6 +296,7 @@ DEPENDENCIES
   pg
   puma (~> 3.11)
   rails (~> 5.2.0)
+  rails-controller-testing
   rspec-rails (~> 3.7)
   sass-rails (~> 5.0)
   selenium-webdriver
