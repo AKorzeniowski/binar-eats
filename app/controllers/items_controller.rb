@@ -32,8 +32,8 @@ class ItemsController < ApplicationController
   def show
     @item = Item.find(params[:id])
     return redirect_to root_path, alert: "It's not your item!" if current_user.id != @item.user_id
-    @orderer = @item.order.orderer.get_name unless @item.order.orderer_id.nil?
-    @deliverer = @item.order.deliverer.get_name unless @item.order.deliverer_id.nil?
+    @orderer = @item.order.orderer.name unless @item.order.orderer_id.nil?
+    @deliverer = @item.order.deliverer.name unless @item.order.deliverer_id.nil?
   end
 
   def update
