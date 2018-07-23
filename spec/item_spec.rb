@@ -9,8 +9,8 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'relations' do
-    it { should have_one(:user) }
-    it { should have_one(:order) }
+    it { should belong_to(:user) }
+    it { should belong_to(:order) }
   end
 
 end
