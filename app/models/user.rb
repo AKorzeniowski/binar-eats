@@ -9,7 +9,7 @@ class User < ApplicationRecord
   with_options class_name: 'Order', dependent: :nullify do
     has_many :created_orders, foreign_key: 'creator_id', inverse_of: :creator
     has_many :ordered_orders, foreign_key: 'orderer_id', inverse_of: :orderer
-    has_many :received_orders, foreign_key: 'deliverer_id', inverse_of: :receiver
+    has_many :received_orders, foreign_key: 'deliverer_id', inverse_of: :deliverer
   end
 
   has_many :items, dependent: :destroy
