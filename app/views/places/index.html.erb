@@ -1,13 +1,18 @@
-<h1>Selection of restaurants</h1>
+<h1>Add new restaurants</h1>
 
-<% @places.each do |place| %>
-    <%= link_to "#{place.name}", places_path %>
+
+<div class="container">
+<% if @place.errors.any? %>
+  <ul>
+    <% @place.errors.full_messages.each do |msg|%>
+      <li><%= msg %></li>
+    <%end%>
+  </ul>
+</div>
 <% end %>
 
-<%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+<hr/>
 
-<hr />
-<h3>Extra place</h3>
 
 <%= form_for @place do |f| %>
   <%= f.label  "Name of place:" %>
@@ -16,3 +21,22 @@
   <%= f.text_field :menu_url  %>
   <%= f.submit "Submit" %>
 <% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>menu_url</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @places.each do |place| %>
+    <tr>
+      <td><%= place.id %></td>
+      <td><%= place.name %></td>
+      <td><%= place.menu_url%></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
