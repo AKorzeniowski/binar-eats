@@ -1,9 +1,4 @@
-/* Sandy Theme 
- * 	$primary-color: #f7d794;
- * 	$accent-color: #292223;
- * 	$text-color: black;
- */
-
 $primary-color: #292339;
 $accent-color: #ca5161;
+$light-accent-color: lighten($accent-color, 10%);
 $text-color: white;

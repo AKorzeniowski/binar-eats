@@ -35,8 +35,14 @@
     	text-align: center;
 	}
 
+	&__button {
+		@include button;
+		background: $light-accent-color;
+	}
+
 	&__login-button {
 		@include button;
+		font-weight: bold;
 	}
 }
 
