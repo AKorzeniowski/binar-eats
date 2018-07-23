@@ -8,7 +8,7 @@ class PlacesController < ApplicationController
     if @place.save
        redirect_to places_path, notice: 'New place was created'
     else
-         redirect_to places_path, alert: 'New place was not created'
+       redirect_to places_path, alert: 'New place was not created'
     end
   end
 
