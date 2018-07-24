@@ -76,10 +76,8 @@ RSpec.describe ItemsController, type: :controller do
     end
 
     it 'should destroy author' do
-      item_id = item.id
-      expect{
-      delete :destroy, params: { id: item }
-    }.to change{ Item.count }.by(-1)
+      item
+      expect{ delete :destroy, params: { id: item } }.to change{ Item.count }.by(-1)
     end
   end
 end
