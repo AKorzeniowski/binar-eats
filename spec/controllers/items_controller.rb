@@ -62,4 +62,24 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
+  describe '#destroy' do
+    let(:item) { create(:item) }
+    subject { delete :destroy, params: { id: item.id } }
+
+    it 'should redirect to home' do
+      expect(subject).to redirect_to(root_path)
+    end
+
+    it 'should redirect with notice' do
+      subject
+      expect(flash[:notice]).to be_present
+    end
+
+    it 'should destroy author' do
+      item_id = item.id
+      expect{
+      delete :destroy, params: { id: item }
+    }.to change{ Item.count }.by(-1)
+    end
+  end
 end
