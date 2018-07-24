@@ -50,8 +50,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.7'
   # Ease the creation of test data with FactoryBot and Faker
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'database_cleaner'
+  gem 'faker'
 end
 
 group :development do
