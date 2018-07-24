@@ -49,6 +49,7 @@ group :development, :test do
   # Use RSpec instead of minitest
   gem 'rspec-rails', '~> 3.7'
   # Ease the creation of test data with FactoryBot and Faker
+  gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
 end
