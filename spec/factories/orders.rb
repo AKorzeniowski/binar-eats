@@ -1,9 +1,10 @@
 FactoryBot.define do
-  factory :order01 do
-    creator_id user01
-    place01
+  factory :order do
     deadline 3.hours.from_now
-    orderer_id user01
-    deliverer_id user02
+
+    association :creator, :creator, factory: :user
+    orderer { creator }
+    association :deliverer, :deliverer, factory: :user
+    association :place
   end
 end

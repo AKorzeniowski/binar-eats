@@ -51,6 +51,7 @@ group :development, :test do
   # Ease the creation of test data with FactoryBot and Faker
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'database_cleaner'
 end
 
 group :development do
