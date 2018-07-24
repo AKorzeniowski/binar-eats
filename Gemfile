@@ -67,6 +67,11 @@ group :development do
   gem 'capistrano-rvm'
   # Hirb prettifies console output of objects
   gem 'hirb'
+  # Security-related gems
+  gem 'brakeman'
+  gem 'bundle-audit'
+  # Keep files linted
+  gem 'rubocop'
 end
 
 group :test do
