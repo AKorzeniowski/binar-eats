@@ -10,7 +10,7 @@
     <% if current_user.id == @order.orderer_id %>
     <tr>
       <div class="form-group">
-        <%= label_tag 'Costs of delivery: '%>
+        <%= f.label :delivery_cost %>
         <%= f.number_field :delivery_cost, value: @order.delivery_cost, step: :any, placeholder: "Enter full cost of delivery..." %>
       </div>
     </tr>
