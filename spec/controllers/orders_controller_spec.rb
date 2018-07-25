@@ -100,8 +100,8 @@ RSpec.describe OrdersController, type: :controller do
   end
   describe '#update' do
     updated_deadline = Time.now.getlocal + 1.hours + 1.minute
-		let(:order) { create(:order) }
-		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline} } }
+		let(:order) { create(:order, delivery_time: nil) }
+		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline, delivery_time: 3.hours.from_now} } }
 		let(:invalid_attributes) {	{	id:	order.id,	order:	{	deadline: nil	}	}	}
 
     context 'valid params' do
@@ -119,6 +119,11 @@ RSpec.describe OrdersController, type: :controller do
         subject
         expect(order.reload.deadline.getlocal.min).to eq(updated_deadline.min)
         expect(order.reload.deadline.getlocal.hour).to eq(updated_deadline.hour)
+      end
+
+      it 'should change order delivery time' do
+        subject
+        expect(order.reload.delivery_time).not_to eq(nil)
       end
     end
 
