@@ -130,7 +130,7 @@ RSpec.describe OrdersController, type: :controller do
 
       it 'should not change order deadline' do
         expect(order.reload.deadline.getlocal.min).to eq(order.deadline.getlocal.min)
-        expect(order.reload.deadline.getlocal.hour).to eq(order.deadline.getlocal.hour)
+        expect(order.reload.deadline.getlocal.min).to eq(order.deadline.getlocal.min)
       end
 
     end

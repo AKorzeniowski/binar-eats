@@ -1,0 +1,9 @@
+@import "include/colors";
+
+.intro {
+	&__main-header, &__primer {
+		color: white;
+		display: block;
+		text-align: center;
+	}
+}
