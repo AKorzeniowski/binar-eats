@@ -35,6 +35,10 @@ class OrdersController < ApplicationController
     @items = Item.where(order_id: params[:id], user_id: current_user.id)
   end
 
+  def order_link
+    @order_link= request.original_url #"działa"
+  end
+
   private
 
   def order_params
