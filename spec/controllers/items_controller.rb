@@ -1,6 +1,52 @@
 require 'rails_helper'
 
 RSpec.describe ItemsController, type: :controller do
+
+  describe '#new' do
+    let!(:order) { create(:order) }
+    before { get :new, params: { id: order.id } }
+    describe 'successful response' do
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('new') }
+    end
+    context 'item' do
+      it { expect(assigns(:item)).to be_a(Item) }
+      it { expect(assigns(:item).persisted?).to eq(false) }
+    end
+  end
+
+  describe '#create' do
+    login_user
+    let!(:order) { create(:order) }
+    let(:valid_attributes) { { item: {food: 'Jedzenie', cost: 12.50, order_id: order.id} } }
+    let(:invalid_attributes) { { item: {food: '', cost: nil} } }
+
+    context 'valid params' do
+      subject { post :create, params: valid_attributes }
+
+      it 'should redirect to item' do
+        expect(subject).to redirect_to(item_path 1 )
+      end
+      it 'should redirect with notice' do
+        subject
+        expect(flash[:notice]).to be_present
+      end
+      it 'should create new item' do
+        expect{subject}.to change{ Item.count }.by(1)
+      end
+    end
+
+    # context 'invalid params' do
+    #   subject { post :create, params: invalid_attributes }
+    #   it 'should render new' do
+    #     expect(subject).to render_template('new')
+    #   end
+    #   it 'should not create new author' do
+    #     expect{ subject }.not_to change{ Author.count }
+    #   end
+    # end
+  end
+
   describe '#show' do
     let(:item) { create(:item) }
 
@@ -11,7 +57,7 @@ RSpec.describe ItemsController, type: :controller do
       it { expect(redirect_to(root_path)) }
     end
 
-    context 'succesful response' do
+    context 'successful response' do
       login_user
       before { subject.current_user.id = item.user.id }
       before { get :show, params: { id: item.id } }
