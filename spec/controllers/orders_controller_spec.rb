@@ -55,17 +55,28 @@ RSpec.describe OrdersController, type: :controller do
     end
   end
   describe '#edit' do
+    login_user
     let(:order) { create(:order) }
-    before { get :edit, params: { id: order.id } }
 
-    describe 'successful response' do
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template('edit') }
+    context 'creator' do
+      before { subject.current_user.id = order.creator.id }
+      before { get :edit, params: { id: order.id } }
+      describe 'successful response' do
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('edit') }
+      end
+
+      context 'order' do
+        it { expect(assigns(:order)).to eq(order) }
+      end
     end
 
-    context 'order' do
-      it { expect(assigns(:order)).to eq(order) }
+    context 'user cant see others item' do
+      before { get :edit, params: { id: order.id } }
+      it { expect(flash[:alert]).to be_present }
+      it { expect(redirect_to(root_path)) }
     end
+
   end
   describe '#create' do
     let!(:place)  { create(:place) }
