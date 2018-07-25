@@ -1,10 +1,12 @@
 <template>
-  <div id="app">
+  <div id="wizard">
     <p>{{ message }}</p>
   </div>
 </template>
 
 <script>
+import { GoodWizard } from 'vue-good-wizard';
+
 export default {
   data: function () {
     return {
