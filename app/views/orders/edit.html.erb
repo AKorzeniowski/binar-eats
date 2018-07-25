@@ -4,8 +4,10 @@
   <%= form_for @order do |f| %>
   <tr>
     <tr>
+      <% if current_user.id == @order.creator_id %>
       <td>Deadline</td>
       <td><%= f.time_select :deadline, {minute_step: 1} %></td>
+      <% end %>
     </tr>
     <% if current_user.id == @order.orderer_id %>
     <tr>
