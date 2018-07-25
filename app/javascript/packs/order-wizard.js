@@ -13,11 +13,13 @@
 //     }
 //   })
 // })
-let placeStep = document.getElementById("place")
-let ordererStep = document.getElementById("orderer")
-let delivererStep = document.getElementById("deliverer")
-let deadlineStep = document.getElementById("deadline")
+const placeStep = document.getElementById("place")
+const ordererStep = document.getElementById("orderer")
+const delivererStep = document.getElementById("deliverer")
+const deadlineStep = document.getElementById("deadline")
 
-let steps = [placeStep, ordererStep, delivererStep, deadlineStep]
+const steps = [placeStep, ordererStep, delivererStep, deadlineStep]
 
 steps.forEach((item) => item.style.display = 'none')
+
+steps[0].style.display = 'block'
