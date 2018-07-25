@@ -1,8 +1,7 @@
 <h1>New order</h1>
-<%= javascript_pack_tag 'order_wizard' %>
-<%= stylesheet_pack_tag 'order_wizard' %>
-<div id='hello'>
-  {{message}}
-  <app></app>
+<%= javascript_pack_tag 'order-wizard' %>
+<%= stylesheet_pack_tag 'order-wizard' %>
+<div id='wizard'>
+  <order-wizard></order-wizard>
 </div>
 <%= render 'form' %>
