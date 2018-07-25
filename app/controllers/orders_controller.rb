@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     if @order.save
-      redirect_to root_path, notice: 'Order was created'
+      redirect_to order_done_path(order_id: @order.id), notice: 'Order was created'
     else
       render :new
     end
@@ -35,8 +35,8 @@ class OrdersController < ApplicationController
     @items = Item.where(order_id: params[:id], user_id: current_user.id)
   end
 
-  def order_link
-    @order_link= request.original_url #"działa"
+  def done
+    @order_id = params[:order_id]
   end
 
   private

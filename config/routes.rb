@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :orders, only:[:new, :create, :index, :edit, :update]
     get 'orders/:id', to: 'items#new'
     get 'order/:id/items', to: 'orders#items', as: 'order_items'
-    get 'order/order_link', to: 'orders#order_link'
+    get 'order/done', to: 'orders#done'
 
   end
 
