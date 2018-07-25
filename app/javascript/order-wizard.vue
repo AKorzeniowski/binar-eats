@@ -4,19 +4,19 @@
       :steps="steps"
       :onNext="nextClicked" 
       :onBack="backClicked">
-      <div slot="page1">
+      <div slot="place">
         <h4>Step 1</h4>
         <p>This is step 1</p>
       </div>
-      <div slot="page2">
+      <div slot="orderer">
         <h4>Step 2</h4>
         <p>This is step 2</p>
       </div>
-      <div slot="page3">
+      <div slot="deliverer">
         <h4>Step 3</h4>
         <p>This is step 3</p>
       </div>
-      <div slot="page4">
+      <div slot="deadline">
         <h4>Step 4</h4>
         <p>This is step 4</p>
       </div>
@@ -33,20 +33,20 @@ export default {
     return {
       steps: [
         {
-          label: 'Select Items',
-          slot: 'page1',
+          label: 'Where to order from?',
+          slot: 'place',
         },
         {
-          label: 'Add Constraints',
-          slot: 'page2',
+          label: 'Who will order?',
+          slot: 'orderer',
         },
         {
-          label: 'Review',
-          slot: 'page3',
+          label: 'Who will deliver?',
+          slot: 'deliverer',
         },
         {
-          label: 'Apply',
-          slot: 'page4',
+          label: 'What is the deadline?',
+          slot: 'deadline',
           options: {
             nextDisabled: true, // control whether next is disabled or not
           },
