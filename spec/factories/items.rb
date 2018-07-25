@@ -4,6 +4,6 @@ FactoryBot.define do
     cost 12.50
 
     association :order
-    association :user
+    user { order.creator }
   end
 end
