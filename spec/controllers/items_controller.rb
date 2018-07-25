@@ -1,5 +1,20 @@
 require 'rails_helper'
 
+RSpec.shared_examples "valid attributes for creating item" do
+  subject { post :create, params: params }
+
+  it 'should redirect to item' do
+    expect(subject).to redirect_to(item_path 1 )
+  end
+  it 'should redirect with notice' do
+    subject
+    expect(flash[:notice]).to be_present
+  end
+  it 'should create new item' do
+    expect{subject}.to change{ Item.count }.by(1)
+  end
+end
+
 RSpec.describe ItemsController, type: :controller do
 
   describe '#new' do
@@ -17,22 +32,16 @@ RSpec.describe ItemsController, type: :controller do
 
   describe '#create' do
     login_user
-    let!(:order) { create(:order) }
-    let(:valid_attributes) { { item: {food: 'Jedzenie', cost: 12.50, order_id: order.id} } }
+    let!(:order) { create(:order, orderer_id: nil, deliverer_id: nil) }
+    let!(:valid_attributes) { { item: {food: 'Jedzenie', cost: 12.50, order_id: order.id} } }
     let(:invalid_attributes) { { item: {food: '', cost: nil} } }
+    let(:want_be_orderer) { valid_attributes.merge( orderer: 'true') }
+    let(:want_be_deliverer) { valid_attributes.merge( deliverer: 'true') }
+    let(:want_be_orderer_and_deliverer) { want_be_orderer.merge( deliverer: 'true') }
 
     context 'valid params' do
-      subject { post :create, params: valid_attributes }
-
-      it 'should redirect to item' do
-        expect(subject).to redirect_to(item_path 1 )
-      end
-      it 'should redirect with notice' do
-        subject
-        expect(flash[:notice]).to be_present
-      end
-      it 'should create new item' do
-        expect{subject}.to change{ Item.count }.by(1)
+      include_examples "valid attributes for creating item" do
+        let(:params) { valid_attributes }
       end
     end
 
@@ -45,6 +54,55 @@ RSpec.describe ItemsController, type: :controller do
         expect{ subject }.not_to change{ Item.count }
       end
     end
+
+    context 'want_be_orderer' do
+      subject { post :create, params: want_be_orderer }
+
+      include_examples "valid attributes for creating item" do
+        let(:params) { want_be_orderer }
+      end
+
+      it 'user should be orderer' do
+        subject
+        item = Item.find(1)
+        expect(item.order.orderer_id).not_to eq(nil)
+      end
+    end
+
+    context 'want_be_deliverer' do
+      subject { post :create, params: want_be_deliverer }
+
+      include_examples "valid attributes for creating item" do
+        let(:params) { want_be_deliverer }
+      end
+
+      it 'user should be deliverer' do
+        subject
+        item = Item.find(1)
+        expect(item.order.deliverer_id).not_to eq(nil)
+      end
+    end
+
+    context 'want_be_orderer_and_deliverer' do
+      subject { post :create, params: want_be_orderer_and_deliverer }
+
+      include_examples "valid attributes for creating item" do
+        let(:params) { want_be_orderer_and_deliverer }
+      end
+
+      it 'user should be orderer' do
+        subject
+        item = Item.find(1)
+        expect(item.order.orderer_id).not_to eq(nil)
+      end
+
+      it 'user should be deliverer' do
+        subject
+        item = Item.find(1)
+        expect(item.order.deliverer_id).not_to eq(nil)
+      end
+    end
+
   end
 
   describe '#show' do
