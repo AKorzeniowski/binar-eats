@@ -36,15 +36,15 @@ RSpec.describe ItemsController, type: :controller do
       end
     end
 
-    # context 'invalid params' do
-    #   subject { post :create, params: invalid_attributes }
-    #   it 'should render new' do
-    #     expect(subject).to render_template('new')
-    #   end
-    #   it 'should not create new author' do
-    #     expect{ subject }.not_to change{ Author.count }
-    #   end
-    # end
+    context 'invalid params' do
+      subject { post :create, params: invalid_attributes }
+      it 'should render new' do
+        expect(subject).to render_template('new')
+      end
+      it 'should not create new item' do
+        expect{ subject }.not_to change{ Item.count }
+      end
+    end
   end
 
   describe '#show' do
