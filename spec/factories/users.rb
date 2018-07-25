@@ -27,5 +27,10 @@ FactoryBot.define do
       account_number Faker::Number.number(26)
     end
 
+    trait :creator1 do
+      email Faker::Internet.email('creator1')
+    end
+
+
   end
 end
