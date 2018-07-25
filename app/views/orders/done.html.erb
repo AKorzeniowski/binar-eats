@@ -1,8 +1,8 @@
-<hr/>
-<hr/>
-<hr/>
-<hr/>
-<hr/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <h3>Link to menu</h3>
 
-<%= link_to "#{@order_id}", edit_order_path(id: @order_id) %>
+<%= url_for(action: "new", id:@order_id, controller: 'items', only_path: false, protocol: 'https') %>
