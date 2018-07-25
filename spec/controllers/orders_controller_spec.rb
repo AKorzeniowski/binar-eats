@@ -55,8 +55,8 @@ RSpec.describe OrdersController, type: :controller do
     end
   end
   describe '#edit' do
-    let(:order) { create(:order) }
-    before { get :edit, params: { id: order.id } }
+    let(:order) { create(:order, delivery_time: nil) }
+    before { get :edit, params: { id: order.id, delivery_time: 3.hours.from_now } }
 
     describe 'successful response' do
       it { expect(response).to be_successful }
