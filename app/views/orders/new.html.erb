@@ -1,7 +1,29 @@
 <h1>New order</h1>
-<%= javascript_pack_tag 'order-wizard' %>
-<%= stylesheet_pack_tag 'order-wizard' %>
 <div id='wizard'>
-  <order-wizard></order-wizard>
+  <!-- <order-wizard></order-wizard> -->
 </div>
-<%= render 'form' %>
+  <%= form_for @order, remote: true do |f| %>
+  <%= f.hidden_field :creator_id, value: current_user.id %>
+  <div id="place">
+    Select place
+    <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+  </div>
+  <div id="orderer">
+    <%= f.hidden_field :orderer_id, value: nil %>
+    <%= check_box_tag :orderer_id, current_user.id %>
+    I want to be a orderer.
+  </div>
+  <div id="deliverer">
+    <%= f.hidden_field :deliverer_id, value: nil %>
+    <%= check_box_tag :deliverer_id, current_user.id %>
+    I want to be a deliverer.
+  </div>
+  <div id="deadline">
+    Deadline
+    <%= f.time_select :deadline, {minute_step: 1} %>
+    <%= f.submit 'Save' %>
+  </div>
+</table>
+<% end %>
+<%= javascript_pack_tag 'order-wizard' %>
+

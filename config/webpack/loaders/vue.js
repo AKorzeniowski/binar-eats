@@ -9,5 +9,12 @@ module.exports = {
   use: [{
     loader: 'vue-loader',
     options: { extractCSS }
+  },
+  {
+    loader: 'rails-erb-loader', 
+    options: {
+      runner: 'bin/rails runner',
+      dependenciesRoot: '../app'
+    }
   }]
 }
