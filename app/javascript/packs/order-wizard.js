@@ -25,11 +25,12 @@ for (let step of steps) { step.style.display = 'none' }
 var currentStep = 0
 steps[currentStep].style.display = 'block'
 
-const nextButtons = document.getElementsByClassName('nextStep')
+const nextButtons = document.getElementsByClassName('wizard__button--next')
 for (let button of nextButtons) {
-	button.onclick = () => {
-		steps[currentStep].style.display = 'none';
-		currentStep++;
-		steps[currentStep].style.display = 'block';
+	button.onclick = (event) => {
+		event.preventDefault()
+		steps[currentStep].style.display = 'none'
+		currentStep++
+		steps[currentStep].style.display = 'block'
 	}
 }
