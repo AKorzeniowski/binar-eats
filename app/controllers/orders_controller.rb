@@ -5,12 +5,10 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
-    if request.format.html?
-      if @order.save
-        redirect_to root_path, notice: 'Order was created'
-      else
-        render :new
-      end
+    if @order.save
+      redirect_to root_path, notice: 'Order was created'
+    else
+      render :new
     end
   end
 

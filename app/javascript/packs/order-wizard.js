@@ -22,4 +22,12 @@ const steps = [placeStep, ordererStep, delivererStep, deadlineStep]
 
 steps.forEach((item) => item.style.display = 'none')
 
-steps[0].style.display = 'block'
+var currentStep = 0
+steps[currentStep].style.display = 'block'
+
+const nextButtons = Array.from(document.getElementsByClassName('nextStep'))
+nextButtons.forEach((button) => button.onclick = () => { 
+	steps[currentStep].style.display = 'none'; 
+	currentStep++; 
+	steps[currentStep].style.display = 'block';
+ })

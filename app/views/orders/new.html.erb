@@ -7,16 +7,19 @@
   <div id="place">
     Select place
     <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+    <span class="nextStep">Next</a>
   </div>
   <div id="orderer">
     <%= f.hidden_field :orderer_id, value: nil %>
     <%= check_box_tag :orderer_id, current_user.id %>
     I want to be a orderer.
+    <span class="nextStep">Next</a>
   </div>
   <div id="deliverer">
     <%= f.hidden_field :deliverer_id, value: nil %>
     <%= check_box_tag :deliverer_id, current_user.id %>
     I want to be a deliverer.
+    <span class="nextStep">Next</a>
   </div>
   <div id="deadline">
     Deadline
