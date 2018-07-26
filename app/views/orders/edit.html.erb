@@ -4,14 +4,20 @@
   <%= form_for @order do |f| %>
   <tr>
     <tr>
+      <% if current_user.id == @order.creator_id %>
       <td>Deadline</td>
       <td><%= f.time_select :deadline, {minute_step: 1} %></td>
+      <% end %>
     </tr>
     <% if current_user.id == @order.orderer_id %>
     <tr>
       <div class="form-group">
         <%= f.label :delivery_cost %>
         <%= f.number_field :delivery_cost, value: @order.delivery_cost, step: :any, placeholder: "Enter full cost of delivery..." %>
+      </div>
+      <div class="form-group">
+        <%= f.label :delivery_time, "Delivery time" %>
+        <%= f.time_select :delivery_time, {minute_step: 1} %>
       </div>
     </tr>
     <% end %>

@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     if @order.save
-      redirect_to root_path, notice: 'Order was created'
+      redirect_to orders_path, notice: 'Order was created'
     else
       render :new
     end
@@ -14,6 +14,8 @@ class OrdersController < ApplicationController
 
   def edit
     @order = Order.find(params[:id])
+    return (redirect_to orders_path, alert: "You can't see this order!") if
+    current_user.id != @order.creator_id || current_user.id != @order.orderer_id
   end
 
   def update
@@ -26,18 +28,19 @@ class OrdersController < ApplicationController
   end
 
   def index
-    today = Time.now.getlocal.beginning_of_day..Time.now.getlocal.end_of_day
-    @my_orders = Order.where(creator_id: current_user.id, deadline: today)
-    @other_orders = Order.where.not(creator_id: current_user.id).where(deadline: today)
+    @my_orders = Order.my_orders(current_user.id)
+    @other_orders = Order.other_orders(current_user.id)
   end
 
   def items
-    @items = Item.where(order_id: params[:id], user_id: current_user.id)
+    @creator_order_items = Item.creator_order_items(params[:id], current_user.id)
+    @other_order_items = Item.other_order_items(params[:id], current_user.id)
   end
 
   private
 
   def order_params
-    params.require(:order).permit(:creator_id, :place_id, :orderer_id, :deliverer_id, :deadline, :delivery_cost)
+    params.require(:order).permit(:creator_id, :place_id, :orderer_id,
+      :deliverer_id, :deadline, :delivery_cost, :delivery_time)
   end
 end

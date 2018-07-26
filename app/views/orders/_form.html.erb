@@ -21,6 +21,7 @@
   </tr>
   <tr colspan="2">
     <td><%= f.submit 'Save' %></td>
+    <td><%= link_to 'Cancel', orders_path, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'  %></td>
   </tr>
 </table>
 <% end %>
