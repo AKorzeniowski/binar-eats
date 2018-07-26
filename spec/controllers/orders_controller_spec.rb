@@ -80,9 +80,6 @@ RSpec.describe OrdersController, type: :controller do
         subject
         expect(subject).to redirect_to(order_done_path(order_id: Order.last.id))
       end
-    #  it 'should redirect to orders' do
-    #    expect(subject).to redirect_to(orders_path)
-    #  end
 
       it 'should redirect with notice' do
         subject
