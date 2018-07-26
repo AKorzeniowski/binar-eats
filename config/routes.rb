@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :places
     resources :items, only:[:new, :create, :show, :update, :destroy]
     resources :orders, only:[:new, :create, :index, :edit, :update]
+    get 'orders/payment/:id', to: 'orders#payment'
     get 'orders/:id', to: 'items#new'
     get 'order/:id/items', to: 'orders#items', as: 'order_items'
 
