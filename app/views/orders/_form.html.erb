@@ -1,5 +1,5 @@
 <table>
-  <%= form_for @order do |f| %>
+  <%= form_for @order, remote: true do |f| %>
   <%= f.hidden_field :creator_id, value: current_user.id %>
   <tr>
     <td>Select place</td>
