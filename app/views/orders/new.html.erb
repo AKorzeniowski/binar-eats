@@ -1,32 +1,35 @@
-<h1>New order</h1>
-<div id='wizard'>
-  <!-- <order-wizard></order-wizard> -->
+<div class="container"><h1>New order</h1>
+	<div id='wizard'>
+	  <!-- <order-wizard></order-wizard> -->
+	</div>
+	<%= form_for @order, remote: true do |f| %>
+	<%= f.hidden_field :creator_id, value: current_user.id %>
+	<div id="place">
+	  <h2>Where do we order from?</h2>
+	  Select place
+	  <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+	  <span class="nextStep">Next</a>
+	</div>
+	<div id="orderer">
+		<h2>Who will order?</h2>
+	  <%= f.hidden_field :orderer_id, value: nil %>
+	  <%= check_box_tag :orderer_id, current_user.id %>
+	  I want to be a orderer.
+	  <span class="nextStep">Next</a>
+	</div>
+	<div id="deliverer">
+		<h2>Who will deliver?</h2>
+	  <%= f.hidden_field :deliverer_id, value: nil %>
+	  <%= check_box_tag :deliverer_id, current_user.id %>
+	  I want to be a deliverer.
+	  <span class="nextStep">Next</a>
+	</div>
+	<div id="deadline">
+	  <h2>What is the deadline?</h2>
+	  <%= f.time_select :deadline, {minute_step: 1} %>
+	  <%= f.submit 'Save' %>
+	</div>
 </div>
-  <%= form_for @order, remote: true do |f| %>
-  <%= f.hidden_field :creator_id, value: current_user.id %>
-  <div id="place">
-    Select place
-    <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
-    <span class="nextStep">Next</a>
-  </div>
-  <div id="orderer">
-    <%= f.hidden_field :orderer_id, value: nil %>
-    <%= check_box_tag :orderer_id, current_user.id %>
-    I want to be a orderer.
-    <span class="nextStep">Next</a>
-  </div>
-  <div id="deliverer">
-    <%= f.hidden_field :deliverer_id, value: nil %>
-    <%= check_box_tag :deliverer_id, current_user.id %>
-    I want to be a deliverer.
-    <span class="nextStep">Next</a>
-  </div>
-  <div id="deadline">
-    Deadline
-    <%= f.time_select :deadline, {minute_step: 1} %>
-    <%= f.submit 'Save' %>
-  </div>
-</table>
 <% end %>
 <%= javascript_pack_tag 'order-wizard' %>
 
