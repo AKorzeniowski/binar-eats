@@ -5,12 +5,8 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
-    if params['orderer'].to_i == 1
-      @order.orderer_id = current_user.id
-    end
-    if params['deliverer'].to_i == 1
-      @order.deliverer_id = current_user.id
-    end
+    @order.orderer_id = current_user.id if params['orderer'].to_i == 1
+    @order.deliverer_id = current_user.id if params['deliverer'].to_i == 1
     if @order.save
       redirect_to orders_path, notice: 'Order was created'
     else
