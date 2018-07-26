@@ -134,9 +134,13 @@ RSpec.describe OrdersController, type: :controller do
     context 'valid params' do
       subject { post :create, params: valid_attributes }
 
-      it 'should redirect to orders' do
-        expect(subject).to redirect_to(orders_path)
+      it 'should redirect to order_done' do
+        subject
+        expect(subject).to redirect_to(order_done_path(order_id: Order.last.id))
       end
+    #  it 'should redirect to orders' do
+    #    expect(subject).to redirect_to(orders_path)
+    #  end
 
       it 'should redirect with notice' do
         subject
@@ -150,7 +154,7 @@ RSpec.describe OrdersController, type: :controller do
         expect(subject).to render_template('new')
       end
 
-      it 'should not create new author' do
+      it 'should not create new order' do
         expect{ subject }.not_to change{ Order.count }
       end
     end

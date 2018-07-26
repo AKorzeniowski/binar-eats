@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     if @order.save
-      redirect_to orders_path, notice: 'Order was created'
+      redirect_to order_done_path(order_id: @order.id), notice: 'Order was created'
     else
       render :new
     end
@@ -35,6 +35,10 @@ class OrdersController < ApplicationController
   def items
     @creator_order_items = Item.creator_order_items(params[:id], current_user.id)
     @other_order_items = Item.other_order_items(params[:id], current_user.id)
+  end
+
+  def done
+    @order_id = params[:order_id]
   end
 
   private
