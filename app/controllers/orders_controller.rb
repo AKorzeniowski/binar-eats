@@ -43,10 +43,6 @@ class OrdersController < ApplicationController
     return redirect_to root_path, alert: "You dont't have permission to see this page." unless
     (current_user.id == @order.orderer_id && @order.deliverer_id == 0) ||
     (current_user.id == @order.orderer_id)
-
-    
-
-
   end
 
   private

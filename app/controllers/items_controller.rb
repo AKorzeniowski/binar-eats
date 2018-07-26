@@ -38,7 +38,11 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    return redirect_to item_path(params[:id]), notice: 'Item was updated!' if @item.update(item_params)
+    if @item.update(item_params)
+      message = "Item #{params[:id]} was updated!"
+      return redirect_to orders_payment_path(@item.order_id), notice: message
+      return redirect_to item_path(params[:id]), notice: message
+    end
     redirect_to item_path(id: @item.id), method: :show
   end
 
