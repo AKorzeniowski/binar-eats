@@ -15,6 +15,26 @@ RSpec.shared_examples "valid attributes for creating item" do
   end
 end
 
+RSpec.shared_examples "valid attributes for updating item" do
+  subject { patch :update, params: params }
+
+  it 'should redirect to item index' do
+    expect(subject).to redirect_to(item_path)
+  end
+  it 'should redirect with notice' do
+    subject
+    expect(flash[:notice]).to be_present
+  end
+  it 'should change food' do
+    subject
+    expect(item.reload.food).to eq('Jedzenie')
+  end
+  it 'should change cost' do
+    subject
+    expect(item.reload.cost).to eq(12.50)
+  end
+end
+
 RSpec.describe ItemsController, type: :controller do
 
   describe '#new' do
@@ -134,23 +154,57 @@ RSpec.describe ItemsController, type: :controller do
 
     let(:valid_attributes) { { id: item.id, item: {food: 'Jedzenie', cost: 12.50} } }
     let(:invalid_attributes) { { id: item.id, item: {food: '', cost: nil} } }
+    let(:want_be_orderer) { valid_attributes.merge( orderer: 'true') }
+    let(:want_be_deliverer) { valid_attributes.merge( deliverer: 'true') }
+    let(:want_be_orderer_and_deliverer) { want_be_orderer.merge( deliverer: 'true') }
 
     context 'valid params' do
-    subject { patch :update, params: valid_attributes }
-      it 'should redirect to item index' do
-        expect(subject).to redirect_to(item_path)
+      include_examples "valid attributes for updating item" do
+        let(:params) { valid_attributes }
       end
-      it 'should redirect with notice' do
-        subject
-        expect(flash[:notice]).to be_present
+    end
+
+    context 'want_be_orderer' do
+      subject { patch :update, params: want_be_orderer }
+
+      include_examples "valid attributes for updating item" do
+        let(:params) { want_be_orderer }
       end
-      it 'should change food' do
+
+      it 'user should be orderer' do
         subject
-        expect(item.reload.food).to eq('Jedzenie')
+        expect(item.order.orderer_id).not_to eq(nil)
       end
-      it 'should change cost' do
+    end
+
+    context 'want_be_deliverer' do
+      subject { patch :update, params: want_be_deliverer }
+
+      include_examples "valid attributes for updating item" do
+        let(:params) { want_be_deliverer }
+      end
+
+      it 'user should be deliverer' do
         subject
-        expect(item.reload.cost).to eq(12.50)
+        expect(item.order.deliverer_id).not_to eq(nil)
+      end
+    end
+
+    context 'want_be_orderer_and_deliverer' do
+        subject { patch :update, params: want_be_orderer_and_deliverer }
+
+      include_examples "valid attributes for updating item" do
+        let(:params) { want_be_orderer_and_deliverer }
+      end
+
+      it 'user should be orderer' do
+        subject
+        expect(item.order.orderer_id).not_to eq(nil)
+      end
+
+      it 'user should be deliverer' do
+        subject
+        expect(item.order.deliverer_id).not_to eq(nil)
       end
     end
 
