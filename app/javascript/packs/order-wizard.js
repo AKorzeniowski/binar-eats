@@ -1,36 +1,25 @@
 /* eslint no-console: 0 */
-// import TurbolinksAdapter from 'vue-turbolinks'
-// import Vue from 'vue/dist/vue.esm'
-// import OrderWizard from '../order-wizard.vue.erb'
+const steps = document.getElementsByClassName('wizard__step')
 
-// Vue.use(TurbolinksAdapter)
-
-// document.addEventListener('turbolinks:load', () => {
-//   const app = new Vue({
-//     el: '#wizard',
-//     components: { 
-//     	'order-wizard': OrderWizard,
-//     }
-//   })
-// })
-const placeStep = document.getElementById("place")
-const ordererStep = document.getElementById("orderer")
-const delivererStep = document.getElementById("deliverer")
-const deadlineStep = document.getElementById("deadline")
-
-const steps = [placeStep, ordererStep, delivererStep, deadlineStep]
-
-for (let step of steps) { step.style.display = 'none' }
+for (let step of steps) { hide(step) }
 
 var currentStep = 0
-steps[currentStep].style.display = 'block'
+show(steps[currentStep])
 
 const nextButtons = document.getElementsByClassName('wizard__button--next')
 for (let button of nextButtons) {
 	button.onclick = (event) => {
 		event.preventDefault()
-		steps[currentStep].style.display = 'none'
+		hide(steps[currentStep])
 		currentStep++
-		steps[currentStep].style.display = 'block'
+		show(steps[currentStep])
 	}
+}
+
+function show(element) {
+	element.style.display = 'block'
+}
+
+function hide(element) {
+	element.style.display = 'none'
 }
