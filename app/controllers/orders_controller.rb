@@ -5,6 +5,12 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
+    if params['orderer'].to_i == 1
+      @order.orderer_id = current_user.id
+    end
+    if params['deliverer'].to_i == 1
+      @order.deliverer_id = current_user.id
+    end
     if @order.save
       redirect_to orders_path, notice: 'Order was created'
     else
@@ -40,7 +46,6 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:creator_id, :place_id, :orderer_id,
-      :deliverer_id, :deadline, :delivery_cost, :delivery_time)
+    params.require(:order).permit(:creator_id, :place_id, :deadline, :delivery_cost, :delivery_time)
   end
 end
