@@ -7,6 +7,8 @@
   <% end %>
   <h1>Others' orders</h1>
   <% if @other_orders.size > 0 %>
-    <%= render 'orders_list', :collection => @other_orders %>
+    <%= render 'orders_list', :collection => @other_orders %>  
+  <% else %>
+    <h3>Nobody else wants to eat. 😱</h3>
   <% end %>
 </div>
