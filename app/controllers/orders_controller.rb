@@ -14,6 +14,8 @@ class OrdersController < ApplicationController
 
   def edit
     @order = Order.find(params[:id])
+    return (redirect_to orders_path, alert: "You can't see this order!") if
+    current_user.id != @order.creator_id || current_user.id != @order.orderer_id
   end
 
   def update
@@ -38,6 +40,7 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:creator_id, :place_id, :orderer_id, :deliverer_id, :deadline, :delivery_cost)
+    params.require(:order).permit(:creator_id, :place_id, :orderer_id,
+      :deliverer_id, :deadline, :delivery_cost, :delivery_time)
   end
 end

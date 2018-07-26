@@ -102,17 +102,28 @@ RSpec.describe OrdersController, type: :controller do
     end
   end
   describe '#edit' do
+    login_user
     let(:order) { create(:order) }
-    before { get :edit, params: { id: order.id } }
 
-    describe 'successful response' do
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template('edit') }
+    context 'creator' do
+      before { subject.current_user.id = order.creator.id }
+      before { get :edit, params: { id: order.id } }
+      describe 'successful response' do
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('edit') }
+      end
+
+      context 'order' do
+        it { expect(assigns(:order)).to eq(order) }
+      end
     end
 
-    context 'order' do
-      it { expect(assigns(:order)).to eq(order) }
+    context 'user cant see others item' do
+      before { get :edit, params: { id: order.id } }
+      it { expect(flash[:alert]).to be_present }
+      it { expect(redirect_to(root_path)) }
     end
+
   end
   describe '#create' do
     let!(:place)  { create(:place) }
@@ -147,8 +158,8 @@ RSpec.describe OrdersController, type: :controller do
   end
   describe '#update' do
     updated_deadline = Time.now.getlocal + 1.hours + 1.minute
-		let(:order) { create(:order) }
-		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline} } }
+		let(:order) { create(:order, delivery_time: nil) }
+		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline, delivery_time: 3.hours.from_now} } }
 		let(:invalid_attributes) {	{	id:	order.id,	order:	{	deadline: nil	}	}	}
 
     context 'valid params' do
@@ -166,6 +177,11 @@ RSpec.describe OrdersController, type: :controller do
         subject
         expect(order.reload.deadline.getlocal.min).to eq(updated_deadline.min)
         expect(order.reload.deadline.getlocal.hour).to eq(updated_deadline.hour)
+      end
+
+      it 'should change order delivery time' do
+        subject
+        expect(order.reload.delivery_time).not_to eq(nil)
       end
     end
 
