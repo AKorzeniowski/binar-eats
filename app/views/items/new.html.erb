@@ -1,9 +1,8 @@
-<div class="jumbotron">
+<div class="container">
   <h1>
-    Order <%= @order.id %>
+    You are adding an item to Order #<%= @order.id %> from <%= @order.place.name %> 
   </h1>
-</div>
-
+  <h2>Deadline for this order is</h2>
 <% if @item.errors.any? %>
   <ul>
     <% @item.errors.full_messages.each do |msg| %>
@@ -16,8 +15,8 @@
   <%= f.hidden_field :order_id, :value => @order.id %>
 
   <div class="form-group">
-    <%= f.label "Your order from ", align: :center%>
-    <%= link_to "menu ", "#{@order.place.menu_url}" %>
+    <%= f.label "What do you want to eat? "%> Here's the <%= link_to "menu", "#{@order.place.menu_url}", target: '_blank' %>.
+    <br>
     <%= f.text_area :food, cols: 50, rows: 5, :required => true, placeholder: "Enter all things you want to eat from #{@order.place.name} ..." %>
   </div>
 
@@ -39,3 +38,5 @@
   <%= f.submit 'Save', role: 'button', class: 'btn btn-primary' %>
   <%= link_to 'Cancel', orders_path, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'  %>
 <% end %>
+
+</div>
