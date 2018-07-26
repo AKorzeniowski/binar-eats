@@ -13,7 +13,7 @@
           <% if collection == @my_orders %>
             <%= link_to '✏️ Edit', edit_order_path(order.id), class: 'btn btn-info' %>
           <% end %>
-          <%= link_to '🛒 Items', order_items_url(order.id), class: 'btn btn-primary' %>
+          <%= link_to '📋 Items', order_items_url(order.id), class: 'btn btn-primary' %>
         <% else %>
           🕗 Deadline has passed 
         <% end %>
