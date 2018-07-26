@@ -1,6 +1,5 @@
 <div class="container">
 	<h1>New order</h1>
-	  <!-- <order-wizard></order-wizard> -->
 	<div class="wizard">
 		<%= form_for @order, remote: true do |f| %>
 		<%= f.hidden_field :creator_id, value: current_user.id %>
@@ -11,7 +10,7 @@
 		  <br>
 		  <button class="wizard__button--next">Next</a>
 		</div>
-		<div id="orderer">
+		<div id="orderer" class="wizard__step">
 			<h2>Who will order?</h2>
 		  <%= f.hidden_field :orderer_id, value: nil %>
 		  <%= check_box_tag :orderer_id, current_user.id %>
@@ -19,7 +18,7 @@
 		  <br>
 		  <button class="wizard__button--next">Next</a>
 		</div>
-		<div id="deliverer">
+		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
 		  <%= f.hidden_field :deliverer_id, value: nil %>
 		  <%= check_box_tag :deliverer_id, current_user.id %>
@@ -27,7 +26,7 @@
 		  <br>
 		  <button class="wizard__button--next">Next</a>
 		</div>
-		<div id="deadline">
+		<div id="deadline" class="wizard__step">
 		  <h2>What is the deadline?</h2>
 		  <%= f.time_select :deadline, {minute_step: 1} %><br>
 		  <%= f.submit 'Save', class: "wizard__button--submit" %>
