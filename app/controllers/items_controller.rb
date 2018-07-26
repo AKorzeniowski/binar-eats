@@ -40,7 +40,22 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     if @item.update(item_params)
       message = "Item #{params[:id]} was updated!"
-      return redirect_to orders_payment_path(@item.order_id), notice: message
+
+      if params[:orderer] == 'true'
+        ord = Order.find(@item.order_id)
+        ord.orderer_id = current_user.id
+        ord.save
+        message += " Now you are orderer for order #{ord.id}!"
+      end
+
+      if params[:deliverer] == 'true'
+        ord = Order.find(@item.order_id)
+        ord.deliverer_id = current_user.id
+        ord.save
+        message += " Now you are deliverer for order #{ord.id}!"
+      end
+
+      return redirect_to orders_payment_path(@item.order_id), notice: message if params[:item][:mode]
       return redirect_to item_path(params[:id]), notice: message
     end
     redirect_to item_path(id: @item.id), method: :show
