@@ -26,13 +26,13 @@ class OrdersController < ApplicationController
   end
 
   def index
-    today = Time.now.getlocal.beginning_of_day..Time.now.getlocal.end_of_day
-    @my_orders = Order.where(creator_id: current_user.id, deadline: today)
-    @other_orders = Order.where.not(creator_id: current_user.id).where(deadline: today)
+    @my_orders = Order.my_orders(current_user.id)
+    @other_orders = Order.other_orders(current_user.id)
   end
 
   def items
-    @items = Item.where(order_id: params[:id], user_id: current_user.id)
+    @creator_order_items = Item.creator_order_items(params[:id], current_user.id)
+    @other_order_items = Item.other_order_items(params[:id], current_user.id)
   end
 
   private

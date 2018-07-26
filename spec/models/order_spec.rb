@@ -19,6 +19,7 @@ RSpec.describe Order, type: :model do
     it { belong_to(:orderer) }
     it { belong_to(:deliverer) }
     it { belong_to(:place) }
+    it { have_many(:items)}
   end
 
 end

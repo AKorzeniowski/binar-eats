@@ -11,23 +11,35 @@ RSpec.describe OrdersController, type: :controller do
         it { expect(response).to render_template('index')}
       end
 
-      context 'my_orders' do
+      context 'orders' do
         login_user
         before { get :index }
+
         #my_orders
         let!(:order1) { create(:order, creator_id: subject.current_user.id, deadline: DateTime.now - 3.day) } #not today
         let!(:order2) { create(:order, creator_id: subject.current_user.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
         let!(:order3) { create(:order, creator_id: subject.current_user.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
+
         #other_orders
         let!(:order4) { create(:order, creator_id: subject.current_user.id + 1, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
         let!(:order5) { create(:order, creator_id: subject.current_user.id + 2, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
         let!(:order6) { create(:order, creator_id: subject.current_user.id + 2, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id, deadline: DateTime.now - 3.day) } #not today
 
-        it 'should return my orders' do
-          subject
-          expect(assigns(:my_orders)).to match_array([order2, order3])
-          expect(assigns(:my_orders)).to_not match_array([order1, order4, order5, order6])
-          expect(assigns(:my_orders).size).to eq(2)
+        #creator_order_items
+        let!(:item1) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+        let!(:item2) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+
+        #creator_order_items
+        let!(:item3) { create(:item, order_id: order4.id, user_id: order4.creator_id) }
+        let!(:item4) { create(:item, order_id: order5.id, user_id: order5.creator_id) }
+
+        context 'my_orders' do
+          it 'should return my orders' do
+            subject
+            expect(assigns(:my_orders)).to match_array([order2, order3])
+            expect(assigns(:my_orders)).to_not match_array([order1, order4, order5, order6])
+            expect(assigns(:my_orders).size).to eq(2)
+          end
         end
 
         context 'other_orders' do
@@ -38,9 +50,44 @@ RSpec.describe OrdersController, type: :controller do
              expect(assigns(:other_orders).size).to eq(2)
            end
         end
-
       end
     end
+
+  describe '#items' do
+    login_user
+
+    let!(:order1) { create(:order, creator_id: subject.current_user.id, deadline: DateTime.now) }
+    let!(:order2) { create(:order, creator_id: subject.current_user.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
+
+    #creator_order_items
+    let!(:item1) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+    let!(:item2) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+    let!(:item3) { create(:item, order_id: order2.id, user_id: subject.current_user.id) }
+
+    #other_order_items
+    let!(:item4) { create(:item, order_id: order1.id, user_id: subject.current_user.id + 1) }
+    let!(:item5) { create(:item, order_id: order1.id, user_id: subject.current_user.id + 1) }
+    let!(:item6) { create(:item, order_id: order2.id, user_id: subject.current_user.id + 1) }
+
+    before { get :items, params: { id: order1.id } }
+
+    context 'creator_order_items' do
+      it 'should return creator order items' do
+        expect(assigns(:creator_order_items)).to match_array([item1, item2])
+        expect(assigns(:creator_order_items)).to_not match_array([item3, item4, item5, item6])
+        expect(assigns(:creator_order_items).size).to eq(2)
+      end
+    end
+
+    context 'other_order_items' do
+      it 'should return other order items' do
+        expect(assigns(:other_order_items)).to match_array([item4, item5])
+        expect(assigns(:other_order_items)).to_not match_array([item1, item2, item3, item6])
+        expect(assigns(:other_order_items).size).to eq(2)
+      end
+    end
+
+  end
   describe '#new' do
     before { get :new }
 
