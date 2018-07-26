@@ -20,14 +20,16 @@ const deadlineStep = document.getElementById("deadline")
 
 const steps = [placeStep, ordererStep, delivererStep, deadlineStep]
 
-steps.forEach((item) => item.style.display = 'none')
+for (let step of steps) { step.style.display = 'none' }
 
 var currentStep = 0
 steps[currentStep].style.display = 'block'
 
-const nextButtons = Array.from(document.getElementsByClassName('nextStep'))
-nextButtons.forEach((button) => button.onclick = () => { 
-	steps[currentStep].style.display = 'none'; 
-	currentStep++; 
-	steps[currentStep].style.display = 'block';
- })
+const nextButtons = document.getElementsByClassName('nextStep')
+for (let button of nextButtons) {
+	button.onclick = () => {
+		steps[currentStep].style.display = 'none';
+		currentStep++;
+		steps[currentStep].style.display = 'block';
+	}
+}
