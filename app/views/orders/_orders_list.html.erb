@@ -7,7 +7,7 @@
   <% collection.each do |order| %>
     <tr>
       <td><%= order.place.name %></td>
-      <td><%= order.deadline.getlocal %></td>
+      <td><%= order.deadline %></td>
       <td>
         <% if Time.now.getlocal < order.deadline.getlocal %>
           <% if collection == @my_orders %>
