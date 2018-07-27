@@ -39,6 +39,14 @@ class OrdersController < ApplicationController
     @other_order_items = Item.other_order_items(params[:id], current_user.id)
   end
 
+  def payment
+    @order = Order.find(params[:id])
+
+    return redirect_to root_path, alert: "You dont't have permission to see this page." unless
+    (current_user.id == @order.orderer_id && @order.deliverer_id) ||
+    (current_user.id == @order.orderer_id)
+  end
+
   def done
     @order_id = params[:order_id]
   end
