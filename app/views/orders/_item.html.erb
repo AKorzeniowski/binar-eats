@@ -1,0 +1,11 @@
+<%= form_for item do |f| %>
+  <div class="row" data-item-id="<%= item.id %>">
+    <div class="col-3 btn btn-light"><%= label_tag "#{item.user.name}"%></div>
+    <div class="form-group col-3" align="center">
+      <%= f.number_field :cost, value: item.cost, :required => true, step: 0.01, placeholder: "Enter full cost of your order..." %>
+    </div>
+    <%= f.submit 'Save', role: 'button', class: 'btn btn-primary col-2' %>
+    <%= f.hidden_field :mode, :value => true %>
+  </div>
+  <hr/>
+<% end %>

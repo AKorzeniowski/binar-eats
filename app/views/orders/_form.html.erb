@@ -6,13 +6,11 @@
     <td><%= collection_select(:order, :place_id, Place.all, :id, :name) %></td>
   </tr>
   <tr>
-    <%= f.hidden_field :orderer_id, value: nil %>
-    <td><%= check_box_tag :orderer_id, current_user.id %></td>
+    <td><%= check_box_tag :orderer  %></td>
     <td>I want to be a orderer.</td>
   </tr>
   <tr>
-    <%= f.hidden_field :deliverer_id, value: nil %>
-    <td><%= check_box_tag :deliverer_id, current_user.id %></td>
+    <td><%= check_box_tag :deliverer  %></td>
     <td>I want to be a deliverer.</td>
   </tr>
   <tr>
