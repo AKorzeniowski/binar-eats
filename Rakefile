@@ -4,3 +4,7 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+# Redefine `assets:precompile` and related tasks
+require 'sprockets/rails/task'
+Sprockets::Rails::Task.new(Rails.application)

@@ -26,8 +26,6 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap'
 # Use Devise for authentication
 gem 'devise'
-# Use Webpack for front-end
-gem 'webpacker'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
