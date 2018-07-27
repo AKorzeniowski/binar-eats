@@ -198,4 +198,22 @@ RSpec.describe OrdersController, type: :controller do
 
     end
   end
+
+  describe '#payment' do
+    context 'successful response' do
+      login_user
+  		let(:order) { create(:order, orderer_id: subject.current_user.id) }
+      before { get :payment, params: { id: order.id } }
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('payment')}
+    end
+
+    context 'access denided' do
+      login_user
+  		let(:order) { create(:order) }
+      before { get :payment, params: { id: order.id } }
+      it { expect(flash[:alert]).to be_present }
+      it { expect(redirect_to(root_path)) }
+    end
+  end
 end
