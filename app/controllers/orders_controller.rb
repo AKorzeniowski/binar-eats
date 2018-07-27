@@ -5,8 +5,10 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
+    @order.orderer_id = current_user.id if params['orderer'].to_i == 1
+    @order.deliverer_id = current_user.id if params['deliverer'].to_i == 1
     if @order.save
-      redirect_to orders_path, notice: 'Order was created'
+      redirect_to order_done_path(order_id: @order.id), notice: 'Order was created'
     else
       render :new
     end
@@ -45,10 +47,13 @@ class OrdersController < ApplicationController
     (current_user.id == @order.orderer_id)
   end
 
+  def done
+    @order_id = params[:order_id]
+  end
+
   private
 
   def order_params
-    params.require(:order).permit(:creator_id, :place_id, :orderer_id,
-      :deliverer_id, :deadline, :delivery_cost, :delivery_time)
+    params.require(:order).permit(:creator_id, :place_id, :deadline, :delivery_cost, :delivery_time)
   end
 end

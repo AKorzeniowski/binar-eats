@@ -1,13 +1,14 @@
-<div class="jumbotron">
+<div class="container">
   <h1>My orders</h1>
-</div class="jumbotron">
-<% if @my_orders.size > 0 %>
-  <%= render 'orders_list', :collection => @my_orders %>
-<% end %>
-
-<div class="jumbotron">
-  <h1>Other orders</h1>
-</div class="jumbotron">
-<% if @other_orders.size > 0 %>
-  <%= render 'orders_list', :collection => @other_orders %>
-<% end %>
+  <% if @my_orders.size > 0 %>
+    <%= render 'orders_list', :collection => @my_orders %>
+  <% else %>
+    <h3>You don't have any orders. 😞 Why not <%= link_to "create one", new_order_path  %>?</h3>
+  <% end %>
+  <h1>Others' orders</h1>
+  <% if @other_orders.size > 0 %>
+    <%= render 'orders_list', :collection => @other_orders %>  
+  <% else %>
+    <h3>Nobody else wants to eat. 😱</h3>
+  <% end %>
+</div>

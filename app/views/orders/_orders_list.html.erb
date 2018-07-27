@@ -1,4 +1,4 @@
-<table>
+<table class="table table-dark">
   <tr>
     <th>Place name</th>
     <th>Order deadline</th>
@@ -8,16 +8,16 @@
     <tr>
       <td><%= order.place.name %></td>
       <td><%= order.deadline %></td>
-      <% if collection == @my_orders %>
+      <td>
         <% if DateTime.now < order.deadline %>
-          <td><%= link_to 'Edit', edit_order_path(order.id) %></td>
-          <td><%= link_to 'Items', order_items_url(order.id) %></td>
+          <% if collection == @my_orders %>
+            <%= link_to '✏️ Edit', edit_order_path(order.id), class: 'btn btn-info' %>
+          <% end %>
+          <%= link_to '🛒 Items', order_items_url(order.id), class: 'btn btn-primary' %>
+        <% else %>
+          🕗 Deadline has passed 
         <% end %>
-      <% else %>
-        <% if DateTime.now < order.deadline %>
-          <td><%= link_to 'Items', order_items_url(order.id) %></td>
-        <% end %>
-      <% end %>
+      </td>
     </tr>
   <% end %>
 </table>
