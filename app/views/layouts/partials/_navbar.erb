@@ -15,7 +15,7 @@
   </li>
 
   <% if current_user %>
-    <li class="nav-item dropdown">
+    <!-- <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Orders
       </a>
@@ -23,19 +23,25 @@
         <%= link_to 'New', new_order_path, class: 'dropdown-item' %>
         <%= link_to 'Index', orders_path, class: 'dropdown-item' %>
       </div>
+    </li> -->
+    <li class="nav-item">
+      <%= link_to 'New order', new_order_path, class: 'nav-link' %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'View all orders', orders_path, class: 'nav-link' %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Edit your profile', edit_user_registration_path, class: 'nav-link' %>
     </li>
     <li class="nav-item">
       <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
-    </li>
-    <li class="nav-item">
-      <%= link_to 'Edit', edit_user_registration_path, class: 'nav-link' %>
     </li>
     <li>
       <%= link_to 'Admin', admin_root_path, class: 'nav-link' %>
     </li>
   <% else %>
     <li class="nav-item">
-      <%= link_to 'Registration', new_user_registration_path, class: 'nav-link' %>
+      <%= link_to 'Register', new_user_registration_path, class: 'nav-link' %>
     </li>
     <li>
       <%= link_to 'Login', new_user_session_path, class: 'nav-link' %>

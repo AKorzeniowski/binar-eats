@@ -20,9 +20,9 @@
 		</div>
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
-		  <%= f.hidden_field :deliverer_id, value: nil %>
-		  <%= check_box_tag :deliverer_id, current_user.id %>
-		  I want to be a deliverer.
+		  <%= f.radio_button :deliverer_id, current_user.id %> I am the deliverer
+		  <%= f.radio_button :deliverer_id, nil %> Will be delivered by restaurant
+		  <%= f.radio_button :deliverer_id, 0 %> Last person will deliver
 		  <br>
 		  <button class="wizard__button--next">Next</a>
 		</div>
