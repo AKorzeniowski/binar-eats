@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
 
     @item = Item.new(item_params.merge(user_id: current_user.id))
 
-    return redirect_to item_path(@item.id), notice: message if @item.save
+    return redirect_to order_items_path(@item.order.id), notice: message if @item.save
     render :new
   end
 
@@ -56,7 +56,7 @@ class ItemsController < ApplicationController
       end
 
       return redirect_to orders_payment_path(@item.order_id), notice: message if params[:item][:mode]
-      return redirect_to item_path(params[:id]), notice: message
+      return redirect_to order_items_path(@item.order.id), notice: message
     end
     redirect_to item_path(id: @item.id), method: :show
   end

@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.shared_examples "valid attributes for creating item" do
   subject { post :create, params: params }
 
-  it 'should redirect to item' do
-    expect(subject).to redirect_to(item_path 1 )
+  it 'should redirect to order items path' do
+    expect(subject).to redirect_to(order_items_path Item.all.last.order_id )
   end
   it 'should redirect with notice' do
     subject
@@ -18,8 +18,8 @@ end
 RSpec.shared_examples "valid attributes for updating item" do
   subject { patch :update, params: params }
 
-  it 'should redirect to item index' do
-    expect(subject).to redirect_to(item_path)
+  it 'should redirect to order items' do
+    expect(subject).to redirect_to(order_items_path Item.all.last.order_id)
   end
   it 'should redirect with notice' do
     subject

@@ -36,7 +36,9 @@ class OrdersController < ApplicationController
 
   def items
     @creator_order_items = Item.creator_order_items(params[:id], current_user.id)
-    @other_order_items = Item.other_order_items(params[:id], current_user.id)
+    # rubocop:disable LineLength
+    @other_order_items = Item.other_order_items(params[:id], current_user.id) if Order.find(params[:id]).creator_id == current_user.id
+    # rubocop:enable LineLength
   end
 
   def payment
