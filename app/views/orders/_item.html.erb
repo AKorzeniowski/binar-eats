@@ -4,7 +4,7 @@
     <div class="form-group col-3" align="center">
       <%= f.number_field :cost, value: item.cost, :required => true, step: 0.01, placeholder: "Enter full cost of your order..." %>
     </div>
-    <%= f.submit 'Save', role: 'button', class: 'btn btn-primary col-2' %>
+    <%= f.submit 'Save', role: 'button', class: 'btn btn-success col-2' %>
     <%= f.hidden_field :mode, :value => true %>
   </div>
   <hr/>

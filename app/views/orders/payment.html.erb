@@ -11,5 +11,6 @@
   <% @order.items.each do |item| %>
     <%= render 'item', item: item %>
   <% end %>
+  <div align="center"><%= link_to 'Send payoff', orders_path, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary'  %></div>
 </div>
 <hr />
