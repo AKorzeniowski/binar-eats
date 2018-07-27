@@ -1,0 +1,15 @@
+<table class="table table-dark">
+  <tr>
+    <th>Food name</th>
+    <th>Food cost</th>
+  </tr>
+  <% collection.each do |item| %>
+    <tr>
+      <td><%= item.food %></td>
+      <td><%= item.cost %></td>
+      <% if collection == @creator_order_items %>
+        <td><%= link_to 'Edit', item_path(item.id), class: 'btn btn-info' %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
