@@ -11,23 +11,35 @@ RSpec.describe OrdersController, type: :controller do
         it { expect(response).to render_template('index')}
       end
 
-      context 'my_orders' do
+      context 'orders' do
         login_user
         before { get :index }
+
         #my_orders
         let!(:order1) { create(:order, creator_id: subject.current_user.id, deadline: DateTime.now - 3.day) } #not today
         let!(:order2) { create(:order, creator_id: subject.current_user.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
         let!(:order3) { create(:order, creator_id: subject.current_user.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
+
         #other_orders
         let!(:order4) { create(:order, creator_id: subject.current_user.id + 1, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
         let!(:order5) { create(:order, creator_id: subject.current_user.id + 2, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
         let!(:order6) { create(:order, creator_id: subject.current_user.id + 2, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id, deadline: DateTime.now - 3.day) } #not today
 
-        it 'should return my orders' do
-          subject
-          expect(assigns(:my_orders)).to match_array([order2, order3])
-          expect(assigns(:my_orders)).to_not match_array([order1, order4, order5, order6])
-          expect(assigns(:my_orders).size).to eq(2)
+        #creator_order_items
+        let!(:item1) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+        let!(:item2) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+
+        #creator_order_items
+        let!(:item3) { create(:item, order_id: order4.id, user_id: order4.creator_id) }
+        let!(:item4) { create(:item, order_id: order5.id, user_id: order5.creator_id) }
+
+        context 'my_orders' do
+          it 'should return my orders' do
+            subject
+            expect(assigns(:my_orders)).to match_array([order2, order3])
+            expect(assigns(:my_orders)).to_not match_array([order1, order4, order5, order6])
+            expect(assigns(:my_orders).size).to eq(2)
+          end
         end
 
         context 'other_orders' do
@@ -38,9 +50,44 @@ RSpec.describe OrdersController, type: :controller do
              expect(assigns(:other_orders).size).to eq(2)
            end
         end
-
       end
     end
+
+  describe '#items' do
+    login_user
+
+    let!(:order1) { create(:order, creator_id: subject.current_user.id, deadline: DateTime.now) }
+    let!(:order2) { create(:order, creator_id: subject.current_user.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
+
+    #creator_order_items
+    let!(:item1) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+    let!(:item2) { create(:item, order_id: order1.id, user_id: subject.current_user.id) }
+    let!(:item3) { create(:item, order_id: order2.id, user_id: subject.current_user.id) }
+
+    #other_order_items
+    let!(:item4) { create(:item, order_id: order1.id, user_id: subject.current_user.id + 1) }
+    let!(:item5) { create(:item, order_id: order1.id, user_id: subject.current_user.id + 1) }
+    let!(:item6) { create(:item, order_id: order2.id, user_id: subject.current_user.id + 1) }
+
+    before { get :items, params: { id: order1.id } }
+
+    context 'creator_order_items' do
+      it 'should return creator order items' do
+        expect(assigns(:creator_order_items)).to match_array([item1, item2])
+        expect(assigns(:creator_order_items)).to_not match_array([item3, item4, item5, item6])
+        expect(assigns(:creator_order_items).size).to eq(2)
+      end
+    end
+
+    context 'other_order_items' do
+      it 'should return other order items' do
+        expect(assigns(:other_order_items)).to match_array([item4, item5])
+        expect(assigns(:other_order_items)).to_not match_array([item1, item2, item3, item6])
+        expect(assigns(:other_order_items).size).to eq(2)
+      end
+    end
+
+  end
   describe '#new' do
     before { get :new }
 
@@ -55,17 +102,28 @@ RSpec.describe OrdersController, type: :controller do
     end
   end
   describe '#edit' do
+    login_user
     let(:order) { create(:order) }
-    before { get :edit, params: { id: order.id } }
 
-    describe 'successful response' do
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template('edit') }
+    context 'creator' do
+      before { subject.current_user.id = order.creator.id }
+      before { get :edit, params: { id: order.id } }
+      describe 'successful response' do
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('edit') }
+      end
+
+      context 'order' do
+        it { expect(assigns(:order)).to eq(order) }
+      end
     end
 
-    context 'order' do
-      it { expect(assigns(:order)).to eq(order) }
+    context 'user cant see others item' do
+      before { get :edit, params: { id: order.id } }
+      it { expect(flash[:alert]).to be_present }
+      it { expect(redirect_to(root_path)) }
     end
+
   end
   describe '#create' do
     let!(:place)  { create(:place) }
@@ -80,6 +138,9 @@ RSpec.describe OrdersController, type: :controller do
         subject
         expect(subject).to redirect_to(order_done_path(order_id: Order.last.id))
       end
+    #  it 'should redirect to orders' do
+    #    expect(subject).to redirect_to(orders_path)
+    #  end
 
       it 'should redirect with notice' do
         subject
@@ -101,8 +162,8 @@ RSpec.describe OrdersController, type: :controller do
   end
   describe '#update' do
     updated_deadline = Time.now.getlocal + 1.hours + 1.minute
-		let(:order) { create(:order) }
-		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline} } }
+		let(:order) { create(:order, delivery_time: nil) }
+		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline, delivery_time: 3.hours.from_now} } }
 		let(:invalid_attributes) {	{	id:	order.id,	order:	{	deadline: nil	}	}	}
 
     context 'valid params' do
@@ -121,6 +182,11 @@ RSpec.describe OrdersController, type: :controller do
         expect(order.reload.deadline.getlocal.min).to eq(updated_deadline.min)
         expect(order.reload.deadline.getlocal.hour).to eq(updated_deadline.hour)
       end
+
+      it 'should change order delivery time' do
+        subject
+        expect(order.reload.delivery_time).not_to eq(nil)
+      end
     end
 
     context 'invalid params' do
@@ -134,6 +200,24 @@ RSpec.describe OrdersController, type: :controller do
         expect(order.reload.deadline.getlocal.min).to eq(order.deadline.getlocal.min)
       end
 
+    end
+  end
+
+  describe '#payment' do
+    context 'successful response' do
+      login_user
+  		let(:order) { create(:order, orderer_id: subject.current_user.id) }
+      before { get :payment, params: { id: order.id } }
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('payment')}
+    end
+
+    context 'access denided' do
+      login_user
+  		let(:order) { create(:order) }
+      before { get :payment, params: { id: order.id } }
+      it { expect(flash[:alert]).to be_present }
+      it { expect(redirect_to(root_path)) }
     end
   end
 end

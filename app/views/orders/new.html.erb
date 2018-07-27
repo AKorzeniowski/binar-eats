@@ -1,3 +1,38 @@
-<h1>New order</h1>
+<div class="container">
+	<h1>New order</h1>
+	<div class="wizard">
+		<%= form_for @order, remote: true do |f| %>
+		<%= f.hidden_field :creator_id, value: current_user.id %>
+		<div id="place" class="wizard__step">
+		  <h2>Where do we order from?</h2>
+		  Select place
+		  <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+		  <br>
+		  <button class="wizard__button--next">Next</a>
+		</div>
+		<div id="orderer" class="wizard__step">
+			<h2>Who will order?</h2>
+		  <%= f.hidden_field :orderer_id, value: nil %>
+		  <%= check_box_tag :orderer_id, current_user.id %>
+		  I want to be a orderer.
+		  <br>
+		  <button class="wizard__button--next">Next</a>
+		</div>
+		<div id="deliverer" class="wizard__step">
+			<h2>Who will deliver?</h2>
+		  <%= f.hidden_field :deliverer_id, value: nil %>
+		  <%= check_box_tag :deliverer_id, current_user.id %>
+		  I want to be a deliverer.
+		  <br>
+		  <button class="wizard__button--next">Next</a>
+		</div>
+		<div id="deadline" class="wizard__step">
+		  <h2>What is the deadline?</h2>
+		  <%= f.time_select :deadline, {minute_step: 1} %><br>
+		  <%= f.submit 'Save', class: "wizard__button--submit" %>
+		</div>
+	</div>
+</div>
+<% end %>
+<%= javascript_pack_tag 'order-wizard' %>
 
-<%= render 'form' %>

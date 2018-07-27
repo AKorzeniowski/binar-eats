@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
 
     @item = Item.new(item_params.merge(user_id: current_user.id))
 
-    return redirect_to item_path(@item.id), notice: message if @item.save
+    return redirect_to order_items_path(@item.order.id), notice: message if @item.save
     render :new
   end
 
@@ -38,7 +38,26 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    return redirect_to item_path(params[:id]), notice: 'Item was updated!' if @item.update(item_params)
+    if @item.update(item_params)
+      message = "Item #{params[:id]} was updated!"
+
+      if params[:orderer] == 'true'
+        ord = Order.find(@item.order_id)
+        ord.orderer_id = current_user.id
+        ord.save
+        message += " Now you are orderer for order #{ord.id}!"
+      end
+
+      if params[:deliverer] == 'true'
+        ord = Order.find(@item.order_id)
+        ord.deliverer_id = current_user.id
+        ord.save
+        message += " Now you are deliverer for order #{ord.id}!"
+      end
+
+      return redirect_to orders_payment_path(@item.order_id), notice: message if params[:item][:mode]
+      return redirect_to order_items_path(@item.order.id), notice: message
+    end
     redirect_to item_path(id: @item.id), method: :show
   end
 

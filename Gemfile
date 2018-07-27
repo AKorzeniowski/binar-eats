@@ -26,6 +26,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap'
 # Use Devise for authentication
 gem 'devise'
+# Use Webpack for front-end
+gem 'webpacker'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -83,6 +85,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers', '~> 3.1'
+  gem 'simplecov', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
