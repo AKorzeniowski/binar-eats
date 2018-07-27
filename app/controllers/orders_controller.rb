@@ -41,6 +41,8 @@ class OrdersController < ApplicationController
 
   def done
     @order_id = params[:order_id]
+    @order = Order.find(params[:order_id])
+    @item = Item.new
   end
 
   private
