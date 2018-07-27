@@ -130,6 +130,43 @@ RSpec.describe OrdersController, type: :controller do
     let!(:creator)  { create(:user) }
     let(:valid_attributes) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id) } }
     let(:invalid_attributes) { { order: attributes_for(:order, creator_id: nil, deadline: nil, place_id: nil) } }
+    let(:want_be_orderer) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, orderer_id: creator.id) } }
+    let(:want_be_deliverer) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, deliverer_id: creator.id) } }
+    let(:want_be_deliverer_and_orderer)  { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, orderer_id: creator.id, deliverer_id: creator.id) } }
+
+    context 'want be orderer' do
+      subject { post :create, params: want_be_orderer }
+
+      it 'should creator can be orderer' do
+        subject
+        expect(Order.last.orderer).to_not eq(nil)
+        expect(Order.last.deliverer).to eq(nil)
+        expect(Order.last.orderer.id).to eq(Order.last.creator.id)
+      end
+    end
+
+    context 'want be deliverer' do
+      subject { post :create, params: want_be_deliverer }
+
+      it 'should creator can be deliverer' do
+        subject
+        expect(Order.last.orderer).to eq(nil)
+        expect(Order.last.deliverer).to_not eq(nil)
+        expect(Order.last.deliverer.id).to eq(Order.last.creator.id)
+      end
+    end
+
+    context 'want be deliverer and orderer' do
+      subject { post :create, params: want_be_deliverer_and_orderer }
+
+      it 'should creator can be deliverer' do
+        subject
+        expect(Order.last.orderer).to_not eq(nil)
+        expect(Order.last.deliverer).to_not eq(nil)
+        expect(Order.last.orderer.id).to eq(Order.last.creator.id)
+        expect(Order.last.deliverer.id).to eq(Order.last.creator.id)
+      end
+    end
 
     context 'valid params' do
       subject { post :create, params: valid_attributes }
@@ -138,9 +175,6 @@ RSpec.describe OrdersController, type: :controller do
         subject
         expect(subject).to redirect_to(order_done_path(order_id: Order.last.id))
       end
-    #  it 'should redirect to orders' do
-    #    expect(subject).to redirect_to(orders_path)
-    #  end
 
       it 'should redirect with notice' do
         subject
