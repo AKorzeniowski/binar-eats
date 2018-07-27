@@ -9,7 +9,7 @@ class Order < ApplicationRecord
 
   default_scope { order(deadline: :asc) }
 
-  scope :my_orders, ->(creator_id) { 
+  scope :my_orders, ->(creator_id) {
     where('creator_id = ? AND DATE(deadline) = ?', creator_id, Time.zone.today)
   }
   scope :other_orders, ->(creator_id) {
