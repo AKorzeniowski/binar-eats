@@ -58,6 +58,7 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:creator_id, :deliverer_id, :orderer_id, :place_id, :deadline, :delivery_cost, :delivery_time)
+    params.require(:order).
+      permit(:creator_id, :deliverer_id, :orderer_id, :place_id, :deadline, :delivery_cost, :delivery_time)
   end
 end
