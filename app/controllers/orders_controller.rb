@@ -5,8 +5,8 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
-    @order.orderer_id = current_user.id if params['orderer'].to_i == 1
-    @order.deliverer_id = current_user.id if params['deliverer'].to_i == 1
+    @order.orderer_id = params['orderer_id'] if params['orderer_id'].to_i > 1
+    @order.deliverer_id = params['deliverer_id'] if params['deliverer_id'].to_i > 1
     if @order.save
       redirect_to order_done_path(order_id: @order.id), notice: 'Order was created'
     else
@@ -51,11 +51,14 @@ class OrdersController < ApplicationController
 
   def done
     @order_id = params[:order_id]
+    @order = Order.find(params[:order_id])
+    @item = Item.new
   end
 
   private
 
   def order_params
-    params.require(:order).permit(:creator_id, :place_id, :deadline, :delivery_cost, :delivery_time)
+    params.require(:order).
+      permit(:creator_id, :deliverer_id, :orderer_id, :place_id, :deadline, :delivery_cost, :delivery_time)
   end
 end

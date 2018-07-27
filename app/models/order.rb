@@ -7,9 +7,12 @@ class Order < ApplicationRecord
   belongs_to :place
   has_many :items, dependent: :destroy
 
-  scope :my_orders, ->(creator_id) { where('creator_id = ? AND DATE(deadline) = ?', creator_id, Time.zone.today) }
+  default_scope { order(deadline: :asc) }
+
+  scope :my_orders, ->(creator_id) {
+    where('creator_id = ? AND DATE(deadline) = ?', creator_id, Time.zone.today)
+  }
   scope :other_orders, ->(creator_id) {
-    where.not('creator_id = ?', creator_id).
-      where('DATE(deadline) = ?', Time.zone.today)
+    where.not('creator_id = ?', creator_id).where('DATE(deadline) = ?', Time.zone.today)
   }
 end
