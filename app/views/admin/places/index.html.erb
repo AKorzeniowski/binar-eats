@@ -28,6 +28,7 @@
       <th>#</th>
       <th>Name</th>
       <th>menu_url</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -36,6 +37,10 @@
       <td><%= place.id %></td>
       <td><%= place.name %></td>
       <td><%= place.menu_url%></td>
+      <td>
+      <%= link_to "Edit", edit_place_path(place), class: "btn btn-primary btn-sm" %>
+      <%= link_to "Delete", place_path(place), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure"} %>
+  </td>
     </tr>
     <% end %>
   </tbody>

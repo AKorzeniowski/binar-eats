@@ -1,0 +1,17 @@
+<% if @place.errors.any? %>
+  <ul>
+    <% @place.errors.full_messages.each do |msg|%>
+      <%= msg %>
+    <%end%>
+  </ul>
+<% end %>
+
+<%= form_for @place do |f|%>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <hr />
+  <%= f.label :menu_ulr %>
+  <%= f.text_field :menu_url%>
+  <hr />
+  <%= f.submit 'Safe' %>
+<%end %>

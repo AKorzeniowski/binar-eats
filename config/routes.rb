@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    root to: 'places#index'
+    resources :places
+    resources :orders
+  end
   root 'home#welcome'
   devise_for :users, controllers: { registrations: 'users/registrations'  }
 

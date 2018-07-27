@@ -1,0 +1,22 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Orders</th>
+      <th>Place</th>
+      <th>Creator</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+    <tr>
+      <td><%= order.id %></td>
+      <td><%= order.place_id %></td>
+      <td><%= order.creator_id %></td>
+      <td>
+        <%= link_to "Delete", orders_path, method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure"} %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
