@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
   def edit
     @order = Order.find(params[:id])
     return (redirect_to orders_path, alert: "You can't see this order!") if
-    current_user.id != @order.creator_id || current_user.id != @order.orderer_id
+    current_user.id != @order.creator_id && current_user.id != @order.orderer_id
   end
 
   def update
