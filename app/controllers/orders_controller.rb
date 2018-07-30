@@ -12,7 +12,9 @@ class OrdersController < ApplicationController
     end
 
     @order.orderer_id = params['orderer_id'] if params['orderer_id'].to_i > 1
-    @order.deliverer_id = params['deliverer_id'] if params['deliverer_id'].to_i > 1
+
+    @order.deliverer_id = params['deliverer'] if params['deliverer'].to_i > 1
+    @order.delivery_by_restaurant = true if params['deliverer'].to_i == -1
 
     if @order.save
       redirect_to order_done_path(order_id: @order.id), notice: 'Order was created'

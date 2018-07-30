@@ -21,11 +21,11 @@
 		</div>
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
-			<%= f.radio_button :deliverer_id, current_user.id %>
+			<%= radio_button_tag :deliverer, current_user.id %>
 			I am the deliverer
-			<%= f.radio_button :deliverer_id, nil %>
+			<%= radio_button_tag :deliverer, -1, checked: true  %>
 			Will be delivered by restaurant
-			<%= f.radio_button :deliverer_id, 0 %>
+			<%= radio_button_tag :deliverer, 0 %>
 			Last person will deliver
 			<br>
 			<button class="wizard__button--next">Next</a>
