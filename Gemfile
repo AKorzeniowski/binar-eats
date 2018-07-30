@@ -26,6 +26,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap'
 # Use Devise for authentication
 gem 'devise'
+# Use Slack Notifier for posting to Slack
+gem 'slack-ruby-client'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
