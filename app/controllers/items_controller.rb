@@ -56,13 +56,10 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    item = Item.where(:id => params[:id]).first
-    unless item.blank?
-      item.destroy
-      return redirect_to root_path, notice: 'Item was deleted!'
-    else
-      render :show
-    end
+    item = Item.where(id: params[:id]).first
+    return render :show if item.blank?
+    item.destroy
+    redirect_to root_path, notice: 'Item was deleted!'
   end
 
   private
