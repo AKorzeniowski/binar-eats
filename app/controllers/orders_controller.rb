@@ -64,7 +64,7 @@ class OrdersController < ApplicationController
       emails << item.user.email
     end
 
-    return redirect_to orders_payment_path, notice: "#{items.count} email/s sended to: #{emails}."
+    redirect_to orders_payment_path, notice: "#{items.count} email/s sended to: #{emails}."
   end
 
   private

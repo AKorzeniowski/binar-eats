@@ -73,7 +73,7 @@ class ItemsController < ApplicationController
   def payoff_confirm
     item = Item.find(params[:id])
     item.update(has_paid: true)
-    return redirect_to root_path, notice: "Item #{item.id} payment confirmed!"
+    redirect_to root_path, notice: "Item #{item.id} payment confirmed!"
   end
 
   private
