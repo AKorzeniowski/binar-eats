@@ -1,0 +1,23 @@
+<div class="jumbotron">
+  <h1>
+    Payment confirmation for Item <%= @item.id %> from order <%= link_to "#{ @item.order.id} - #{@item.order.place.name} ", "#{orders_path}/#{@item.order.id}" %>
+  </h1>
+</div>
+
+<%= form_for @item do |f| %>
+
+  <div class="form-group">
+    <%= f.label "Your order from ", align: :center%>
+    <%= link_to "menu ", "#{@item.order.place.menu_url}" %>
+    <%= f.text_area :food, cols: 50, rows: 5, disabled: true %>
+  </div>
+  <hr/>
+
+  <div class="form-group">
+    <%= label_tag "Full costs: "%>
+    <%= f.number_field :cost, value: @item.cost, disabled: true %>
+  </div>
+  <hr />
+  <%= link_to 'Confirm payment', orders_path, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'  %>
+  <%= link_to 'Cancel', orders_path, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'  %>
+<% end %>

@@ -66,7 +66,8 @@ class ItemsController < ApplicationController
   end
 
   def payoff
-    puts params
+    @item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == @item.user.id
   end
 
   private
