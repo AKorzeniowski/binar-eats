@@ -8,18 +8,15 @@ class ItemsController < ApplicationController
   def create
     message = 'Item was created!'
     params[:item][:cost] = params[:item][:cost].to_i
+    ord = Order.find(params[:item][:order_id])
 
     if params[:orderer] == 'true'
-      ord = Order.find(params[:item][:order_id])
-      ord.orderer_id = current_user.id
-      ord.save
+      ord.update(orderer_id: current_user.id)
       message += " Now you are orderer for order #{ord.id}!"
     end
 
     if params[:deliverer] == 'true'
-      ord = Order.find(params[:item][:order_id])
-      ord.deliverer_id = current_user.id
-      ord.save
+      ord.update(deliverer_id: current_user.id)
       message += " Now you are deliverer for order #{ord.id}!"
     end
 
@@ -40,18 +37,15 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     if @item.update(item_params)
       message = "Item #{params[:id]} was updated!"
+      ord = Order.find(@item.order_id)
 
       if params[:orderer] == 'true'
-        ord = Order.find(@item.order_id)
-        ord.orderer_id = current_user.id
-        ord.save
+        ord.update(orderer_id: current_user.id)
         message += " Now you are orderer for order #{ord.id}!"
       end
 
       if params[:deliverer] == 'true'
-        ord = Order.find(@item.order_id)
-        ord.deliverer_id = current_user.id
-        ord.save
+        ord.update(deliverer_id: current_user.id)
         message += " Now you are deliverer for order #{ord.id}!"
       end
 
@@ -62,7 +56,10 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    redirect_to root_path, notice: 'Item was deleted!' if Item.destroy(params[:id])
+    item = Item.where(id: params[:id]).first
+    return render :show if item.blank?
+    item.destroy
+    redirect_to root_path, notice: 'Item was deleted!'
   end
 
   private
