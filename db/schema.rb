@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2018_07_30_094908) do
     t.datetime "updated_at", null: false
     t.integer "place_id"
     t.datetime "delivery_time"
-    t.boolean "delivery_by_restaurant"
+    t.boolean "delivery_by_restaurant", default: false
     t.index ["creator_id"], name: "index_orders_on_creator_id"
     t.index ["deliverer_id"], name: "index_orders_on_deliverer_id"
     t.index ["orderer_id"], name: "index_orders_on_orderer_id"
