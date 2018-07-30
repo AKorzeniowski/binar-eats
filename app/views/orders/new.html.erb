@@ -12,10 +12,11 @@
 		</div>
 		<div id="orderer" class="wizard__step">
 			<h2>Who will order?</h2>
+			<p>An <strong>orderer</strong> is the person who <strong>places the order</strong>, either by calling the restaurant, ordering online or in any other way.</p>
 		  <%= f.hidden_field :orderer_id, value: nil %>
 		  <%= check_box_tag :orderer_id, current_user.id %>
 		  I want to be a orderer.
-		  <br>
+		    <p>If you don't check that checkbox, people adding items to your order will be able to declare themselves as orderer. In a likely event of noone declaring that, last person to add their item will be declared the orderer.</p>
 		  <button class="wizard__button--next">Next</a>
 		</div>
 		<div id="deliverer" class="wizard__step">
