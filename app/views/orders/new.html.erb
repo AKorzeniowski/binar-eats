@@ -21,9 +21,10 @@
 		</div>
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
-		  <%= f.radio_button :deliverer_id, current_user.id %> I am the deliverer
-		  <%= f.radio_button :deliverer_id, nil %> Will be delivered by restaurant
-		  <%= f.radio_button :deliverer_id, 0 %> Last person will deliver
+			<p>A <strong>deliverer</strong> is the person who <strong>picks up the order from restaurant</strong>. </p>
+		  <div class="form-check"><%= f.radio_button :deliverer_id, current_user.id %> I am the deliverer</div>
+		  <div class="form-check"><%= f.radio_button :deliverer_id, nil %> Will be delivered by restaurant</div>
+		  <div class="form-check"><%= f.radio_button :deliverer_id, 0 %> Last person to add their item will deliver</div>
 		  <br>
 		  <button class="wizard__button--next">Next</a>
 		</div>
