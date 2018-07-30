@@ -55,6 +55,10 @@ class OrdersController < ApplicationController
     @item = Item.new
   end
 
+  def send_payoff
+
+  end
+
   private
 
   def order_params
