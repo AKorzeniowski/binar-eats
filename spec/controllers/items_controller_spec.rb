@@ -231,20 +231,31 @@ RSpec.describe ItemsController, type: :controller do
 
   describe '#destroy' do
     let(:item) { create(:item) }
-    subject { delete :destroy, params: { id: item.id } }
 
-    it 'should redirect to home' do
-      expect(subject).to redirect_to(root_path)
+    describe 'valid item' do
+      subject { delete :destroy, params: { id: item.id } }
+
+      it 'should redirect to home' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with notice' do
+        subject
+        expect(flash[:notice]).to be_present
+      end
+
+      it 'should destroy author' do
+        item
+        expect{ delete :destroy, params: { id: item } }.to change{ Item.count }.by(-1)
+      end
     end
 
-    it 'should redirect with notice' do
-      subject
-      expect(flash[:notice]).to be_present
-    end
+    describe 'invalid item' do
+      subject { delete :destroy, params: { id: 0} }
 
-    it 'should destroy author' do
-      item
-      expect{ delete :destroy, params: { id: item } }.to change{ Item.count }.by(-1)
+      it 'should not redirect to home' do
+        expect(subject).not_to redirect_to(root_path)
+      end
     end
   end
 end
