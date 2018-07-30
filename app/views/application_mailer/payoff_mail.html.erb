@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>Welcome, <%= @item.user.name %></h1>
+    <p>
+    <%= link_to 'Pay', @url, class: 'btn btn-primary'  %>
+    </p>
+
+    <p>
+      You have successfully signed up to example.com,
+      your username is: <%= @user.login %>.<br>
+    </p>
+    <p>
+      To login to the site, just follow this link: <%= @url %>.
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+</html>
