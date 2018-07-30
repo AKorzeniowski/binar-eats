@@ -20,7 +20,7 @@ class PlacesController < ApplicationController
   def update
     @place = Place.find(params[:id])
     if @place.update(place_params)
-      redirect_to places_path, notice = 'Place has been updated.'
+      redirect_to places_path, notice: 'Place has been updated.'
     else
       render action: 'edit'
     end
@@ -29,7 +29,7 @@ class PlacesController < ApplicationController
   def destroy
     @place = Place.find(params[:id])
     @place.destroy
-      redirect_to places_path, notice = 'Place has been deleted.'
+      redirect_to places_path, notice: 'Place has been deleted.'
   end
 
   private
