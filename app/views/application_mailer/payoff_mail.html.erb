@@ -9,6 +9,10 @@
   <body>
     <h1>Welcome, <%= @item.user.name %></h1>
     <p>
+      Cost of your order: <%= @item.cost %>.
+      Account number: <%= @sender.account_number %>
+    </p>
+    <p>
     <%= link_to 'Pay', @url, class: 'btn btn-primary'  %>
     </p>
   </body>

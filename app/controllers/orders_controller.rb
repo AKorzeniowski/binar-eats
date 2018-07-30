@@ -56,7 +56,7 @@ class OrdersController < ApplicationController
   end
 
   def send_payoff
-    ApplicationMailer.with(order: Order.find(params[:id])).payoff_mail.deliver_now
+    ApplicationMailer.with(order: Order.find(params[:id]), sender: current_user).payoff_mail.deliver_now
   end
 
   private

@@ -65,6 +65,10 @@ class ItemsController < ApplicationController
     redirect_to root_path, notice: 'Item was deleted!' if Item.destroy(params[:id])
   end
 
+  def payoff
+
+  end
+
   private
 
   def item_params
