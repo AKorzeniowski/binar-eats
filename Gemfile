@@ -52,6 +52,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'letter_opener'
 end
 
 group :development do
