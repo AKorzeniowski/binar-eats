@@ -1,26 +1,41 @@
 $(document).on('turbolinks:load', function() {
-	const steps = document.getElementsByClassName('wizard__step')
+  const steps = document.getElementsByClassName('wizard__step')
 
-	for (let step of steps) { hide(step) }
 
-	var currentStep = 0
-	show(steps[currentStep])
+  for (let step of steps) {
+    hide(step)
+  }
 
-	const nextButtons = document.getElementsByClassName('wizard__button--next')
-	for (let button of nextButtons) {
-		button.onclick = (event) => {
-			event.preventDefault()
-			hide(steps[currentStep])
-			currentStep++
-			show(steps[currentStep])
-		}
-	}
+  var currentStep = 0
+  show(steps[currentStep])
 
-	function show(element) {
-		element.style.display = 'block'
-	}
+  const nextButtons = document.getElementsByClassName('wizard__button--next')
+  for (let button of nextButtons) {
+    button.onclick = (event) => {
+      event.preventDefault()
+      hide(steps[currentStep])
+      currentStep++
+      show(steps[currentStep])
+    }
+  }
 
-	function hide(element) {
-		element.style.display = 'none'
-	}
+  function show(element) {
+    element.style.display = 'block'
+  }
+
+  function hide(element) {
+    element.style.display = 'none'
+  }
+
+  if ($('#order_place_id').children('option').length < 5) {
+    $('#order_place_id').append('<option value="5">--Another place--</option>')
+  }
+
+  $('#order_place_id').change(function() {
+    $('#own_place').empty()
+    if ($(this).val() == 5) {
+      $('#own_place').append("<input name='own_place' placeholder='Enter your order place...'>")
+    }
+  })
+
 });

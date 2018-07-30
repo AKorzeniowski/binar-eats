@@ -4,32 +4,36 @@
 		<%= form_for @order, remote: true do |f| %>
 		<%= f.hidden_field :creator_id, value: current_user.id %>
 		<div id="place" class="wizard__step">
-		  <h2>Where do we order from?</h2>
-		  Select place
-		  <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
-		  <br>
-		  <button class="wizard__button--next">Next</a>
+			<h2>Where do we order from?</h2>
+			Select place from list
+			<%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+			<br>
+			<div id="own_place"></div>
+			<button class="wizard__button--next">Next</a>
 		</div>
 		<div id="orderer" class="wizard__step">
 			<h2>Who will order?</h2>
-		  <%= f.hidden_field :orderer_id, value: nil %>
-		  <%= check_box_tag :orderer_id, current_user.id %>
-		  I want to be a orderer.
-		  <br>
-		  <button class="wizard__button--next">Next</a>
+			<%= f.hidden_field :orderer_id, value: nil %>
+			<%= check_box_tag :orderer_id, current_user.id %>
+			I want to be a orderer.
+			<br>
+			<button class="wizard__button--next">Next</a>
 		</div>
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
-		  <%= f.radio_button :deliverer_id, current_user.id %> I am the deliverer
-		  <%= f.radio_button :deliverer_id, nil %> Will be delivered by restaurant
-		  <%= f.radio_button :deliverer_id, 0 %> Last person will deliver
-		  <br>
-		  <button class="wizard__button--next">Next</a>
+			<%= f.radio_button :deliverer_id, current_user.id %>
+			I am the deliverer
+			<%= f.radio_button :deliverer_id, nil %>
+			Will be delivered by restaurant
+			<%= f.radio_button :deliverer_id, 0 %>
+			Last person will deliver
+			<br>
+			<button class="wizard__button--next">Next</a>
 		</div>
 		<div id="deadline" class="wizard__step">
-		  <h2>What is the deadline?</h2>
-		  <%= f.time_select :deadline, {minute_step: 1} %><br>
-		  <%= f.submit 'Save', class: "wizard__button--submit" %>
+			<h2>What is the deadline?</h2>
+			<%= f.time_select :deadline, {minute_step: 1} %><br>
+			<%= f.submit 'Save', class: "wizard__button--submit" %>
 		</div>
 	</div>
 </div>
