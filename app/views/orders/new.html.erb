@@ -19,7 +19,8 @@
 		  	<%= label_tag :orderer_id, "I want to be a orderer." %>
 			</div>
 		    <p>If you don't check that checkbox, people adding items to your order will be able to declare themselves as orderer. In a likely event of noone declaring that, last person to add their item will be declared the orderer.</p>
-		  <button class="wizard__button--next">Next</a>
+		  <button class="wizard_button wizard__button--prev">Back</a>
+		  <button class="wizard_button wizard__button--next">Next</a>
 		</div>
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
@@ -28,12 +29,13 @@
 		  <div class="form-check"><%= f.radio_button :deliverer_id, nil %><%= label_tag :deliverer_id, "Will be delivered by restaurant" %></div>
 		  <div class="form-check"><%= f.radio_button :deliverer_id, 0 %><%= label_tag :deliverer_id, "Last person to add their item will deliver" %></div>
 		  <br>
-		  <button class="wizard__button--next">Next</a>
+		  <button class="wizard_button wizard__button--prev">Back</a>
+		  <button class="wizard_button wizard__button--next">Next</a>
 		</div>
 		<div id="deadline" class="wizard__step">
 		  <h2>What is the deadline?</h2>
 		  <%= f.time_select :deadline, {minute_step: 1} %><br>
-		  <%= f.submit 'Save', class: "wizard__button--submit" %>
+		  <%= f.submit 'Save', class: "wizard_button wizard__button--submit" %>
 		</div>
 	</div>
 </div>
