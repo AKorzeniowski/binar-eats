@@ -7,7 +7,6 @@ $(document).on('turbolinks:load', function() {
 	show(steps[currentStep])
 
 	const nextButtons = document.getElementsByClassName('wizard__button--next')
-
 	for (let button of nextButtons) {
 		button.onclick = (event) => { changeStep(event, 1) }
 	}
