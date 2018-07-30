@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
 
     @order.orderer_id = params['orderer_id'] if params['orderer_id'].to_i > 1
 
-    @order.deliverer_id = params['deliverer'] if params['deliverer'].to_i > 1
+    @order.deliverer_id = params['deliverer'] if params['deliverer'].to_i >= 1
     @order.delivery_by_restaurant = true if params['deliverer'].to_i == -1
 
     if @order.save
