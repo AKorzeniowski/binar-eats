@@ -54,7 +54,7 @@ RSpec.describe ItemsController, type: :controller do
     login_user
     let!(:order) { create(:order, orderer_id: nil, deliverer_id: nil) }
     let!(:valid_attributes) { { item: {food: 'Jedzenie', cost: 12.50, order_id: order.id} } }
-    let(:invalid_attributes) { { item: {food: '', cost: nil} } }
+    let(:invalid_attributes) { { item: {food: nil, cost: nil, order_id: order.id} } }
     let(:want_be_orderer) { valid_attributes.merge( orderer: 'true') }
     let(:want_be_deliverer) { valid_attributes.merge( deliverer: 'true') }
     let(:want_be_orderer_and_deliverer) { want_be_orderer.merge( deliverer: 'true') }

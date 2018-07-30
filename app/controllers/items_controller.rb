@@ -8,15 +8,14 @@ class ItemsController < ApplicationController
   def create
     message = 'Item was created!'
     params[:item][:cost] = params[:item][:cost].to_i
+    ord = Order.find(params[:item][:order_id])
 
     if params[:orderer] == 'true'
-      ord = Order.find(params[:item][:order_id])
       ord.update(orderer_id: current_user.id)
       message += " Now you are orderer for order #{ord.id}!"
     end
 
     if params[:deliverer] == 'true'
-      ord = Order.find(params[:item][:order_id])
       ord.update(deliverer_id: current_user.id)
       message += " Now you are deliverer for order #{ord.id}!"
     end
