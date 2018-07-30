@@ -28,13 +28,14 @@ $(document).on('turbolinks:load', function() {
   }
 
   if ($('#order_place_id').children('option').length < 5) {
-    $('#order_place_id').append('<option value="5">--Another place--</option>')
+    $('#order_place_id').append('<option value="5">Another place</option>')
   }
 
   $('#order_place_id').change(function() {
     $('#own_place').empty()
     if ($(this).val() == 5) {
-      $('#own_place').append("<input name='own_place' placeholder='Enter your order place...'>")
+      $('#own_place').append("Place name <input name='own_place_name' placeholder='Enter your order place name...' required> </br>")
+			$('#own_place').append("Place menu url <input name='own_place_menu_url' placeholder='Enter your order place menu url...' required>")
     }
   })
 
