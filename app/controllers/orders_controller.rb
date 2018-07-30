@@ -58,12 +58,13 @@ class OrdersController < ApplicationController
   def send_payoff
     @order = Order.find(params[:id])
     emails = []
-    @order.items.where(has_paid: nil).each do |item|
+    items = @order.items.where(has_paid: nil)
+    items.each do |item|
       ApplicationMailer.with(order: @order, item: item, sender: current_user).payoff_mail.deliver_now
       emails << item.user.email
     end
 
-    return redirect_to orders_payment_path, notice: "#{@order.items.where(has_paid: nil).count} email/s sended to: #{emails}."
+    return redirect_to orders_payment_path, notice: "#{items.count} email/s sended to: #{emails}."
   end
 
   private
