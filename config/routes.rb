@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     get 'order/:id/items', to: 'orders#items', as: 'order_items'
     get 'order/done', to: 'orders#done'
     post 'order/:id/send_payoff', to: 'orders#send_payoff', as: 'orders_payoff'
-    get 'item/:id/payoff', to: 'item#payoff', as: 'item_payoff'
+    get 'items/:id/payoff', to: 'items#payoff', as: 'item_payoff'
   end
 
 end

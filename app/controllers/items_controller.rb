@@ -66,7 +66,7 @@ class ItemsController < ApplicationController
   end
 
   def payoff
-
+    puts params
   end
 
   private
