@@ -251,9 +251,24 @@ RSpec.describe ItemsController, type: :controller do
   describe '#payoff' do
     let(:item) { create(:item) }
     login_user
-    before { get :payoff, params: { id: item.id } }
 
     describe 'user without permission' do
+      before { get :payoff, params: { id: item.id } }
+
+      it 'should dont show page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with alert' do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+    end
+
+    describe 'user with permission' do
+      before{item.user_id = subject.current_user.id}
+      before { get :payoff, params: { id: item.id } }
+
       it 'should dont show page' do
         expect(subject).to redirect_to(root_path)
       end
