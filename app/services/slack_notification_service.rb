@@ -4,7 +4,7 @@ class SlackNotificationService
   def initialize
     configure unless @@configured
     @client = Slack::Web::Client.new
-    puts "[SLACK] Connection established" if test_authorization 
+    test_authorization 
   end
 
   def notify_user(username, message)
@@ -22,14 +22,13 @@ class SlackNotificationService
     Slack.configure do |config|
       config.token = 'xoxb-408313172327-407278970530-yKfWAKxNcuXGUxyxUEb9ZYyk'
     end
-    puts "[SLACK] API connection configured"
     @@configured = true
   end
 
   def find_user_id(username)
     user_list = @client.users_list
     users = user_list.members.select { |member| member.profile.email == username }
-    raise ArgumentError if users.empty?
+    raise ArgumentError("Couldn't find a user with that email") if users.empty?
     users.first.id
   end
 
