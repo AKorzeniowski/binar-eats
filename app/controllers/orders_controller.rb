@@ -55,10 +55,6 @@ class OrdersController < ApplicationController
     @item = Item.new
   end
 
-  def done
-    @order_id = params[:order_id]
-  end
-
   private
 
   def order_params
