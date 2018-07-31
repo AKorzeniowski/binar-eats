@@ -2,7 +2,7 @@
 	<h3>Link to menu</h3>
 
 	<div class="form-row">
-		<input type="text_area" value="<%= url_for(action: "new", id: @order_id, controller: 'items', only_path: false) %>" id="order-link" class="form-control col-md-4" readonly>	<button class="btn btn-secondary col-md-2">📑 Copy link</button>
+		<input type="text_area" value="<%= url_for(action: "new", id: @order_id, controller: 'items', only_path: false) %>" class="form-control col-md-4"  id="copy-link-textarea" readonly>	<button class="btn btn-secondary col-md-2" id="copy-link-button">📑 Copy link</button>
 	</div>
 	<hr>
 	<%= render 'items/form' %>
