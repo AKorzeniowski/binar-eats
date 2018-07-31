@@ -103,6 +103,26 @@ RSpec.describe OrdersController, type: :controller do
     end
   end
 
+  describe '#done' do
+    let!(:order) { create(:order) }
+
+    before { get :done, params: { order_id: order.id } }
+
+    describe 'successful response' do
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('done') }
+    end
+
+    context 'item' do
+      it { expect(assigns(:item)).to be_a(Item) }
+      it { expect(assigns(:item).persisted?).to eq(false) }
+    end
+
+
+
+
+  end
+
   describe '#edit' do
     login_user
     let!(:valid_order) { create(:order) }
