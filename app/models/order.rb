@@ -21,7 +21,7 @@ class Order < ApplicationRecord
   }
 
   def allowed_to_see_payment?(user)
-    return (delivery_by_restaurant == true && user.id == orderer_id) || (delivery_by_restaurant == false && user.id == deliverer_id)
+    (delivery_by_restaurant == true && user.id == orderer_id) ||
+      (delivery_by_restaurant == false && user.id == deliverer_id)
   end
-
 end
