@@ -1,7 +1,7 @@
 class SlackNotificationService
   def initialize
     @client = Slack::Web::Client.new
-    test_authorization 
+    test_authorization
   end
 
   def call(username, message)
@@ -10,7 +10,7 @@ class SlackNotificationService
     send_message(dm_channel.id, message)
   end
 
-  private 
+  private
 
   def send_message(channel_id, message)
     @client.chat_postMessage(
@@ -32,7 +32,7 @@ class SlackNotificationService
     request.channel
   end
 
-  def test_authorization 
+  def test_authorization
     @client.auth_test
   end
 end
