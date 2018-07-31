@@ -55,9 +55,6 @@ RSpec.describe PlacesController, type: :controller do
     context 'invalid params' do
       subject { post :create, params: invalid_attributes }
 
-
-
-
       it 'should redirect to places' do
         subject
         expect(subject).to redirect_to(places_path)
@@ -85,8 +82,6 @@ RSpec.describe PlacesController, type: :controller do
     context 'place' do
       it { expect(assigns(:place)).to eq(place) }
     end
-
-
 
   end
   describe '#update' do
@@ -129,9 +124,6 @@ RSpec.describe PlacesController, type: :controller do
         subject
         expect(response).to redirect_to(edit_place_path(place.id))
       end
-
-
-
     end
 
   end
@@ -154,8 +146,6 @@ RSpec.describe PlacesController, type: :controller do
         place
         expect{ delete :destroy, params: { id: place } }.to change{ Place.count }.by(-1)
       end
-
     end
-
   end
 end
