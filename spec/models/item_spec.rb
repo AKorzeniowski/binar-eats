@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-
+  describe 'attributes' do
+    it 'should have extra attributes' do
+      expect(subject.attributes).to include('user_id', 'order_id', 'food', 'cost', 'has_paid')
+    end
+  end
 
   describe 'validates' do
     it { should validate_presence_of(:user) }

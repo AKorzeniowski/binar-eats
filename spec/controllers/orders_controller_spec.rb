@@ -88,6 +88,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
   end
+
   describe '#new' do
     before { get :new }
 
@@ -101,30 +102,40 @@ RSpec.describe OrdersController, type: :controller do
       it { expect(assigns(:order).persisted?).to eq(false) }
     end
   end
+
   describe '#edit' do
     login_user
-    let(:order) { create(:order) }
+    let!(:valid_order) { create(:order) }
+    let!(:invalid_order) { create(:order, creator_id: valid_order.creator_id, orderer_id: valid_order.orderer_id, deliverer_id: valid_order.deliverer_id, deadline: Time.zone.now - 1.hours) }
 
     context 'creator' do
-      before { subject.current_user.id = order.creator.id }
-      before { get :edit, params: { id: order.id } }
+      before { subject.current_user.id = valid_order.creator.id }
+      before { get :edit, params: { id: valid_order.id } }
       describe 'successful response' do
         it { expect(response).to be_successful }
         it { expect(response).to render_template('edit') }
       end
 
       context 'order' do
-        it { expect(assigns(:order)).to eq(order) }
+        it { expect(assigns(:order)).to eq(valid_order) }
       end
     end
 
     context 'user cant see others item' do
-      before { get :edit, params: { id: order.id } }
+      before { get :edit, params: { id: valid_order.id } }
       it { expect(flash[:alert]).to be_present }
       it { expect(redirect_to(root_path)) }
     end
 
+    context 'invalid order' do
+      before { subject.current_user.id = valid_order.creator.id }
+      before { get :edit, params: { id: invalid_order.id } }
+      it { expect(redirect_to(orders_path)) }
+      it { expect(flash[:alert]).to be_present }
+    end
+
   end
+
   describe '#create' do
     let!(:place)  { create(:place) }
     let!(:creator)  { create(:user) }
@@ -207,6 +218,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
   end
+
   describe '#update' do
     updated_deadline = Time.now.getlocal + 1.hours + 1.minute
 		let(:order) { create(:order, delivery_time: nil) }
@@ -253,7 +265,8 @@ RSpec.describe OrdersController, type: :controller do
   describe '#payment' do
     context 'successful response' do
       login_user
-  		let(:order) { create(:order, orderer_id: subject.current_user.id) }
+  		let(:order) { create(:order) }
+      before{order.update(deliverer_id: subject.current_user.id)}
       before { get :payment, params: { id: order.id } }
       it { expect(response).to be_successful }
       it { expect(response).to render_template('payment')}
@@ -266,5 +279,27 @@ RSpec.describe OrdersController, type: :controller do
       it { expect(flash[:alert]).to be_present }
       it { expect(redirect_to(root_path)) }
     end
+  end
+
+  describe '#send_payoff' do
+    login_user
+    let!(:item) { create(:item) }
+    let!(:item2) { create(:item, user_id: item.user.id, order_id: item.order.id) }
+    before { get :send_payoff, params: { id: item.order.id, order: item.order } }
+
+    it 'should send two mails' do
+      subject
+      expect(item.order.items.where(has_paid: nil).count).to eq(2)
+    end
+
+    it 'should go to home page' do
+      expect(subject).to redirect_to(orders_payment_path)
+    end
+
+    it 'should redirect with notice' do
+      subject
+      expect(flash[:notice]).to be_present
+    end
+
   end
 end

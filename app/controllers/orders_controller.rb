@@ -27,6 +27,8 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     return (redirect_to orders_path, alert: "You can't see this order!") if
     current_user.id != @order.creator_id && current_user.id != @order.orderer_id
+    return (redirect_to orders_path, alert: "In order with id #{params[:id]} deadline has passed!") if
+    @order.deadline < Time.zone.now
   end
 
   def update
@@ -54,14 +56,25 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
 
     return redirect_to root_path, alert: "You dont't have permission to see this page." unless
-    (current_user.id == @order.orderer_id && @order.deliverer_id) ||
-    (current_user.id == @order.orderer_id)
+    @order.allowed_to_see_payment?(current_user)
   end
 
   def done
     @order_id = params[:order_id]
     @order = Order.find(params[:order_id])
     @item = Item.new
+  end
+
+  def send_payoff
+    @order = Order.find(params[:id])
+    emails = []
+    items = @order.items.where(has_paid: nil)
+    items.each do |item|
+      ApplicationMailer.payoff_mail(@order, current_user, item).deliver_now
+      emails << item.user.email
+    end
+
+    redirect_to orders_payment_path, notice: "#{items.count} email/s sended to: #{emails}."
   end
 
   private

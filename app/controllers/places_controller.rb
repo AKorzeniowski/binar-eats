@@ -23,7 +23,7 @@ class PlacesController < ApplicationController
       flash[:notice] = 'Place has been updated.'
       redirect_to places_path
     else
-      render action: 'edit'
+      redirect_to edit_place_path(@place.id)
     end
   end
 

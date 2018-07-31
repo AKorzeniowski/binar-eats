@@ -15,6 +15,9 @@
           <% if collection == @my_orders %>
             <%= link_to '✏️ Edit', edit_order_path(order.id), class: 'btn btn-secondary' %>
           <% end %>
+          <% if order.allowed_to_see_payment?(current_user) %>
+            <%= link_to '💰 Payment', orders_payment_path(order.id), class: 'btn btn-danger' %>
+          <% end %>
         <% else %>
           🕗 Deadline has passed
         <% end %>

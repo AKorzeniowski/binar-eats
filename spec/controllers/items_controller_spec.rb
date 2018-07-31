@@ -38,16 +38,27 @@ end
 RSpec.describe ItemsController, type: :controller do
 
   describe '#new' do
-    let!(:order) { create(:order) }
-    before { get :new, params: { id: order.id } }
-    describe 'successful response' do
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template('new') }
+    let!(:valid_order) { create(:order) } 
+    let!(:invalid_order) { create(:order, creator_id: valid_order.creator_id, orderer_id: valid_order.orderer_id, deliverer_id: valid_order.deliverer_id, deadline: Time.zone.now - 1.hours) }
+
+    context 'valid order' do
+      before { get :new, params: { id: valid_order.id } }
+      describe 'successful response' do
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('new') }
+      end
+      context 'item' do
+        it { expect(assigns(:item)).to be_a(Item) }
+        it { expect(assigns(:item).persisted?).to eq(false) }
+      end
     end
-    context 'item' do
-      it { expect(assigns(:item)).to be_a(Item) }
-      it { expect(assigns(:item).persisted?).to eq(false) }
+
+    context 'invalid order' do
+      before { get :new, params: { id: invalid_order.id } }
+      it { expect(redirect_to(orders_path)) }
+      it { expect(flash[:alert]).to be_present }
     end
+
   end
 
   describe '#create' do
@@ -258,4 +269,74 @@ RSpec.describe ItemsController, type: :controller do
       end
     end
   end
+
+  describe '#payoff' do
+    login_user
+
+    describe 'user without permission' do
+      let(:item) { create(:item) }
+      before { get :payoff, params: { id: item.id } }
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with alert' do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+    end
+
+    describe 'user with permission' do
+      let(:item) { create(:item, user_id: subject.current_user.id) }
+      before { get :payoff, params: { id: item.id } }
+
+      it 'should not go to home page' do
+        expect(subject).not_to redirect_to(root_path)
+      end
+    end
+  end
+
+  describe '#payoff_confirm' do
+    login_user
+
+    describe 'user with permission' do
+      let(:item) { create(:item, user_id: subject.current_user.id) }
+      before { get :payoff_confirm, params: { id: item.id } }
+
+      it 'should change item has_paid to true' do
+        subject
+        expect(item.reload.has_paid).to eq(true)
+      end
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with notice' do
+        subject
+        expect(flash[:notice]).to be_present
+      end
+    end
+
+    describe 'user without permission' do
+      let(:item) { create(:item) }
+      before { get :payoff_confirm, params: { id: item.id } }
+
+      it 'should dont change item has_paid to true' do
+        subject
+        expect(item.reload.has_paid).not_to eq(true)
+      end
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with alert' do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+    end
+  end
+
 end

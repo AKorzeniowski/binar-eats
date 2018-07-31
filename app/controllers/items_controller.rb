@@ -1,8 +1,9 @@
 class ItemsController < ApplicationController
   def new
-    @item = Item.new
     @order = Order.find(params[:id])
     flash[:notice] = "Order with id #{params[:id]} doesn't exist!" unless @order
+    return @item = Item.new if @order.deadline > Time.zone.now
+    redirect_to orders_path, alert: "In order with id #{params[:id]} deadline has passed!"
   end
 
   def create
@@ -60,6 +61,18 @@ class ItemsController < ApplicationController
     return render :show if item.blank?
     item.destroy
     redirect_to root_path, notice: 'Item was deleted!'
+  end
+
+  def payoff
+    @item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == @item.user.id
+  end
+
+  def payoff_confirm
+    item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == item.user.id
+    item.update(has_paid: true)
+    redirect_to root_path, notice: "Item #{item.id} payment confirmed!"
   end
 
   private
