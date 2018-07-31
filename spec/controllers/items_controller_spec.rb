@@ -247,4 +247,22 @@ RSpec.describe ItemsController, type: :controller do
       expect{ delete :destroy, params: { id: item } }.to change{ Item.count }.by(-1)
     end
   end
+
+  describe '#payoff' do
+    let(:item) { create(:item) }
+    login_user
+    before { get :payoff, params: { id: item.id } }
+
+    describe 'user without permission' do
+      it 'should dont show page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with alert' do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+    end
+  end
+
 end
