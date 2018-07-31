@@ -7,14 +7,18 @@ class SlackNotificationService
   def call(username, message)
     user_id = find_user_id(username)
     dm_channel = open_dm_channel(user_id)
+    send_message(dm_channel.id, message)
+  end
+
+  private 
+
+  def send_message(channel_id, message)
     @client.chat_postMessage(
-      channel: dm_channel.id,
+      channel: channel_id,
       text: message,
       icon_emoji: ':fork_and_knife:'
     )
   end
-
-  private 
 
   def find_user_id(username)
     user_list = @client.users_list
