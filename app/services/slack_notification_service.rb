@@ -12,7 +12,8 @@ class SlackNotificationService
     dm_channel = open_dm_channel(user_id)
     @client.chat_postMessage(
       channel: dm_channel.id,
-      text: message
+      text: message,
+      icon_emoji: ':fork_and_knife:'
     )
   end
 
