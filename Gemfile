@@ -28,6 +28,8 @@ gem 'bootstrap'
 gem 'devise'
 # Use Slack Notifier for posting to Slack
 gem 'slack-ruby-client'
+# Use Sidekiq for task scheduling
+gem 'sidekiq'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
