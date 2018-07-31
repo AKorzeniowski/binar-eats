@@ -7,7 +7,7 @@ class SlackNotificationService
     test_authorization 
   end
 
-  def notify_user(username, message)
+  def call(username, message)
     user_id = find_user_id(username)
     dm_channel = open_dm_channel(user_id)
     @client.chat_postMessage(
