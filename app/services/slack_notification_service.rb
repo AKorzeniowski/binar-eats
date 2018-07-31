@@ -9,7 +9,8 @@ class SlackNotificationService
 
   def notify_user(username, message)
     user_id = find_user_id(username)
-    puts user_id
+    dm_channel = open_dm_channel(user_id) 
+    puts dm_channel
   end
 
   private 
@@ -26,6 +27,10 @@ class SlackNotificationService
     user_list = @client.users_list
     users = user_list.members.select { |member| member.profile.email == username }
     users.first.id
+  end
+
+  def open_dm_channel(user_id)
+    @client.im_open(user: user_id)
   end
 
   def test_authorization 
