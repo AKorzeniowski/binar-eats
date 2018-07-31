@@ -1,6 +1,6 @@
 class SlackNotificationService
   @@configured = false
-  
+
   def initialize
     configure unless @@configured
     @client = Slack::Web::Client.new
@@ -11,9 +11,13 @@ class SlackNotificationService
 
   def configure
     Slack.configure do |config|
-      config.token = ENV['SLACK_API_TOKEN']
+      config.token = 'xoxb-408313172327-407278970530-yKfWAKxNcuXGUxyxUEb9ZYyk'
     end
     puts "[SLACK] API connection configured"
     @@configured = true
+  end
+
+  def test_authorization 
+    @client.auth_test
   end
 end
