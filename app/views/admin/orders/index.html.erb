@@ -1,3 +1,7 @@
+<br>
+<br>
+<br>
+<h2>List of orders</h2>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -14,7 +18,7 @@
       <td><%= order.place_id %></td>
       <td><%= order.creator_id %></td>
       <td>
-        <%= link_to "Delete", orders_path, method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure"} %>
+        <%= link_to "Delete", admin_order_path(order), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure"} %>
       </td>
     </tr>
     <% end %>

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     root to: 'places#index'
     resources :places
     resources :orders
+    resources :users
   end
   root 'home#welcome'
   devise_for :users, controllers: { registrations: 'users/registrations'  }

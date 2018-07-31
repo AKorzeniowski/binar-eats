@@ -3,11 +3,10 @@ class Admin::OrdersController < Admin::BaseController
     @orders = Order.all
   end
 
-  def delete
+  def destroy
     @order = Order.find(params[:id])
     @order.destroy
-    flash[:notice] = 'Order has been deleted.'
-    redirect_to admin_orders_path
+    redirect_to admin_orders_path, notice: 'Order has been deleted.'
   end
 
   private

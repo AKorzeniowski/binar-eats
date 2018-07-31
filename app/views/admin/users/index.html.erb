@@ -1,0 +1,24 @@
+<br/>
+<br/>
+<br/>
+<h1>List of users and nicknames</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Users</th>
+      <th>Nickname</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= user.id %></td>
+      <td><%= user.name %></td>
+    <td>
+      <%= link_to "Edit", edit_admin_user_path(user), class: "btn btn-primary btn-sm" %>
+    </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
