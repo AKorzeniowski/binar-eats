@@ -19,4 +19,9 @@ class Order < ApplicationRecord
   scope :other_orders, ->(creator_id) {
     where.not('creator_id = ?', creator_id).where('DATE(deadline) = ?', Time.zone.today)
   }
+
+  def allowed_to_see_payment?(user)
+    (delivery_by_restaurant == true && user.id == orderer_id) ||
+      (delivery_by_restaurant == false && user.id == deliverer_id)
+  end
 end
