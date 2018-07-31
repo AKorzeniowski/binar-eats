@@ -7,6 +7,11 @@ class SlackNotificationService
     puts "[SLACK] Connection established" if test_authorization 
   end
 
+  def notify_user(username, message)
+    user_id = find_user_id(username)
+    puts user_id
+  end
+
   private 
 
   def configure
@@ -15,6 +20,12 @@ class SlackNotificationService
     end
     puts "[SLACK] API connection configured"
     @@configured = true
+  end
+
+  def find_user_id(username)
+    user_list = @client.users_list
+    users = user_list.members.select { |member| member.profile.email == username }
+    users.first.id
   end
 
   def test_authorization 
