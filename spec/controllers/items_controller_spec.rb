@@ -296,6 +296,25 @@ RSpec.describe ItemsController, type: :controller do
         expect(flash[:notice]).to be_present
       end
     end
+
+    describe 'user without permission' do
+      let(:item) { create(:item) }
+      before { get :payoff_confirm, params: { id: item.id } }
+
+      it 'should dont change item has_paid to true' do
+        subject
+        expect(item.reload.has_paid).not_to eq(true)
+      end
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with alert' do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+    end
   end
 
 end
