@@ -72,6 +72,7 @@ class ItemsController < ApplicationController
 
   def payoff_confirm
     item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == item.user.id
     item.update(has_paid: true)
     redirect_to root_path, notice: "Item #{item.id} payment confirmed!"
   end
