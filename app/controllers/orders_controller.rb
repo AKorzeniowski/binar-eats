@@ -60,7 +60,7 @@ class OrdersController < ApplicationController
     emails = []
     items = @order.items.where(has_paid: nil)
     items.each do |item|
-      ApplicationMailer.with(order: @order, item: item, sender: current_user).payoff_mail.deliver_now
+      ApplicationMailer.payoff_mail(@order, current_user, item).deliver_now
       emails << item.user.email
     end
 
