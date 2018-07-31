@@ -27,6 +27,8 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     return (redirect_to orders_path, alert: "You can't see this order!") if
     current_user.id != @order.creator_id && current_user.id != @order.orderer_id
+    return (redirect_to orders_path, alert: "In order with id #{params[:id]} deadline has passed!") if
+    @order.deadline < Time.zone.now
   end
 
   def update

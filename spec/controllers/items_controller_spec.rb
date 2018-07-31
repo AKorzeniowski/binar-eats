@@ -38,7 +38,7 @@ end
 RSpec.describe ItemsController, type: :controller do
 
   describe '#new' do
-    let!(:valid_order) { create(:order) } #not today
+    let!(:valid_order) { create(:order) } 
     let!(:invalid_order) { create(:order, creator_id: valid_order.creator_id, orderer_id: valid_order.orderer_id, deliverer_id: valid_order.deliverer_id, deadline: Time.zone.now - 1.hours) }
 
     context 'valid order' do
@@ -54,7 +54,7 @@ RSpec.describe ItemsController, type: :controller do
     end
 
     context 'invalid order' do
-      before { get :new, params: { id: invalid_order.id }       
+      before { get :new, params: { id: invalid_order.id } }
       it { expect(redirect_to(orders_path)) }
       it { expect(flash[:alert]).to be_present }
     end
