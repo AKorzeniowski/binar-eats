@@ -88,6 +88,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
   end
+
   describe '#new' do
     before { get :new }
 
@@ -101,6 +102,7 @@ RSpec.describe OrdersController, type: :controller do
       it { expect(assigns(:order).persisted?).to eq(false) }
     end
   end
+
   describe '#edit' do
     login_user
     let(:order) { create(:order) }
@@ -125,6 +127,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
   end
+
   describe '#create' do
     let!(:place)  { create(:place) }
     let!(:creator)  { create(:user) }
@@ -194,6 +197,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
   end
+
   describe '#update' do
     updated_deadline = Time.now.getlocal + 1.hours + 1.minute
 		let(:order) { create(:order, delivery_time: nil) }
@@ -253,5 +257,27 @@ RSpec.describe OrdersController, type: :controller do
       it { expect(flash[:alert]).to be_present }
       it { expect(redirect_to(root_path)) }
     end
+  end
+
+  describe '#send_payoff' do
+    login_user
+    let!(:item) { create(:item) }
+    let!(:item2) { create(:item, user_id: item.user.id, order_id: item.order.id) }
+    before { get :send_payoff, params: { id: item.order.id, order: item.order } }
+
+    it 'should send two mails' do
+      subject
+      expect(item.order.items.where(has_paid: nil).count).to eq(2)
+    end
+
+    it 'should go to home page' do
+      expect(subject).to redirect_to(orders_payment_path)
+    end
+
+    it 'should redirect with notice' do
+      subject
+      expect(flash[:notice]).to be_present
+    end
+
   end
 end
