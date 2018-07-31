@@ -9,8 +9,11 @@ class SlackNotificationService
 
   def notify_user(username, message)
     user_id = find_user_id(username)
-    dm_channel = open_dm_channel(user_id) 
-    puts dm_channel
+    dm_channel = open_dm_channel(user_id)
+    @client.chat_postMessage(
+      channel: dm_channel.id,
+      text: message
+    )
   end
 
   private 
@@ -26,11 +29,13 @@ class SlackNotificationService
   def find_user_id(username)
     user_list = @client.users_list
     users = user_list.members.select { |member| member.profile.email == username }
+    raise ArgumentError if users.empty?
     users.first.id
   end
 
   def open_dm_channel(user_id)
-    @client.im_open(user: user_id)
+    request = @client.im_open(user: user_id)
+    request.channel
   end
 
   def test_authorization 
