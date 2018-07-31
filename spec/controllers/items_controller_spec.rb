@@ -54,7 +54,7 @@ RSpec.describe ItemsController, type: :controller do
     login_user
     let!(:order) { create(:order, orderer_id: nil, deliverer_id: nil) }
     let!(:valid_attributes) { { item: {food: 'Jedzenie', cost: 12.50, order_id: order.id} } }
-    let(:invalid_attributes) { { item: {food: '', cost: nil} } }
+    let(:invalid_attributes) { { item: {food: nil, cost: nil, order_id: order.id} } }
     let(:want_be_orderer) { valid_attributes.merge( orderer: 'true') }
     let(:want_be_deliverer) { valid_attributes.merge( deliverer: 'true') }
     let(:want_be_orderer_and_deliverer) { want_be_orderer.merge( deliverer: 'true') }
@@ -231,20 +231,31 @@ RSpec.describe ItemsController, type: :controller do
 
   describe '#destroy' do
     let(:item) { create(:item) }
-    subject { delete :destroy, params: { id: item.id } }
 
-    it 'should redirect to home' do
-      expect(subject).to redirect_to(root_path)
+    describe 'valid item' do
+      subject { delete :destroy, params: { id: item.id } }
+
+      it 'should redirect to home' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with notice' do
+        subject
+        expect(flash[:notice]).to be_present
+      end
+
+      it 'should destroy author' do
+        item
+        expect{ delete :destroy, params: { id: item } }.to change{ Item.count }.by(-1)
+      end
     end
 
-    it 'should redirect with notice' do
-      subject
-      expect(flash[:notice]).to be_present
-    end
+    describe 'invalid item' do
+      subject { delete :destroy, params: { id: 0} }
 
-    it 'should destroy author' do
-      item
-      expect{ delete :destroy, params: { id: item } }.to change{ Item.count }.by(-1)
+      it 'should not redirect to home' do
+        expect(subject).not_to redirect_to(root_path)
+      end
     end
   end
 end

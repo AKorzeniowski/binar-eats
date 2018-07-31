@@ -26,6 +26,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap'
 # Use Devise for authentication
 gem 'devise'
+# Use Sidekiq for task scheduling
+gem 'sidekiq'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

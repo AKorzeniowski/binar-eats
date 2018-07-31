@@ -131,8 +131,19 @@ RSpec.describe OrdersController, type: :controller do
     let(:valid_attributes) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id) } }
     let(:invalid_attributes) { { order: attributes_for(:order, creator_id: nil, deadline: nil, place_id: nil) } }
     let(:want_be_orderer) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, orderer_id: creator.id) } }
-    let(:want_be_deliverer) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, deliverer_id: creator.id) } }
-    let(:want_be_deliverer_and_orderer)  { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, orderer_id: creator.id, deliverer_id: creator.id) } }
+    let(:want_be_deliverer) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id), deliverer: creator.id } }
+    let(:want_be_deliverer_and_orderer)  { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, orderer_id: creator.id), deliverer: creator.id } }
+    let(:delivery_by_restaurant) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id), deliverer: -1 } }
+
+    context 'delivery by restaurant' do
+      subject { post :create, params: delivery_by_restaurant }
+
+      it 'delivery by restaurant can be true' do
+        subject
+        expect(Order.last.delivery_by_restaurant).to eq(true)
+        expect(Order.last.deliverer).to eq(nil)
+      end
+    end
 
     context 'want be orderer' do
       subject { post :create, params: want_be_orderer }
@@ -153,6 +164,7 @@ RSpec.describe OrdersController, type: :controller do
         expect(Order.last.orderer).to eq(nil)
         expect(Order.last.deliverer).to_not eq(nil)
         expect(Order.last.deliverer.id).to eq(Order.last.creator.id)
+        expect(Order.last.delivery_by_restaurant).to eq(false)
       end
     end
 
@@ -165,6 +177,7 @@ RSpec.describe OrdersController, type: :controller do
         expect(Order.last.deliverer).to_not eq(nil)
         expect(Order.last.orderer.id).to eq(Order.last.creator.id)
         expect(Order.last.deliverer.id).to eq(Order.last.creator.id)
+        expect(Order.last.delivery_by_restaurant).to eq(false)
       end
     end
 

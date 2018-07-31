@@ -6,7 +6,7 @@
 		<div id="place" class="wizard__step">
 		  <h2>Where do we order from?</h2>
 		  Select place
-		  <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
+			<%= collection_select(:order, :place_id, Place.all.limit(4), :id, :name) %>
 		  <br>
 		  <button class="wizard__button--next btn btn-primary">Next</button>
 		</div>
@@ -25,9 +25,9 @@
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
 			<p>A <strong>deliverer</strong> is the person who <strong>picks up the order from restaurant</strong>. </p>
-		  <div class="form-check"><%= f.radio_button :deliverer_id, current_user.id %><%= label_tag :deliverer_id, "I am the deliverer" %></div>
-		  <div class="form-check"><%= f.radio_button :deliverer_id, nil %><%= label_tag :deliverer_id, "Will be delivered by restaurant" %></div>
-		  <div class="form-check"><%= f.radio_button :deliverer_id, 0 %><%= label_tag :deliverer_id, "Last person to add their item will deliver" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, current_user.id %><%= label_tag :deliverer_id, "I am the deliverer" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, -1, checked: true  %><%= label_tag :deliverer_id, "Will be delivered by restaurant" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, 0 %><%= label_tag :deliverer_id, "Last person to add their item will deliver" %></div>
 		  <br>
 		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
 		  <button class="wizard_button wizard__button--next btn btn-primary">Next</button>
