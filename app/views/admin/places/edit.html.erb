@@ -9,7 +9,7 @@
   </ul>
 <% end %>
 
-<%= form_for @place do |f|%>
+<%= form_for [:admin,@place] do |f|%>
   <%= f.label :name %>
   <%= f.text_field :name %>
   <hr />
