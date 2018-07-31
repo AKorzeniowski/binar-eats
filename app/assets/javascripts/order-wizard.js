@@ -59,7 +59,4 @@ $(document).on('turbolinks:load', function() {
       $('.wizard__button--next').attr("disabled", false)
     }
   })
-
-
-
 });

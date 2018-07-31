@@ -4,36 +4,41 @@
 		<%= form_for @order, remote: true do |f| %>
 		<%= f.hidden_field :creator_id, value: current_user.id %>
 		<div id="place" class="wizard__step">
-			<h2>Where do we order from?</h2>
-			Select place from list
+		  <h2>Where do we order from?</h2>
+		  Select place
 			<%= collection_select(:order, :place_id, Place.all.limit(4), :id, :name) %>
-			<br>
 			<div id="own_place"></div>
-			<button class="wizard__button--next">Next</a>
+		  <br>
+		  <button class="wizard__button--next btn btn-primary">Next</button>
 		</div>
 		<div id="orderer" class="wizard__step">
 			<h2>Who will order?</h2>
-			<%= f.hidden_field :orderer_id, value: nil %>
-			<%= check_box_tag :orderer_id, current_user.id %>
-			I want to be a orderer.
-			<br>
-			<button class="wizard__button--next">Next</a>
+			<p>An <strong>orderer</strong> is the person who <strong>places the order</strong>, either by calling the restaurant, ordering online or in any other way.</p>
+		  <%= f.hidden_field :orderer_id, value: nil %>
+		  <div class="form-check">
+		  	<%= check_box_tag :orderer_id, current_user.id %>
+		  	<%= label_tag :orderer_id, "I want to be a orderer." %>
+			</div>
+		    <p>If you don't check that checkbox, people adding items to your order will be able to declare themselves as orderer. In a likely event of noone declaring that, last person to add their item will be declared the orderer.</p>
+		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
+		  <button class="wizard_button wizard__button--next btn btn-primary">Next</button>
 		</div>
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
-			<%= radio_button_tag :deliverer, current_user.id %>
-			I am the deliverer
-			<%= radio_button_tag :deliverer, -1, checked: true  %>
-			Will be delivered by restaurant
-			<%= radio_button_tag :deliverer, 0 %>
-			Last person will deliver
-			<br>
-			<button class="wizard__button--next">Next</a>
+			<p>A <strong>deliverer</strong> is the person who <strong>picks up the order from restaurant</strong>. </p>
+		  <div class="form-check"><%= radio_button_tag :deliverer, current_user.id %><%= label_tag :deliverer_id, "I am the deliverer" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, -1, checked: true  %><%= label_tag :deliverer_id, "Will be delivered by restaurant" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, 0 %><%= label_tag :deliverer_id, "Last person to add their item will deliver" %></div>
+		  <br>
+		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
+		  <button class="wizard_button wizard__button--next btn btn-primary">Next</button>
 		</div>
 		<div id="deadline" class="wizard__step">
-			<h2>What is the deadline?</h2>
-			<%= f.time_select :deadline, {minute_step: 1} %><br>
-			<%= f.submit 'Save', class: "wizard__button--submit" %>
+		  <h2>What is the deadline?</h2>
+		  <%= f.time_select :deadline, {minute_step: 1} %><br>
+		  <p>Deadline specifies until when are people able to add their items to order. It also means the moment when the orderer is asked to order items from the restaurant.</p>
+		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
+		  <%= f.submit 'Save', class: "wizard_button wizard__button--submit btn btn-success" %>
 		</div>
 	</div>
 </div>
