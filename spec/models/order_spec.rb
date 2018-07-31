@@ -22,6 +22,18 @@ RSpec.describe Order, type: :model do
     it { have_many(:items)}
   end
 
+  describe 'scopes' do
+    let!(:order1) { create(:order, deadline: Time.zone.today - 3.days) }
+    let!(:order2) { create(:order, creator_id: order1.creator.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
+    let!(:order3) { create(:order, creator_id: order1.creator.id, orderer_id: order1.orderer_id, deliverer_id: order1.deliverer_id) }
+
+    it 'should have old scope' do
+      expect(Order.old).to include(order1)
+      expect(Order.old).to_not include(order2)
+      expect(Order.old).to_not include(order3)
+    end
+  end
+
   describe 'see payment page' do
     let(:order) { create(:order) }
 

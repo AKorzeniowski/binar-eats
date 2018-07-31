@@ -103,6 +103,22 @@ RSpec.describe OrdersController, type: :controller do
     end
   end
 
+  describe '#done' do
+    let!(:order) { create(:order) }
+
+    before { get :done, params: { order_id: order.id } }
+
+    describe 'successful response' do
+      it { expect(response).to be_successful }
+      it { expect(response).to render_template('done') }
+    end
+
+    context 'item' do
+      it { expect(assigns(:item)).to be_a(Item) }
+      it { expect(assigns(:item).persisted?).to eq(false) }
+    end
+  end
+
   describe '#edit' do
     login_user
     let!(:valid_order) { create(:order) }
@@ -145,6 +161,17 @@ RSpec.describe OrdersController, type: :controller do
     let(:want_be_deliverer) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id), deliverer: creator.id } }
     let(:want_be_deliverer_and_orderer)  { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id, orderer_id: creator.id), deliverer: creator.id } }
     let(:delivery_by_restaurant) { { order: attributes_for(:order, creator_id: creator.id, place_id: place.id), deliverer: -1 } }
+    let!(:order_own_place) { { order: attributes_for(:order, creator_id: creator.id, place_id: 5), own_place_name: 'test', own_place_menu_url: 'https://own_place_menu_url.pl' } }
+
+    context 'own place' do
+      subject { post :create, params: order_own_place }
+
+      it 'should add own place' do
+        subject
+        expect(Order.last.place.name).to eq('test')
+        expect(Order.last.place.menu_url).to eq('https://own_place_menu_url.pl')
+      end
+    end
 
     context 'delivery by restaurant' do
       subject { post :create, params: delivery_by_restaurant }
