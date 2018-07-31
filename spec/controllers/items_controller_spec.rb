@@ -275,4 +275,27 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
+  describe '#payoff_confirm' do
+    login_user
+
+    describe 'user with permission' do
+      let(:item) { create(:item, user_id: subject.current_user.id) }
+      before { get :payoff_confirm, params: { id: item.id } }
+
+      it 'should change item has_paid to true' do
+        subject
+        expect(item.reload.has_paid).to eq(true)
+      end
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with notice' do
+        subject
+        expect(flash[:notice]).to be_present
+      end
+    end
+  end
+
 end
