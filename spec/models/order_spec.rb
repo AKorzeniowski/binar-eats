@@ -22,4 +22,23 @@ RSpec.describe Order, type: :model do
     it { have_many(:items)}
   end
 
+  describe 'see payment page' do
+    let(:order) { create(:order) }
+
+    it 'didnt allow to see' do
+      expect(order.allowed_to_see_payment?(order.creator)).to eq(false)
+    end
+
+    describe 'allow to see if restaurant is doing delivery' do
+      before{ order.update(delivery_by_restaurant: true) }
+      before{ order.update(orderer_id: order.creator_id) }
+      it { expect(order.allowed_to_see_payment?(order.creator)).to eq(true) }
+    end
+
+    describe 'allow to see id user is deliverer' do
+      before{ order.update(deliverer_id: order.creator_id) }
+      it { expect(order.allowed_to_see_payment?(order.creator)).to eq(true) }
+    end
+  end
+
 end

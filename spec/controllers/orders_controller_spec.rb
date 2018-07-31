@@ -257,7 +257,8 @@ RSpec.describe OrdersController, type: :controller do
   describe '#payment' do
     context 'successful response' do
       login_user
-  		let(:order) { create(:order, orderer_id: subject.current_user.id) }
+  		let(:order) { create(:order) }
+      before{order.update(deliverer_id: subject.current_user.id)}
       before { get :payment, params: { id: order.id } }
       it { expect(response).to be_successful }
       it { expect(response).to render_template('payment')}
