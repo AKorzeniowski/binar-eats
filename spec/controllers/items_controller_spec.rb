@@ -258,4 +258,74 @@ RSpec.describe ItemsController, type: :controller do
       end
     end
   end
+
+  describe '#payoff' do
+    login_user
+
+    describe 'user without permission' do
+      let(:item) { create(:item) }
+      before { get :payoff, params: { id: item.id } }
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with alert' do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+    end
+
+    describe 'user with permission' do
+      let(:item) { create(:item, user_id: subject.current_user.id) }
+      before { get :payoff, params: { id: item.id } }
+
+      it 'should not go to home page' do
+        expect(subject).not_to redirect_to(root_path)
+      end
+    end
+  end
+
+  describe '#payoff_confirm' do
+    login_user
+
+    describe 'user with permission' do
+      let(:item) { create(:item, user_id: subject.current_user.id) }
+      before { get :payoff_confirm, params: { id: item.id } }
+
+      it 'should change item has_paid to true' do
+        subject
+        expect(item.reload.has_paid).to eq(true)
+      end
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with notice' do
+        subject
+        expect(flash[:notice]).to be_present
+      end
+    end
+
+    describe 'user without permission' do
+      let(:item) { create(:item) }
+      before { get :payoff_confirm, params: { id: item.id } }
+
+      it 'should dont change item has_paid to true' do
+        subject
+        expect(item.reload.has_paid).not_to eq(true)
+      end
+
+      it 'should go to home page' do
+        expect(subject).to redirect_to(root_path)
+      end
+
+      it 'should redirect with alert' do
+        subject
+        expect(flash[:alert]).to be_present
+      end
+    end
+  end
+
 end

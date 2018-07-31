@@ -62,6 +62,18 @@ class ItemsController < ApplicationController
     redirect_to root_path, notice: 'Item was deleted!'
   end
 
+  def payoff
+    @item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == @item.user.id
+  end
+
+  def payoff_confirm
+    item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == item.user.id
+    item.update(has_paid: true)
+    redirect_to root_path, notice: "Item #{item.id} payment confirmed!"
+  end
+
   private
 
   def item_params
