@@ -8,7 +8,7 @@
 		  Select place
 		  <%= collection_select(:order, :place_id, Place.all, :id, :name) %>
 		  <br>
-		  <button class="wizard__button--next btn btn-primary">Next</a>
+		  <button class="wizard__button--next btn btn-primary">Next</button>
 		</div>
 		<div id="orderer" class="wizard__step">
 			<h2>Who will order?</h2>
@@ -19,8 +19,8 @@
 		  	<%= label_tag :orderer_id, "I want to be a orderer." %>
 			</div>
 		    <p>If you don't check that checkbox, people adding items to your order will be able to declare themselves as orderer. In a likely event of noone declaring that, last person to add their item will be declared the orderer.</p>
-		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</a>
-		  <button class="wizard_button wizard__button--next btn btn-primary">Next</a>
+		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
+		  <button class="wizard_button wizard__button--next btn btn-primary">Next</button>
 		</div>
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
@@ -29,12 +29,14 @@
 		  <div class="form-check"><%= f.radio_button :deliverer_id, nil %><%= label_tag :deliverer_id, "Will be delivered by restaurant" %></div>
 		  <div class="form-check"><%= f.radio_button :deliverer_id, 0 %><%= label_tag :deliverer_id, "Last person to add their item will deliver" %></div>
 		  <br>
-		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</a>
-		  <button class="wizard_button wizard__button--next btn btn-primary">Next</a>
+		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
+		  <button class="wizard_button wizard__button--next btn btn-primary">Next</button>
 		</div>
 		<div id="deadline" class="wizard__step">
 		  <h2>What is the deadline?</h2>
 		  <%= f.time_select :deadline, {minute_step: 1} %><br>
+		  <p>Deadline specifies until when are people able to add their items to order. It also means the moment when the orderer is asked to order items from the restaurant.</p>
+		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
 		  <%= f.submit 'Save', class: "wizard_button wizard__button--submit btn btn-success" %>
 		</div>
 	</div>
