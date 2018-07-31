@@ -1,8 +1,9 @@
 class ItemsController < ApplicationController
   def new
-    @item = Item.new
     @order = Order.find(params[:id])
     flash[:notice] = "Order with id #{params[:id]} doesn't exist!" unless @order
+    return @item = Item.new if @order.deadline > Time.zone.now
+    redirect_to orders_path, alert: "In order with id #{params[:id]} deadline has passed!"
   end
 
   def create
