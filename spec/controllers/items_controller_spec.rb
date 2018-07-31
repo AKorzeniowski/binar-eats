@@ -38,16 +38,27 @@ end
 RSpec.describe ItemsController, type: :controller do
 
   describe '#new' do
-    let!(:order) { create(:order) }
-    before { get :new, params: { id: order.id } }
-    describe 'successful response' do
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template('new') }
+    let!(:valid_order) { create(:order) } #not today
+    let!(:invalid_order) { create(:order, creator_id: valid_order.creator_id, orderer_id: valid_order.orderer_id, deliverer_id: valid_order.deliverer_id, deadline: Time.zone.now - 1.hours) }
+
+    context 'valid order' do
+      before { get :new, params: { id: valid_order.id } }
+      describe 'successful response' do
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template('new') }
+      end
+      context 'item' do
+        it { expect(assigns(:item)).to be_a(Item) }
+        it { expect(assigns(:item).persisted?).to eq(false) }
+      end
     end
-    context 'item' do
-      it { expect(assigns(:item)).to be_a(Item) }
-      it { expect(assigns(:item).persisted?).to eq(false) }
+
+    context 'invalid order' do
+      before { get :new, params: { id: invalid_order.id }       
+      it { expect(redirect_to(orders_path)) }
+      it { expect(flash[:alert]).to be_present }
     end
+
   end
 
   describe '#create' do
