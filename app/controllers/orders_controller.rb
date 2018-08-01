@@ -86,6 +86,16 @@ class OrdersController < ApplicationController
     redirect_to orders_payment_path, notice: "#{items.count} email/s sended to: #{emails}."
   end
 
+  def ordered
+    order = Order.find(params[:id])
+    slack = SlackNotificationService.new
+    order.items.each do |item|
+      slack.call(item.user.email, "Your order ##{item.id} from #{order.place.name} was ordered!")
+      slack.call(item.user.email, "List of food you ordered: #{item.food}.")
+    end
+    redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
+  end
+
   private
 
   def order_params
