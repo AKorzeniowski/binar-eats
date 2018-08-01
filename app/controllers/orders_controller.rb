@@ -45,6 +45,16 @@ class OrdersController < ApplicationController
     @other_orders = Order.other_orders(current_user.id)
   end
 
+  def destroy
+    if Item.other_order_items(params[:id], current_user.id).count.zero?
+      order = Order.find(params[:id])
+      order.destroy
+      redirect_to orders_path, notice: 'Order was destroy'
+    else
+      redirect_to orders_path, alert: 'Order was not destroy - Someone add item to your order'
+    end
+  end
+
   def items
     @creator_order_items = Item.creator_order_items(params[:id], current_user.id)
     # rubocop:disable LineLength

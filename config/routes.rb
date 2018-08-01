@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get 'places/index'
     resources :places
     resources :items, only:[:new, :create, :show, :update, :destroy]
-    resources :orders, only:[:new, :create, :index, :edit, :update]
+    resources :orders, only:[:new, :create, :index, :edit, :update, :destroy]
     get 'orders/:id/payment/' => 'orders#payment', as: 'orders_payment'
     get 'orders/:id', to: 'items#new'
     get 'order/:id/items', to: 'orders#items', as: 'order_items'
@@ -20,6 +20,6 @@ Rails.application.routes.draw do
   if Rails.env.development?
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
-  end 
+  end
 
 end
