@@ -1,4 +1,4 @@
-class PlacesController < ApplicationController
+class Admin::PlacesController < Admin::BaseController
   def index
     @places = Place.all
     @place = Place.new
@@ -7,9 +7,9 @@ class PlacesController < ApplicationController
   def create
     @place = Place.new(place_params)
     if @place.save
-      redirect_to places_path, notice: 'New place was created'
+      redirect_to admin_places_path, notice: 'New place was created'
     else
-      redirect_to places_path, alert: 'New place was not created'
+      redirect_to admin_places_path, alert: 'New place was not created'
     end
   end
 
@@ -20,16 +20,16 @@ class PlacesController < ApplicationController
   def update
     @place = Place.find(params[:id])
     if @place.update(place_params)
-      redirect_to places_path, notice: 'Place has been updated.'
+      redirect_to admin_places_path, notice: 'Place has been updated.'
     else
-      redirect_to edit_place_path(@place.id)
+      render action: 'edit'
     end
   end
 
   def destroy
     @place = Place.find(params[:id])
     @place.destroy
-    redirect_to places_path, notice: 'Place has been deleted.'
+    redirect_to admin_places_path, notice: 'Place has been deleted.'
   end
 
   private

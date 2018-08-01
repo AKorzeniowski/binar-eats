@@ -18,12 +18,16 @@
               <%= link_to '🗑 Destroy', order_path(id: order.id), method: :delete, remote: true, data: { confirm: 'Are you sure?' }, role: 'button', class: 'btn btn-danger' %>
             <% end %>
           <% end %>
-
+        <% else %>
+          <% if order.orderer_id == current_user.id %>
+            <%= link_to '📩 Order was ordered', orders_ordered_path(order.id), class: 'btn btn-info', method: :post %>
+          <% end %>
           <% if order.allowed_to_see_payment?(current_user) %>
+            <%= link_to '📩 Food delivery time', orders_food_delivery_info_path(order.id), class: 'btn btn-primary', method: :post %>
+            <%= link_to '✏️ Edit', edit_order_path(order.id), class: 'btn btn-secondary' %>
             <%= link_to '💰 Payment', orders_payment_path(order.id), class: 'btn btn-warning' %>
           <% end %>
-        <% else %>
-          🕗 Deadline has passed
+            🕗 Deadline has passed
         <% end %>
       </td>
     </tr>
