@@ -7,13 +7,16 @@
   <% collection.each do |order| %>
     <tr>
       <td><%= order.place.name %></td>
-      <td><%= order.deadline.strftime("%k:%I") %></td>
+      <td><%= order.deadline.strftime("%k:%M") %></td>
       <td>
         <% if Time.now.getlocal < order.deadline.getlocal %>
           <%= link_to '📝 Add your item', order_url(order.id), class: 'btn btn-info' %>
           <%= link_to '📋 Items', order_items_url(order.id), class: 'btn btn-primary' %>
           <% if collection == @my_orders %>
             <%= link_to '✏️ Edit', edit_order_path(order.id), class: 'btn btn-secondary' %>
+          <% end %>
+          <% if order.allowed_to_see_payment?(current_user) %>
+            <%= link_to '💰 Payment', orders_payment_path(order.id), class: 'btn btn-danger' %>
           <% end %>
         <% else %>
           🕗 Deadline has passed

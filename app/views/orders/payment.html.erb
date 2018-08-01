@@ -5,11 +5,13 @@
 <div class="container authors">
   <div class="row">
     <div class="col-3 btn btn-light"><%= label_tag "User name"%></div>
-    <div class="col-3 btn btn-light"><%= label_tag "Full costs: "%></div>
+    <div class="col-3 btn btn-light"><%= label_tag "Full costs "%></div>
+    <div class="col-2 btn btn-light"><%= label_tag "Paid"%></div>
   </div>
   <hr/>
   <% @order.items.each do |item| %>
     <%= render 'item', item: item %>
   <% end %>
+  <div align="center"><%= link_to 'Send payoff', orders_payoff_path, method: :post, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %></div>
 </div>
 <hr />
