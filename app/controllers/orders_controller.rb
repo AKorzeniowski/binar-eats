@@ -90,8 +90,9 @@ class OrdersController < ApplicationController
     order = Order.find(params[:id])
     slack = SlackNotificationService.new
     order.items.each do |item|
-      slack.call(item.user.email, "Your order ##{item.id} from #{order.place.name} was ordered!")
-      slack.call(item.user.email, "List of food you ordered: #{item.food}.")
+      info = "Your order ##{item.id} from #{order.place.name} was ordered!"
+      info += "\nList of food you ordered: #{item.food}."
+      slack.call(item.user.email, info)
     end
     redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
   end

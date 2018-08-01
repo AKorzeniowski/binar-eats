@@ -24,7 +24,7 @@
             <%= link_to '📩 Order was ordered', orders_ordered_path(order.id), class: 'btn btn-info', method: :post %>
           <% end %>
           <% if order.allowed_to_see_payment?(current_user) %>
-            <%= link_to '📩 Food delivery time', orders_food_delivery_info_path(order.id), class: 'btn btn-primary' %>
+            <%= link_to '📩 Food delivery time', orders_food_delivery_info_path(order.id), class: 'btn btn-primary', method: :post %>
             <%= link_to '💰 Payment', orders_payment_path(order.id), class: 'btn btn-warning' %>
           <% end %>
         <% end %>
