@@ -101,8 +101,8 @@ class OrdersController < ApplicationController
     if order.delivery_time
       slack = SlackNotificationService.new
       order.items.each do |item|
-        info = "Your order ##{item.id} from #{order.place.name}
-         will be delivered on #{order.delivery_time.strftime('%F %H:%M')}!"
+        info = "Your order ##{item.id} from #{order.place.name}"
+        info += " will be delivered on #{order.delivery_time.strftime('%F %H:%M')}!"
         slack.call(item.user.email, info)
       end
       return redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
