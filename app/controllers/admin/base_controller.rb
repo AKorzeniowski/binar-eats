@@ -4,10 +4,6 @@ class Admin::BaseController < ApplicationController
   before_action :authenticate
 
   def authenticate
-    if current_user.admin == 1
-      return
-    else
-      rediret_to root_path, alert: 'No permissions'  
-    end
+      redirect_to root_path, alert: 'No permissions' unless current_user && current_user.admin == 1
   end
 end
