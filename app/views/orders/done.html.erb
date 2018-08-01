@@ -3,6 +3,7 @@
 id="myInput">
 <button onclick="myFunction()">Copy link</button>
 
+<<<<<<< HEAD
 <script>
 function myFunction() {
 
@@ -16,3 +17,12 @@ function myFunction() {
 
 }
 </script>
+=======
+	<div class="form-row">
+		<input type="text_area" value="<%= url_for(action: "new", id: @order_id, controller: 'items', only_path: false) %>" class="form-control col-md-4"  id="copy-link-textarea" readonly>	<button class="btn btn-secondary col-md-2" id="copy-link-button">📑 Copy link</button>
+	</div>
+	<hr>
+	<%= render 'items/form' %>
+</div>
+<%= javascript_include_tag "order-link-copy" %>
+>>>>>>> dfffd899c5f5b73ba69577f0fa0c29a2e0a08c0f

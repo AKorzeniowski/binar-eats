@@ -1,25 +1,23 @@
 class ItemsController < ApplicationController
   def new
-    @item = Item.new
     @order = Order.find(params[:id])
     flash[:notice] = "Order with id #{params[:id]} doesn't exist!" unless @order
+    return @item = Item.new if @order.deadline > Time.zone.now
+    redirect_to orders_path, alert: "In order with id #{params[:id]} deadline has passed!"
   end
 
   def create
     message = 'Item was created!'
     params[:item][:cost] = params[:item][:cost].to_i
+    ord = Order.find(params[:item][:order_id])
 
     if params[:orderer] == 'true'
-      ord = Order.find(params[:item][:order_id])
-      ord.orderer_id = current_user.id
-      ord.save
+      ord.update(orderer_id: current_user.id)
       message += " Now you are orderer for order #{ord.id}!"
     end
 
     if params[:deliverer] == 'true'
-      ord = Order.find(params[:item][:order_id])
-      ord.deliverer_id = current_user.id
-      ord.save
+      ord.update(deliverer_id: current_user.id)
       message += " Now you are deliverer for order #{ord.id}!"
     end
 
@@ -40,18 +38,15 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     if @item.update(item_params)
       message = "Item #{params[:id]} was updated!"
+      ord = Order.find(@item.order_id)
 
       if params[:orderer] == 'true'
-        ord = Order.find(@item.order_id)
-        ord.orderer_id = current_user.id
-        ord.save
+        ord.update(orderer_id: current_user.id)
         message += " Now you are orderer for order #{ord.id}!"
       end
 
       if params[:deliverer] == 'true'
-        ord = Order.find(@item.order_id)
-        ord.deliverer_id = current_user.id
-        ord.save
+        ord.update(deliverer_id: current_user.id)
         message += " Now you are deliverer for order #{ord.id}!"
       end
 
@@ -62,7 +57,22 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    redirect_to root_path, notice: 'Item was deleted!' if Item.destroy(params[:id])
+    item = Item.where(id: params[:id]).first
+    return render :show if item.blank?
+    item.destroy
+    redirect_to root_path, notice: 'Item was deleted!'
+  end
+
+  def payoff
+    @item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == @item.user.id
+  end
+
+  def payoff_confirm
+    item = Item.find(params[:id])
+    return redirect_to root_path, alert: "It's, not your payoff!" unless current_user.id == item.user.id
+    item.update(has_paid: true)
+    redirect_to root_path, notice: "Item #{item.id} payment confirmed!"
   end
 
   private

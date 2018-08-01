@@ -18,7 +18,14 @@ Rails.application.routes.draw do
     get 'orders/:id', to: 'items#new'
     get 'order/:id/items', to: 'orders#items', as: 'order_items'
     get 'order/done', to: 'orders#done'
-
+    post 'order/:id/send_payoff', to: 'orders#send_payoff', as: 'orders_payoff'
+    get 'items/:id/payoff', to: 'items#payoff', as: 'item_payoff'
+    post 'items/:id/payoff_confirm', to: 'items#payoff_confirm', as: 'item_payoff_confirm'
   end
+
+  if Rails.env.development?
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
+  end 
 
 end

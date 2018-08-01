@@ -9,10 +9,19 @@ class Order < ApplicationRecord
 
   default_scope { order(deadline: :asc) }
 
+  scope :old, -> {
+    where('DATE(deadline) < ?', Time.zone.today)
+  }
+
   scope :my_orders, ->(creator_id) {
     where('creator_id = ? AND DATE(deadline) = ?', creator_id, Time.zone.today)
   }
   scope :other_orders, ->(creator_id) {
     where.not('creator_id = ?', creator_id).where('DATE(deadline) = ?', Time.zone.today)
   }
+
+  def allowed_to_see_payment?(user)
+    (delivery_by_restaurant == true && user.id == orderer_id) ||
+      (delivery_by_restaurant == false && user.id == deliverer_id)
+  end
 end

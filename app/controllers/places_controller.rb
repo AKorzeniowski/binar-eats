@@ -22,7 +22,7 @@ class PlacesController < ApplicationController
     if @place.update(place_params)
       redirect_to places_path, notice: 'Place has been updated.'
     else
-      render action: 'edit'
+      redirect_to edit_place_path(@place.id)
     end
   end
 
