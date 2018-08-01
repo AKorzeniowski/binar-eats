@@ -4,9 +4,10 @@ class Admin::BaseController < ApplicationController
   before_action :authenticate
 
   def authenticate
-    if authenticate_or_request_with_http_basic 'Enter the password' do |name, password|
-      name == 'admin' && password == 'password'
-    end
+    if current_user.admin == 1
+      return
+    else
+      rediret_to root_path, alert: 'No permissions'  
     end
   end
 end
