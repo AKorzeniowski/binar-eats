@@ -13,7 +13,7 @@ RSpec.describe Place, type: :model do
   end
 
   describe 'relations' do
-    it { should have_many(:orders) }
-    it { expect(Place).to have_many(:orders).dependent(:destroy) }
+    it { should have_many(:orders).dependent( :destroy) }
+
   end
 end
