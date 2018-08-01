@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     post 'order/:id/send_payoff', to: 'orders#send_payoff', as: 'orders_payoff'
     get 'items/:id/payoff', to: 'items#payoff', as: 'item_payoff'
     post 'items/:id/payoff_confirm', to: 'items#payoff_confirm', as: 'item_payoff_confirm'
-    post 'orders/:id/ordered', to: 'orders/ordered', as: 'orders_ordered'
+    post 'orders/:id/ordered', to: 'orders#ordered', as: 'orders_ordered'
   end
 
   if Rails.env.development?
