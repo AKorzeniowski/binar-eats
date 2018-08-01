@@ -96,6 +96,18 @@ class OrdersController < ApplicationController
     redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
   end
 
+  def delivery_info
+    order = Order.find(params[:id])
+    if order.delivery_time
+      slack = SlackNotificationService.new
+      order.items.each do |item|
+        slack.call(item.user.email, "Your order ##{item.id} from #{order.place.name} will be dlivered on #{order.delivery_time}!")
+      end
+      return redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
+    end
+    redirect_to orders_path, alert: "You need to set delivery time."
+  end
+
   private
 
   def order_params
