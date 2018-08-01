@@ -17,4 +17,8 @@ class User < ApplicationRecord
   def name
     nickname.presence || email
   end
+
+  def admin?
+    admin == 1
+  end
 end

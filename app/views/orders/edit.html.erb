@@ -1,16 +1,13 @@
-<h1>Edit order</h1>
-
-<table>
+<div class="container">
+  <h1>Edit order</h1>
   <%= form_for @order do |f| %>
-  <tr>
-    <tr>
-      <% if current_user.id == @order.creator_id && @order.deadline >= Time.zone.now%>
-      <td>Deadline</td>
-      <td><%= f.time_select :deadline, {minute_step: 1} %></td>
+      <% if current_user.id == @order.creator_id && @order.deadline >= Time.zone.now %>
+      <div class="form-group">
+        <%= f.label :deadline %>
+      <%= f.time_select :deadline, {minute_step: 1} %>
+      </div>
       <% end %>
-    </tr>
-    <% if @order.allowed_to_see_payment?(current_user)%>
-    <tr>
+    <% if @order.allowed_to_see_payment?(current_user) %>
       <div class="form-group">
         <%= f.label :delivery_cost %>
         <%= f.number_field :delivery_cost, value: @order.delivery_cost, step: :any, placeholder: "Enter full cost of delivery..." %>
@@ -19,10 +16,7 @@
         <%= f.label :delivery_time, "Delivery time" %>
         <%= f.time_select :delivery_time, {minute_step: 1} %>
       </div>
-    </tr>
     <% end %>
-    <tr colspan="2">
-      <td><%= f.submit 'Save' %></td>
-    </tr>
+     <%= f.submit 'Save' %>
   <% end %>
-</table>
+</div>
