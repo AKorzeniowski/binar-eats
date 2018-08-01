@@ -4,12 +4,12 @@
   <%= form_for @order do |f| %>
   <tr>
     <tr>
-      <% if current_user.id == @order.creator_id %>
+      <% if current_user.id == @order.creator_id && @order.deadline >= Time.zone.now%>
       <td>Deadline</td>
       <td><%= f.time_select :deadline, {minute_step: 1} %></td>
       <% end %>
     </tr>
-    <% if current_user.id == @order.orderer_id %>
+    <% if @order.allowed_to_see_payment?(current_user)%>
     <tr>
       <div class="form-group">
         <%= f.label :delivery_cost %>
