@@ -3,8 +3,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [:update]
 
-  def update; end
-
   protected
 
   def configure_account_update_params
