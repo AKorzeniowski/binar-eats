@@ -28,8 +28,6 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     return (redirect_to orders_path, alert: "You can't see this order!") if
     current_user.id != @order.creator_id && current_user.id != @order.orderer_id
-    return (redirect_to orders_path, alert: "In order with id #{params[:id]} deadline has passed!") if
-    @order.deadline < Time.zone.now
   end
 
   def update
@@ -91,10 +89,25 @@ class OrdersController < ApplicationController
     order = Order.find(params[:id])
     slack = SlackNotificationService.new
     order.items.each do |item|
-      slack.call(item.user.email, "Your order ##{item.id} from #{order.place.name} was ordered!")
-      slack.call(item.user.email, "List of food you ordered: #{item.food}.")
+      info = "Your order ##{item.id} from #{order.place.name} was ordered!"
+      info += "\nList of food you ordered: #{item.food}."
+      slack.call(item.user.email, info)
     end
     redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
+  end
+
+  def delivery_info
+    order = Order.find(params[:id])
+    if order.delivery_time
+      slack = SlackNotificationService.new
+      order.items.each do |item|
+        info = "Your order ##{item.id} from #{order.place.name}
+         will be delivered on #{order.delivery_time.strftime('%F %H:%M')}!"
+        slack.call(item.user.email, info)
+      end
+      return redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
+    end
+    redirect_to orders_path, alert: 'You need to set delivery time.'
   end
 
   private
