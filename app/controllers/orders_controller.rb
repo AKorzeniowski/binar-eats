@@ -46,7 +46,7 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    if Item.other_order_items(params[:id], current_user.id).count == 0
+    if Item.other_order_items(params[:id], current_user.id).count.zero?
       order = Order.find(params[:id])
       order.destroy
       redirect_to orders_path, notice: 'Order was destroy'

@@ -14,7 +14,7 @@
           <%= link_to '📋 Items', order_items_url(order.id), class: 'btn btn-primary' %>
           <% if collection == @my_orders %>
             <%= link_to '✏️ Edit', edit_order_path(order.id), class: 'btn btn-secondary' %>
-            <% if Item.other_order_items(order.id, current_user.id).count == 0 %>
+            <% if Item.other_order_items(order.id, current_user.id).count.zero? %>
               <%= link_to '🗑 Destroy', order_path(id: order.id), method: :delete, remote: true, data: { confirm: 'Are you sure?' }, role: 'button', class: 'btn btn-danger' %>
             <% end %>
           <% end %>
