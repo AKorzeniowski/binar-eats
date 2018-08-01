@@ -95,10 +95,10 @@ Rails.application.configure do
   config.action_mailer.default_options = {from: 'internship@dev.binarapps.com'}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: Rails.application.credentials[:smtp][:address],
+    address: Rails.application.credentials.smtp[:address],
     port: 587,
-    user_name: Rails.application.credentials[:smtp][:user_name],
-    password: Rails.application.credentials[:smtp][:password],
+    user_name: Rails.application.credentials.smtp[:user_name],
+    password: Rails.application.credentials.smtp[:password],
     authentication: 'plain',
     enable_starttls_auto: true
   }
