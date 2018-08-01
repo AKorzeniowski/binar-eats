@@ -26,6 +26,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap'
 # Use Devise for authentication
 gem 'devise'
+# Use Slack Notifier for posting to Slack
+gem 'slack-ruby-client'
 # Use Sidekiq for task scheduling
 gem 'sidekiq'
 

@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
       @order[:place_id] = @place.id
     end
 
-    @order.orderer_id = params['orderer_id'] if params['orderer_id'].to_i > 1
+    @order.orderer_id = params['orderer_id'] if params['orderer_id'].to_i >= 1
 
     @order.deliverer_id = params['deliverer'] if params['deliverer'].to_i >= 1
     @order.delivery_by_restaurant = true if params['deliverer'].to_i == -1
@@ -43,6 +43,16 @@ class OrdersController < ApplicationController
   def index
     @my_orders = Order.my_orders(current_user.id)
     @other_orders = Order.other_orders(current_user.id)
+  end
+
+  def destroy
+    if Item.other_order_items(params[:id], current_user.id).count.zero?
+      order = Order.find(params[:id])
+      order.destroy
+      redirect_to orders_path, notice: 'Order was destroy'
+    else
+      redirect_to orders_path, alert: 'Order was not destroy - Someone add item to your order'
+    end
   end
 
   def items
