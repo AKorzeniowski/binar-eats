@@ -9,8 +9,9 @@
   <body>
     <h1>Welcome, <%= @item.user.name %></h1>
     <p>
-      You need to pay for your order.</br>
-      Cost of your order: <%= @item.cost %></br>
+      You need to pay for your order.<br>
+      Cost of your order: <%= @item.cost %><br>
+      Cost of delivery: <%= @delivery %><br>
       Account number: <%= @sender.account_number %><br>
       Click button below after payment.
     </p>
