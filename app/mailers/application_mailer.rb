@@ -10,4 +10,11 @@ class ApplicationMailer < ActionMailer::Base
     @delivery = cost / @order.items.count
     mail(to: @item.user.email, subject: "Payoff for your item from #{@order.place.name}.")
   end
+
+  def payment_mail(order, sender, emails)
+    @order = order
+    @sender = sender
+    @emails = emails
+    mail(to: @sender.email, subject: "List of loaners from #{@order.place.name}.")
+  end
 end
