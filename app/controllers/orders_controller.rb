@@ -95,6 +95,7 @@ class OrdersController < ApplicationController
       info += "\nList of food you ordered: #{item.food}."
       slack.call(item.user.email, info)
     end
+    order.update(used_ordered_button: 1)
     redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
   end
 
@@ -107,6 +108,7 @@ class OrdersController < ApplicationController
         info += " will be delivered on #{order.delivery_time.strftime('%F %H:%M')}!"
         slack.call(item.user.email, info)
       end
+      order.update(used_delivery_time_button: 1)
       return redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
     end
     redirect_to orders_path, alert: 'You need to set delivery time.'
