@@ -36,7 +36,7 @@ class OrdersController < ApplicationController
 
     date = params['order']
     d = Time.new(date['delivery_time(1i)'].to_i, date['delivery_time(2i)'].to_i,
-      date['delivery_time(3i)'].to_i, date['delivery_time(4i)'].to_i, date['delivery_time(5i)'].to_i)
+      date['delivery_time(3i)'].to_i, date['delivery_time(4i)'].to_i, date['delivery_time(5i)'].to_i).in_time_zone
 
     if d < Time.zone.now
       flash[:alert] = 'Delivery time passed!'
