@@ -35,8 +35,8 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
 
     date = params['order']
-    d = DateTime.new(date["delivery_time(1i)"].to_i, date["delivery_time(2i)"].to_i,
-    date["delivery_time(3i)"].to_i, date["delivery_time(4i)"].to_i, date["delivery_time(5i)"].to_i)
+    d = Time.new(date['delivery_time(1i)'].to_i, date['delivery_time(2i)'].to_i,
+      date['delivery_time(3i)'].to_i, date['delivery_time(4i)'].to_i, date['delivery_time(5i)'].to_i)
 
     if d < Time.zone.now
       flash[:alert] = 'Delivery time passed!'
