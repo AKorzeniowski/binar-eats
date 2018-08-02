@@ -12,4 +12,11 @@ class ProfileController < ApplicationController
       render :edit
     end
   end
+  
+  private
+
+  def profile_params
+    params.require(:user).
+      permit(:nickname, :account_number)
+  end
 end
