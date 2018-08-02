@@ -33,12 +33,8 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-
-    date = params['order']
-    d = Time.new(date['delivery_time(1i)'].to_i, date['delivery_time(2i)'].to_i,
-      date['delivery_time(3i)'].to_i, date['delivery_time(4i)'].to_i, date['delivery_time(5i)'].to_i).in_time_zone
-
-    if d < Time.zone.now
+    date = convert_datetime(params['order'])
+    if date && date < Time.zone.now
       flash[:alert] = 'Delivery time passed!'
       return render :edit
     end
@@ -131,5 +127,13 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order).
       permit(:creator_id, :deliverer_id, :orderer_id, :place_id, :deadline, :delivery_cost, :delivery_time)
+  end
+
+  def convert_datetime(date)
+    if date.key?('delivery_time(1i)') && date.key?('delivery_time(2i)') &&
+       date.key?('delivery_time(3i)') && date.key?('delivery_time(4i)') && date.key?('delivery_time(5i)')
+      Time.new(date['delivery_time(1i)'].to_i, date['delivery_time(2i)'].to_i,
+        date['delivery_time(3i)'].to_i, date['delivery_time(4i)'].to_i, date['delivery_time(5i)'].to_i).in_time_zone
+    end
   end
 end

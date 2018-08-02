@@ -249,8 +249,8 @@ RSpec.describe OrdersController, type: :controller do
   describe '#update' do
     updated_deadline = Time.now.getlocal + 1.hours + 1.minute
 		let(:order) { create(:order, delivery_time: nil) }
-		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline, delivery_time: 3.hours.from_now} } }
-		let(:invalid_attributes) {	{	id:	order.id,	order:	{	deadline: nil	}	}	}
+		let(:valid_attributes)	{	{	id:	order.id,	order:	{	deadline: updated_deadline, delivery_time: 7.hours.from_now} } }
+		let(:invalid_attributes) {	{	id:	order.id,	order:	{	deadline: nil, delivery_time: nil	}	}	}
 
     context 'valid params' do
       subject { patch :update, params: valid_attributes }
