@@ -23,6 +23,9 @@ class ItemsController < ApplicationController
 
     @item = Item.new(item_params.merge(user_id: current_user.id))
 
+    alert = "In order with id #{@item.order.id} deadline has passed!"
+
+    return redirect_to orders_path, alert: alert if @item.order.deadline <  Time.zone.now
     return redirect_to order_items_path(@item.order.id), notice: message if @item.save
     render :new
   end
