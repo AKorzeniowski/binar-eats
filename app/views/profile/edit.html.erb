@@ -1,0 +1,15 @@
+<div class="container">
+	<h1>Edit your profile</h1>
+	<%= form_for @user, url: 'profile#update' do |f| %>
+	  <div class="field">
+	    <%= f.label :nickname %> </br>
+	    <%= f.text_field :nickname, autocomplete: "off" %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :account_number %> </br>
+	    <%= f.text_field :account_number, autocomplete: "off" %>
+	  </div>
+		<%= f.submit %>
+	<% end %>
+</div>
