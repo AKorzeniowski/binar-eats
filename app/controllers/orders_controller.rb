@@ -93,8 +93,6 @@ class OrdersController < ApplicationController
     end
     PaymentMailRedoJob.set(wait_until: 24.hours.from_now).perform_later(@order.id, current_user)
     redirect_to orders_payment_path, notice: "#{items.count} email/s sended to: #{emails}."
-
-
   end
 
   def ordered

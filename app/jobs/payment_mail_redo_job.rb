@@ -9,6 +9,5 @@ class PaymentMailRedoJob < ApplicationJob
     end
 
     PaymentMailTimePassedJob.set(wait_until: 24.hours.from_now).perform_later(@order.id, sender)
-
   end
 end
