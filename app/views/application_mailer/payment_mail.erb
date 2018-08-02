@@ -1,0 +1,8 @@
+Welcome, <%= @sender.name %>
+===============================================
+
+This is payment summary for order <%= @order.id %>.
+People who didn't paid: <%= @emails.count %>.
+<% @emails.each do |email| %>
+  <%= email %>
+<% end %>

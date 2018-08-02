@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>Welcome, <%= @sender.name %></h1>
+    <p>
+      This is payment summary for order <%= @order.id %>.<br>
+      People who didn't paid: <%= @emails.count %>.<br>
+      <% @emails.each do |email| %>
+        <%= email %><br>
+      <% end %>
+    </p>
+  </body>
+</html>
