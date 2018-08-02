@@ -1,6 +1,4 @@
-<div class="jumbotron">
-  <h1><%= "Payment for #{@order.items.count} item/s from order" %> <%= link_to "#{ @order.id} - #{@order.place.name} ", "#{orders_path}/#{@order.id}" %></h1>
-</div class="jumbotron">
+<h1><%= "Payment for #{@order.items.count} item/s for order" %> <%= link_to "#{ @order.id} from #{@order.place.name} ", "#{orders_path}/#{@order.id}" %></h1>
 
 <div class="container authors">
   <div class="row">
