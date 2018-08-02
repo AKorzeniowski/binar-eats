@@ -4,7 +4,7 @@ class ProfileController < ApplicationController
     render :edit
   end
 
-  def update    
+  def update
     @user = current_user
     if @user.update(profile_params)
       redirect_to profile_edit_path, notice: 'Profile was updated'
