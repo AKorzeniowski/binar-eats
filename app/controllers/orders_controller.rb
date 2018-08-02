@@ -33,8 +33,8 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     if @order.update(order_params)
-      if params.key?(:delivery_time)
-
+      if params["order"]["delivery_time(1i)"]
+        OrderDeliveryNotificationJob.set(wait_until: @order.delivery_time - 5.minutes).perform_later(@order.id)
       end
       redirect_to orders_path, notice: 'Order was updated'
     else
