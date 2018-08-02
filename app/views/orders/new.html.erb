@@ -26,9 +26,9 @@
 		<div id="deliverer" class="wizard__step">
 			<h2>Who will deliver?</h2>
 			<p>A <strong>deliverer</strong> is the person who <strong>picks up the order from restaurant</strong>. </p>
-		  <div class="form-check"><%= radio_button_tag :deliverer, current_user.id %><%= label_tag :deliverer_id, "I am the deliverer" %></div>
-		  <div class="form-check"><%= radio_button_tag :deliverer, -1, checked: true  %><%= label_tag :deliverer_id, "Will be delivered by restaurant" %></div>
-		  <div class="form-check"><%= radio_button_tag :deliverer, 0 %><%= label_tag :deliverer_id, "Last person to add their item will deliver" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, current_user.id %><%= label_tag "deliverer_#{current_user.id}", "I am the deliverer" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, -1, checked: true  %><%= label_tag 'deliverer_-1', "Will be delivered by restaurant" %></div>
+		  <div class="form-check"><%= radio_button_tag :deliverer, 0 %><%= label_tag 'deliverer_0', "Last person to add their item will deliver" %></div>
 		  <br>
 		  <button class="wizard_button wizard__button--prev btn btn-secondary">Back</button>
 		  <button class="wizard_button wizard__button--next btn btn-primary">Next</button>
