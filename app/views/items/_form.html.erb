@@ -9,12 +9,18 @@
 
   <% if @order.orderer_id == nil %>
     <%= hidden_field_tag :orderer, '' %>
-    <%= check_box_tag :orderer, checked = true %> I want to be orderer.</br></br>
+    <%= check_box_tag :orderer, checked = true %> I want to be orderer.</br></br>  
+  <% else %>
+    <%= label_tag "Your order will be placed by #{@order.orderer.name}."%>
+    <hr/>
   <% end %>
 
   <% if @order.deliverer_id == nil && @order.delivery_by_restaurant == false %>
     <%= hidden_field_tag :deliverer, '' %>
-    <%= check_box_tag :deliverer, checked = true %> I want to be deliverer.</br></br>
+    <%= check_box_tag :deliverer, checked = true %> I want to be deliverer.</br></br>  
+  <% else %>
+    <%= label_tag "Your order will be deliverered by #{@order.deliverer.name}."%>
+    <hr/>
   <% end %>
 
   <div class="form-group">

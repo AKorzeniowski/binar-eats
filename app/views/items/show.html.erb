@@ -20,14 +20,13 @@
     <%= f.text_area :food, cols: 50, rows: 5, :required => true, placeholder: "Enter all things you want to eat from #{@item.order.place.name} ..." %>
   </div>
   <hr/>
-
   <% if @item.order.orderer_id == nil %>
     <br/>
     <%= hidden_field_tag :orderer, '' %>
     <%= check_box_tag :orderer, checked = true %> I want to be orderer.</br></br>
     <hr/>
   <% else %>
-    <%= label_tag "Orderer: #{@orderer}"%>
+    <%= label_tag "Your order will be placed by #{@item.order.orderer.name}."%>
     <hr/>
   <% end %>
 
@@ -37,7 +36,7 @@
     <%= check_box_tag :deliverer, checked = true %> I want to be deliverer.</br></br>
     <hr/>
   <% else %>
-    <%= label_tag "Deliverer: #{@deliverer}"%>
+    <%= label_tag "Your order will be delivered by #{@item.order.deliverer.name}."%>
      <hr/>
   <% end %>
 
