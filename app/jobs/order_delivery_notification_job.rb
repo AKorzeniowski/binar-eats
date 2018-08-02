@@ -1,4 +1,4 @@
-class OrderDeliveryNotification < ApplicationJob
+class OrderDeliveryNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(order_id)

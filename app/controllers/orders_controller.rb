@@ -33,6 +33,9 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     if @order.update(order_params)
+      if params.key?(:delivery_time)
+
+      end
       redirect_to orders_path, notice: 'Order was updated'
     else
       render :edit
