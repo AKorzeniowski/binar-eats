@@ -1,15 +1,16 @@
 <div class="container">
 	<h1>Edit your profile</h1>
 	<%= form_for @user, url: 'profile#update' do |f| %>
-	  <div class="field">
+	  <div class="form-group">
 	    <%= f.label :nickname %> </br>
 	    <%= f.text_field :nickname, autocomplete: "off" %>
 	  </div>
-
-	  <div class="field">
+	  <div class="form-group">
 	    <%= f.label :account_number %> </br>
-	    <%= f.text_field :account_number, autocomplete: "off" %>
+	    <%= f.text_field :account_number, autocomplete: "off", size: 32 %>
 	  </div>
-		<%= f.submit %>
+	  <div class="form-group">
+		<%= f.submit 'Save', role: 'button', class: 'btn btn-primary' %>
+	  </div>
 	<% end %>
 </div>
