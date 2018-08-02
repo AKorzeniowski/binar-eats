@@ -33,6 +33,12 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
+    date = convert_datetime(params['order'])
+    if date && date < Time.zone.now
+      flash[:alert] = 'Delivery time passed!'
+      return render :edit
+    end
+
     if @order.update(order_params)
       @order.update_delivery_notification if params['order']['delivery_time(1i)'] && @order.
           delivery_by_restaurant == false
@@ -85,7 +91,7 @@ class OrdersController < ApplicationController
       ApplicationMailer.payoff_mail(@order, current_user, item).deliver_now
       emails << item.user.email
     end
-
+    PaymentMailRedoJob.set(wait_until: 24.hours.from_now).perform_later(@order.id, current_user)
     redirect_to orders_payment_path, notice: "#{items.count} email/s sended to: #{emails}."
   end
 
@@ -97,6 +103,7 @@ class OrdersController < ApplicationController
       info += "\nList of food you ordered: #{item.food}."
       slack.call(item.user.email, info)
     end
+    order.update(used_ordered_button: 1)
     redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
   end
 
@@ -109,6 +116,7 @@ class OrdersController < ApplicationController
         info += " will be delivered on #{order.delivery_time.strftime('%F %H:%M')}!"
         slack.call(item.user.email, info)
       end
+      order.update(used_delivery_time_button: 1)
       return redirect_to orders_path, notice: "Information sended to #{order.items.count} users."
     end
     redirect_to orders_path, alert: 'You need to set delivery time.'
@@ -119,5 +127,13 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order).
       permit(:creator_id, :deliverer_id, :orderer_id, :place_id, :deadline, :delivery_cost, :delivery_time)
+  end
+
+  def convert_datetime(date)
+    if date.key?('delivery_time(1i)') && date.key?('delivery_time(2i)') &&
+       date.key?('delivery_time(3i)') && date.key?('delivery_time(4i)') && date.key?('delivery_time(5i)')
+      Time.new(date['delivery_time(1i)'].to_i, date['delivery_time(2i)'].to_i,
+        date['delivery_time(3i)'].to_i, date['delivery_time(4i)'].to_i, date['delivery_time(5i)'].to_i).in_time_zone
+    end
   end
 end

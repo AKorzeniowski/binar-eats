@@ -3,14 +3,14 @@
     <h1>My items in order</h1>
     <%= render 'items_list', :collection => @creator_order_items %>
   <% else %>
-    <h3>You don't have any items. 😞 Why not <%= link_to "create one", order_path %>?</h3>
+    <h3>You haven't added any items to this order. 😞 Why not <%= link_to "add one", order_path %>?</h3>
   <% end %>
   <% if @other_order_items %>
-    <h1>Other items</h1>
+    <h1>Others' items</h1>
     <% if @other_order_items.size > 0 %>
       <%= render 'items_list', :collection => @other_order_items %>
     <% else %>
-      <h3>Nobody else wants to eat. 😱</h3>
+      <h3>No items from other people. 😱</h3>
     <% end %>
   <% end %>
 </div>

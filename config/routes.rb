@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     post 'items/:id/payoff_confirm', to: 'items#payoff_confirm', as: 'item_payoff_confirm'
     post 'orders/:id/ordered', to: 'orders#ordered', as: 'orders_ordered'
     post 'orders/:id/deliveryinfo', to: 'orders#delivery_info', as: 'orders_food_delivery_info'
+    get 'users/profile', to: 'profile#edit', as: 'profile_edit'
+    patch 'users/profile', to: 'profile#update', as: 'profile_update'
   end
 
   if Rails.env.development?
