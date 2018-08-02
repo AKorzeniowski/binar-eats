@@ -1,15 +1,16 @@
-<h1><%= "Payment for #{@order.items.count} item/s for order" %> <%= link_to "#{ @order.id} from #{@order.place.name} ", "#{orders_path}/#{@order.id}" %></h1>
+<div class="container">
+  <h1><%= "Payment for #{@order.items.count} item/s for order" %> <%= link_to "#{ @order.id} from #{@order.place.name} ", "#{orders_path}/#{@order.id}" %></h1>
 
-<div class="container authors">
-  <div class="row">
-    <div class="col-3 btn btn-light"><%= label_tag "User name"%></div>
-    <div class="col-3 btn btn-light"><%= label_tag "Full costs "%></div>
-    <div class="col-2 btn btn-light"><%= label_tag "Paid"%></div>
-  </div>
-  <hr/>
-  <% @order.items.each do |item| %>
-    <%= render 'item', item: item %>
-  <% end %>
+  <table class="table table-dark">
+    <tr>
+      <th>User name</th>
+      <th>Full costs</th>
+      <th>Has paid?</th>
+      <th>Action</th>
+    </tr>
+    <% @order.items.each do |item| %>
+      <%= render 'item', item: item %>
+    <% end %>
+  </table>
   <div align="center"><%= link_to 'Send payoff', orders_payoff_path, method: :post, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %></div>
 </div>
-<hr />
