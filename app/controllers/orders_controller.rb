@@ -33,6 +33,16 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
+
+    date = params['order']
+    d = DateTime.new(date["delivery_time(1i)"].to_i, date["delivery_time(2i)"].to_i,
+    date["delivery_time(3i)"].to_i, date["delivery_time(4i)"].to_i, date["delivery_time(5i)"].to_i)
+
+    if d < Time.zone.now
+      flash[:alert] = 'Delivery time passed!'
+      return render :edit
+    end
+
     if @order.update(order_params)
       @order.update_delivery_notification if params['order']['delivery_time(1i)'] && @order.
           delivery_by_restaurant == false
