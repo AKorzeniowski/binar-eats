@@ -3,6 +3,7 @@
     You are adding an item to Order #<%= @order.id %> from <%= @order.place.name %>
   </h1>
   <h2>Deadline for this order is <%= @order.deadline.strftime("%k:%M") %>.</h2>
+  <%= render 'orders/link' %> 
 <% if @item.errors.any? %>
   <ul>
     <% @item.errors.full_messages.each do |msg| %>
