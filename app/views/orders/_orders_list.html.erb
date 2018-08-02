@@ -6,7 +6,7 @@
   </tr>
   <% collection.each do |order| %>
     <tr>
-      <td><%= order.place.name %></td>
+      <td><%= link_to " #{order.place.name}", order_items_url(order.id) %></td>
       <td><%= order.deadline.strftime("%k:%M") %></td>
       <td>
         <% if Time.now.getlocal < order.deadline.getlocal %>
