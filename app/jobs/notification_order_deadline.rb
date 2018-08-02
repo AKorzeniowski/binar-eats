@@ -1,4 +1,4 @@
-class NotificationOrderDeadlineJob < ApplicationJob
+class NotificationOrderDeadline < ApplicationJob
   queue_as :default
 
   def perform(order_id)
