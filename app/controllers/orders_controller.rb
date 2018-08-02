@@ -33,10 +33,8 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     if @order.update(order_params)
-      if params["order"]["delivery_time(1i)"] && @order.delivery_by_restaurant == false
-        ob = OrderDeliveryNotificationJob.set(wait_until: @order.delivery_time - 5.minutes).perform_later(@order.id)
-        # puts ob.job_id
-      end
+      @order.update_delivery_notification if params['order']['delivery_time(1i)'] && @order.
+          delivery_by_restaurant == false
       redirect_to orders_path, notice: 'Order was updated'
     else
       render :edit

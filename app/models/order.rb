@@ -24,4 +24,10 @@ class Order < ApplicationRecord
     (delivery_by_restaurant == true && user.id == orderer_id) ||
       (delivery_by_restaurant == false && user.id == deliverer_id)
   end
+
+  def update_delivery_notification
+    Sidekiq::ScheduledSet.new.select { delivery_notification }.each(&:delete) if delivery_notification.present?
+    self.delivery_notification = OrderDeliveryNotificationJob.
+      set(wait_until: delivery_time - 5.minutes).perform_later(id).job_id
+  end
 end
