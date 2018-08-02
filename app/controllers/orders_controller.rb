@@ -17,7 +17,8 @@ class OrdersController < ApplicationController
     @order.delivery_by_restaurant = true if params['deliverer'].to_i == -1
 
     if @order.save
-      NotificationOrderDeadline.set(wait_until: @order.deadline - 5.minutes).perform_later(@order.id)
+      job = NotificationOrderDeadline.set(wait_until: @order.deadline - 5.minutes).perform_later(@order.id)
+      @order.update(deadline_notification: job.job_id)
       redirect_to order_done_path(order_id: @order.id), notice: 'Order was created'
     else
       render :new
@@ -35,6 +36,7 @@ class OrdersController < ApplicationController
     if @order.update(order_params)
       @order.update_delivery_notification if params['order']['delivery_time(1i)'] && @order.
           delivery_by_restaurant == false
+      @order.update_deadline_notification
       redirect_to orders_path, notice: 'Order was updated'
     else
       render :edit
