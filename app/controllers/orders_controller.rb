@@ -46,7 +46,7 @@ class OrdersController < ApplicationController
       @order.update_deadline_notification if params['order']['deadline(1i)']
       redirect_to orders_path, notice: 'Order was updated'
     else
-      render :edit;
+      render :edit
     end
   end
 
