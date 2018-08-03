@@ -35,6 +35,6 @@ class Admin::PlacesController < Admin::BaseController
   private
 
   def place_params
-    params.require(:place).permit(:name, :menu_url)
+    params.require(:place).permit(:name, :menu_url, :show)
   end
 end
