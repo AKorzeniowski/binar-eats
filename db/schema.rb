@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_02_232742) do
+ActiveRecord::Schema.define(version: 2018_08_03_094035) do
 
   create_table "items", force: :cascade do |t|
     t.integer "user_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2018_08_02_232742) do
     t.integer "used_delivery_time_button"
     t.integer "used_ordered_button"
     t.string "deadline_notification"
+    t.string "deadline_ord_deli_job"
     t.index ["creator_id"], name: "index_orders_on_creator_id"
     t.index ["deliverer_id"], name: "index_orders_on_deliverer_id"
     t.index ["orderer_id"], name: "index_orders_on_orderer_id"

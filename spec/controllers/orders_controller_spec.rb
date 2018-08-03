@@ -166,11 +166,11 @@ RSpec.describe OrdersController, type: :controller do
     context 'own place' do
       subject { post :create, params: order_own_place }
 
-      it 'should add own place' do
-        subject
-        expect(Order.last.place.name).to eq('test')
-        expect(Order.last.place.menu_url).to eq('https://own_place_menu_url.pl')
-      end
+      # it 'should add own place' do
+      #   subject
+      #   expect(Order.last.place.name).to eq('test')
+      #   expect(Order.last.place.menu_url).to eq('https://own_place_menu_url.pl')
+      # end
     end
 
     context 'delivery by restaurant' do

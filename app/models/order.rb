@@ -31,6 +31,12 @@ class Order < ApplicationRecord
       set(wait_until: delivery_time - 5.minutes).perform_later(id).job_id
   end
 
+  def update_last_deliverer_orderer_job
+    Sidekiq::ScheduledSet.new.select { deadline_ord_deli_job }.each(&:delete) if deadline_ord_deli_job.present?
+    self.deadline_ord_deli_job = DeadlineOrdererDelivererJob.set(wait_until: deadline).
+      perform_later(id).job_id
+  end
+
   def update_deadline_notification
     Sidekiq::ScheduledSet.new.select { deadline_notification }.each(&:delete) if deadline_notification.present?
     self.deadline_notification = NotificationOrderDeadline.
