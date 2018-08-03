@@ -9,6 +9,6 @@ class PaymentMailTimePassedJob < ApplicationJob
       @emails << item.user.email
     end
 
-    ApplicationMailer.payment_mail(@order, sender, @emails).deliver_now
+    ApplicationMailer.payment_mail(@order, sender, @emails).deliver_now unless @emails.size.!empty?
   end
 end
