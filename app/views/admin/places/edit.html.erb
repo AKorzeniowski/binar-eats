@@ -7,11 +7,14 @@
 <% end %>
 
 <%= form_for [:admin,@place] do |f|%>
-  <%= f.label :name %>
+  <%= f.label "Name of place" %>
   <%= f.text_field :name %>
   <hr />
-  <%= f.label :menu_ulr %>
-  <%= f.text_field :menu_url%>
+  <%= f.label "Menu URL" %>
+  <%= f.text_field :menu_url %>
   <hr />
-  <%= f.submit 'Safe' %>
+  <%= f.label "Show place in main list?" %>
+  <%= f.check_box :show %>
+  <hr />
+  <%= f.submit 'Save' %>
 <%end %>

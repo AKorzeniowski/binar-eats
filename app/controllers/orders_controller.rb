@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
 
-    if order_params[:place_id].to_i > 4
+    if order_params[:place_id].to_i.zero?
       @place = Place.create(name: params['own_place_name'], menu_url: params['own_place_menu_url'])
       @order[:place_id] = @place.id
     end
@@ -17,6 +17,7 @@ class OrdersController < ApplicationController
     @order.delivery_by_restaurant = true if params['deliverer'].to_i == -1
 
     if @order.save
+      @order.update_last_deliverer_orderer_job
       job = NotificationOrderDeadline.set(wait_until: @order.deadline - 5.minutes).perform_later(@order.id)
       @order.update(deadline_notification: job.job_id)
       redirect_to order_done_path(order_id: @order.id), notice: 'Order was created'
@@ -31,6 +32,7 @@ class OrdersController < ApplicationController
     current_user.id != @order.creator_id && current_user.id != @order.orderer_id
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
   def update
     @order = Order.find(params[:id])
     date = convert_datetime(params['order'])
@@ -42,12 +44,16 @@ class OrdersController < ApplicationController
     if @order.update(order_params)
       @order.update_delivery_notification if params['order']['delivery_time(1i)'] && @order.
           delivery_by_restaurant == false
-      @order.update_deadline_notification
+      if params['order']['deadline(1i)']
+        @order.update_deadline_notification
+        @order.update_last_deliverer_orderer_job
+      end
       redirect_to orders_path, notice: 'Order was updated'
     else
       render :edit
     end
   end
+  # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 
   def index
     @my_orders = Order.my_orders(current_user.id)

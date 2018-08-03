@@ -3,9 +3,9 @@ class NotificationOrderDeadline < ApplicationJob
 
   def perform(order_id)
     slack = SlackNotificationService.new
-    message = "Deadline for Order##{order_id} will pass for 5 minutes."
     order = Order.find(order_id)
-    order.orderer_id = order.creator_id if order.orderer_id.nil?
+    message = "Deadline for Order##{order.id} from #{order.place.name} will pass for 5 minutes."
+    order.orderer_id = order.items.last.user.id if order.orderer_id.nil?
     slack.call(User.find(order.orderer_id).email, message)
   end
 end
