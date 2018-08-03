@@ -44,8 +44,10 @@ class OrdersController < ApplicationController
     if @order.update(order_params)
       @order.update_delivery_notification if params['order']['delivery_time(1i)'] && @order.
           delivery_by_restaurant == false
-      @order.update_last_deliverer_orderer_job if params['order']['deadline(1i)']
-      @order.update_deadline_notification
+      if params['order']['deadline(1i)']
+        @order.update_deadline_notification
+        @order.update_last_deliverer_orderer_job
+      end
       redirect_to orders_path, notice: 'Order was updated'
     else
       render :edit
