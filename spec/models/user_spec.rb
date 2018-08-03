@@ -22,4 +22,16 @@ RSpec.describe User, type: :model do
     it { should have_many(:received_orders) }
     it { should have_many(:items) }
   end
+
+  describe 'Admin? ' do
+    let(:user) { build(:user) }
+
+    context 'it is not' do
+      it {expect(user.admin?).to eq(false)}
+    end
+    context 'it is' do
+      before {user.update(admin: 1)}
+      it {expect(user.admin?).to eq(true)}
+    end
+  end
 end
