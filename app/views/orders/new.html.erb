@@ -6,7 +6,7 @@
 		<div id="place" class="wizard__step">
 		  <h2>Where do we order from?</h2>
 		  Select place
-			<%= collection_select(:order, :place_id, Place.all.limit(4), :id, :name) %>
+			<%= collection_select(:order, :place_id, Place.visible, :id, :name) %>
 			<div id="own_place"></div>
 		  <br>
 		  <button class="wizard__button--next btn btn-primary">Next</button>

@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
 
-    if order_params[:place_id].to_i > 4
+    if order_params[:place_id].to_i == 0
       @place = Place.create(name: params['own_place_name'], menu_url: params['own_place_menu_url'])
       @order[:place_id] = @place.id
     end

@@ -26,15 +26,19 @@ $(document).on('turbolinks:load', function() {
   }
 
   function show(element) {
-    element.style.display = 'block'
+    if (element) { 
+      element.style.display = 'block'
+    }
   }
 
   function hide(element) {
-    element.style.display = 'none'
+    if (element) { 
+      element.style.display = 'none'
+    }
   }
 
-  if ($('#order_place_id').children('option').length < 5) {
-    $('#order_place_id').append('<option value="5">Another place</option>')
+  if ($('#order_place_id').length && !$('#custom_place').length) {
+    $('#order_place_id').append('<option id="custom_place" value="0">Another place</option>')
   }
 
   function checkInputs() {
@@ -54,7 +58,7 @@ $(document).on('turbolinks:load', function() {
   $('#order_place_id').change(function() {
     $('#own_place').empty()
     $('.wizard__button--next').attr("disabled", true)
-    if ($(this).val() == 5) {
+    if ($(this).val() == 0) {
       addInputs();
       $("input[name='own_place_name']").change(function() {
         checkInputs()

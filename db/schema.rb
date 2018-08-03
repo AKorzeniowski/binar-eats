@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2018_08_03_094035) do
     t.string "menu_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show", default: false
   end
 
   create_table "users", force: :cascade do |t|
