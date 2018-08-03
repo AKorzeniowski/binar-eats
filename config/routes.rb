@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :users
   end
   root 'home#welcome'
-  devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: "omniauth_callbacks"}
+  devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: "users/omniauth_callbacks"}
 
   authenticate :user do
 

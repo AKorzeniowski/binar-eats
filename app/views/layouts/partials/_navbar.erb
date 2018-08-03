@@ -51,6 +51,9 @@
     <li>
       <%= link_to 'Admin', admin_root_path, class: 'nav-link' %>
     </li>
+    <li>
+      <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, class: 'nav-link' %>
+    </li>
   <% end %>
 </ul>
 
